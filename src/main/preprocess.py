@@ -1,6 +1,6 @@
-from src.main.data.raw.RawRepository import RawRepository
+from src.main.data.xml.XMLRepository import XMLRepository
 
-data = RawRepository("/data")
+data = XMLRepository("/data/raw")
 
 # Parse xml
 # Preprocess ( scores )

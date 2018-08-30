@@ -12,6 +12,7 @@ class Question:
     CREATION_DATE = 'CreationDate'
     ACCEPTED_ANSWER_ID = 'AcceptedAnswerId'
     OWNER_USER_ID = 'OwnerUserId'
+    TITLE = 'Title'
 
     def __init__(self, dict: Dict[str, str]):
         self.id = dict[self.ID]
@@ -23,3 +24,4 @@ class Question:
         self.creation_date = dict[self.CREATION_DATE]
         self.accepted_answer_id = dict[self.ACCEPTED_ANSWER_ID]
         self.owner_user_id = dict[self.OWNER_USER_ID]
+        self.title = dict[self.TITLE]
