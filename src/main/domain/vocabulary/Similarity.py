@@ -1,10 +1,9 @@
-# TODO: Impplement
 class Similarity:
 
-    def __init__(self):
+    def read(self, docs: [str]):
         pass
 
-    def read(self, content: str):
+    def transform(self, word: str):
         pass
 
     def compare(self, str1: str, str2: str) -> float:
