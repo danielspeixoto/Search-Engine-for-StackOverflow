@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tags>
+  <row Id="1" TagName="bug" Count="4" />
+  <row Id="2" TagName="feature-request" Count="5" />
+  <row Id="3" TagName="discussion" Count="92" />
+  <row Id="4" TagName="faq" Count="0" />
+  <row Id="5" TagName="status-completed" Count="6" />
+  <row Id="6" TagName="status-declined" Count="0" />
+  <row Id="7" TagName="status-bydesign" Count="0" />
+  <row Id="8" TagName="status-norepro" Count="0" />
+  <row Id="9" TagName="status-reproduced" Count="0" />
+  <row Id="10" TagName="status-planned" Count="0" />
+</tags>

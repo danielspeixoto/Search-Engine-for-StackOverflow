@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<badges>
+  <row Id="1" UserId="1" Name="Autobiographer" Date="2013-05-21T21:23:08.970" Class="3" TagBased="False" />
+  <row Id="2" UserId="2" Name="Autobiographer" Date="2013-05-21T21:23:08.970" Class="3" TagBased="False" />
+  <row Id="3" UserId="11" Name="Autobiographer" Date="2013-05-21T21:23:08.970" Class="3" TagBased="False" />
+  <row Id="4" UserId="19" Name="Autobiographer" Date="2013-05-21T21:28:08.973" Class="3" TagBased="False" />
+  <row Id="5" UserId="16" Name="Autobiographer" Date="2013-05-21T21:33:14.120" Class="3" TagBased="False" />
+  <row Id="6" UserId="36" Name="Autobiographer" Date="2013-05-21T22:13:22.850" Class="3" TagBased="False" />
+  <row Id="7" UserId="9" Name="Autobiographer" Date="2013-05-21T22:18:23.060" Class="3" TagBased="False" />
+  <row Id="8" UserId="43" Name="Autobiographer" Date="2013-05-21T22:28:23.977" Class="3" TagBased="False" />
+  <row Id="9" UserId="14" Name="Autobiographer" Date="2013-05-22T00:04:00.860" Class="3" TagBased="False" />
+  <row Id="10" UserId="56" Name="Autobiographer" Date="2013-05-22T00:09:01.850" Class="3" TagBased="False" />
+</badges>

@@ -15,16 +15,23 @@ OUTPUT_PATH = './data'
 ubuntu = '/home/daniel/ufba/rec/datasets/stackoverflow/askubuntu.com'
 small = '../examples/data/raw'
 stack = '/home/daniel/ufba/rec/datasets/stackoverflow/stackoverflow/'
-# logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
-class TestPreprocessing(unittest.TestCase):
+
+class TestElasticSearch(unittest.TestCase):
+
+    index = None
+
+    def setUp(self):
+        super().setUp()
+        self.index = PostIndex(Config("localhost", "9200")._connection)
 
     def test_preprocessed_questions_are_saved(self):
         init = time.time()
-        migrate(stack)
+        migrate(ubuntu)
         end = time.time()
         duration = end - init
-        print(str(duration % (1000 * 60)) + " minutes")
+        print(str(duration / 60) + " minutes")
 
     def test_similar(self):
         index = PostIndex(Config("localhost", "9200")._connection)
@@ -36,10 +43,10 @@ class TestPreprocessing(unittest.TestCase):
 
     def test_answers(self):
         index = PostIndex(Config("localhost", "9200")._connection)
-        query = "How to delete a table in MySQL?"
+        query = "how to change file permissions?"
         results = index.similar(query)["hits"]["hits"]
 
-        view = ""
+        view = "<h1>" + query + "</h1>"
         for i in range(min(len(results), 3)):
             question = results[i]['_source']
             title = question['title']
@@ -53,3 +60,6 @@ class TestPreprocessing(unittest.TestCase):
 
 
         display(view)
+
+    def test_delete(self):
+        self.index.delete()
