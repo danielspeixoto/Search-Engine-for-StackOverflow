@@ -13,5 +13,4 @@ def migrate(input_path: str):
 
     index = QuestionIndex(Config("localhost", "9200")._connection)
 
-    for q in input.questions_reader().questions():
-        index.store(q)
+    index.bulk_insert(input.questions_reader().questions())
