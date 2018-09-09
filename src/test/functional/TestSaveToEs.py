@@ -43,7 +43,7 @@ class TestElasticSearch(unittest.TestCase):
 
     def test_answers(self):
         index = PostIndex(Config("localhost", "9200")._connection)
-        query = "how to change file permissions?"
+        query = "How to delete files recursiverly?"
         results = index.similar(query)["hits"]["hits"]
 
         view = "<h1>" + query + "</h1>"
