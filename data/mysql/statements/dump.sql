@@ -1,10 +1,8 @@
-CREATE DATABASE  IF NOT EXISTS `new_schema` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `new_schema`;
 -- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
--- Host: localhost    Database: new_schema
+-- Host: 127.0.0.1    Database: new_schema
 -- ------------------------------------------------------
--- Server version	5.7.23-0ubuntu0.18.04.1
+-- Server version	8.0.12
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -27,7 +25,7 @@ DROP TABLE IF EXISTS `Posts`;
 CREATE TABLE `Posts` (
   `Id` int(11) NOT NULL,
   `Title` mediumtext,
-  `Body` longtext,
+  `Body` longtext CHARACTER SET utf8 COLLATE utf8_general_ci,
   `AcceptedAnswerId` int(11) DEFAULT NULL,
   `AnswerCount` int(11) DEFAULT NULL,
   `CommentCount` int(11) DEFAULT NULL,
@@ -53,4 +51,4 @@ CREATE TABLE `Posts` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-08 17:55:40
+-- Dump completed on 2018-09-09 12:32:22
