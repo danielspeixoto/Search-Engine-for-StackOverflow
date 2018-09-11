@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `qa` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `qa`;
 -- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
--- Host: localhost    Database: new_schema
+-- Host: localhost    Database: qa
 -- ------------------------------------------------------
 -- Server version	5.7.23-0ubuntu0.18.04.1
 
@@ -18,16 +18,59 @@ USE `qa`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Posts`
+-- Table structure for table `answers`
 --
 
-DROP TABLE IF EXISTS `Posts`;
+DROP TABLE IF EXISTS `answers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Posts` (
+CREATE TABLE `answers` (
   `id` int(11) NOT NULL,
-  `title` mediumtext CHARACTER SET utf8,
-  `body` longtext CHARACTER SET utf8,
+  `title` mediumtext,
+  `body` longtext,
+  `comment_count` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `last_activity_date` datetime DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `score` int(11) NOT NULL DEFAULT '0',
+  `view_count` int(11) DEFAULT NULL,
+  `tags` tinytext,
+  `parent_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Id_UNIQUE` (`id`),
+  KEY `parent` (`parent_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `links`
+--
+
+DROP TABLE IF EXISTS `links`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `links` (
+  `id` int(11) NOT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `related_post_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `post` (`post_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `posts`
+--
+
+DROP TABLE IF EXISTS `posts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `posts` (
+  `id` int(11) NOT NULL,
+  `title` mediumtext,
+  `body` longtext,
   `accepted_answer_id` int(11) DEFAULT NULL,
   `answer_count` int(11) DEFAULT NULL,
   `comment_count` int(11) DEFAULT NULL,
@@ -36,12 +79,59 @@ CREATE TABLE `Posts` (
   `owner_user_id` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
   `view_count` int(11) DEFAULT NULL,
-  `tags` tinytext CHARACTER SET utf8,
-  `post_type_id` int(11) DEFAULT NULL,
+  `tags` tinytext,
+  `post_type_id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `Id_UNIQUE` (`id`)
+  UNIQUE KEY `Id_UNIQUE` (`id`),
+  KEY `idx_Posts_post_type_id` (`post_type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `questions`
+--
+
+DROP TABLE IF EXISTS `questions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL,
+  `title` mediumtext,
+  `body` longtext,
+  `accepted_answer_id` int(11) DEFAULT NULL,
+  `answer_count` int(11) NOT NULL DEFAULT '0',
+  `comment_count` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `last_activity_date` datetime DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `score` int(11) NOT NULL DEFAULT '0',
+  `view_count` int(11) DEFAULT NULL,
+  `tags` tinytext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Id_UNIQUE` (`id`),
+  KEY `answer_count` (`answer_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `reputation` int(11) NOT NULL,
+  `upvotes` int(11) DEFAULT NULL,
+  `downvotes` int(11) DEFAULT NULL,
+  `last_access_date` datetime DEFAULT NULL,
+  `views` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +143,4 @@ CREATE TABLE `Posts` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-10 23:30:38
+-- Dump completed on 2018-09-11 18:14:35

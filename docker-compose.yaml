@@ -29,8 +29,7 @@ services:
     ports:
     - 4000:3306
     volumes:
-      - 'mysql2:/var/lib/mysql'
-      - ./data/mysql/statements/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+      - 'mysql:/var/lib/mysql'
 
   logstash:
     build: data/logstash
@@ -50,4 +49,4 @@ networks:
 
 volumes:
   es_data:
-  mysql2:
+  mysql:
