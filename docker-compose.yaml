@@ -1,24 +1,24 @@
 version: '3.3'
 services:
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
-#    container_name: elasticsearch
-#    networks: ['elk']
-#    ports:
-#    - 9200:9200
-#    volumes:
-#      - 'es_data:/usr/share/elasticsearch/data'
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+    container_name: elasticsearch
+    networks: ['elk']
+    ports:
+    - 9200:9200
+    volumes:
+      - 'es_data:/usr/share/elasticsearch/data'
 
-#  kibana:
-#    image: docker.elastic.co/kibana/kibana:6.4.0
-#    container_name: kibana
-#    environment:
-#      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
-#    networks: ['elk']
-#    ports:
-#      - 5601:5601
-#    depends_on:
-#      - elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.0
+    container_name: kibana
+    environment:
+      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+    networks: ['elk']
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
 
   mysql:
     build: data/mysql
@@ -31,18 +31,18 @@ services:
     volumes:
       - 'mysql2:/var/lib/mysql'
       - ./data/mysql/statements/dump.sql:/docker-entrypoint-initdb.d/dump.sql
-#
-#  logstash:
-#    build: data/logstash
-#    container_name: logstash
-#    environment:
-#      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
-#    networks: ['elk', 'data']
-#    ports:
-#      - 5000:5000
-#    depends_on:
-##      - elasticsearch
-#      - mysql
+
+  logstash:
+    build: data/logstash
+    container_name: logstash
+    environment:
+      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+    networks: ['elk', 'data']
+    ports:
+      - 5000:5000
+    depends_on:
+      - elasticsearch
+      - mysql
 
 networks:
   elk:

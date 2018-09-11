@@ -1,8 +1,10 @@
+CREATE DATABASE  IF NOT EXISTS `qa` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `qa`;
 -- MySQL dump 10.13  Distrib 5.7.23, for Linux (x86_64)
 --
--- Host: 127.0.0.1    Database: new_schema
+-- Host: localhost    Database: new_schema
 -- ------------------------------------------------------
--- Server version	8.0.12
+-- Server version	5.7.23-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,23 +25,23 @@ DROP TABLE IF EXISTS `Posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Posts` (
-  `Id` int(11) NOT NULL,
-  `Title` mediumtext,
-  `Body` longtext CHARACTER SET utf8 COLLATE utf8_general_ci,
-  `AcceptedAnswerId` int(11) DEFAULT NULL,
-  `AnswerCount` int(11) DEFAULT NULL,
-  `CommentCount` int(11) DEFAULT NULL,
-  `CreationDate` datetime DEFAULT NULL,
-  `LastActivityDate` datetime DEFAULT NULL,
-  `OwnerUserId` int(11) DEFAULT NULL,
-  `Score` int(11) DEFAULT NULL,
-  `ViewCount` int(11) DEFAULT NULL,
-  `Tags` tinytext,
-  `PostTypeId` int(11) DEFAULT NULL,
-  `ParentId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Id_UNIQUE` (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL,
+  `title` mediumtext CHARACTER SET utf8,
+  `body` longtext CHARACTER SET utf8,
+  `accepted_answer_id` int(11) DEFAULT NULL,
+  `answer_count` int(11) DEFAULT NULL,
+  `comment_count` int(11) DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `last_activity_date` datetime DEFAULT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
+  `view_count` int(11) DEFAULT NULL,
+  `tags` tinytext CHARACTER SET utf8,
+  `post_type_id` int(11) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Id_UNIQUE` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +53,4 @@ CREATE TABLE `Posts` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-09 12:32:22
+-- Dump completed on 2018-09-10 23:30:38
