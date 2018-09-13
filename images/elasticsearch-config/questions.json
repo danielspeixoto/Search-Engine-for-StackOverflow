@@ -1,0 +1,49 @@
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "question_analysis": {
+            "filter": [
+              "standard",
+              "lowercase",
+              "porter_stem",
+              "stop"
+            ],
+            "char_filter": [
+              "html_strip"
+            ],
+            "tokenizer": "classic"
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "questions": {
+      "dynamic": "false",
+      "properties": {
+        "accepted_answer_id": {
+          "type": "keyword"
+        },
+        "body": {
+          "type": "text",
+          "analyzer": "question_analysis"
+        },
+        "creation_date": {
+          "type": "date"
+        },
+        "last_activity_date": {
+          "type": "date"
+        },
+        "score": {
+          "type": "float"
+        },
+        "title": {
+          "type": "text",
+          "analyzer": "question_analysis"
+        }
+      }
+    }
+  }
+}

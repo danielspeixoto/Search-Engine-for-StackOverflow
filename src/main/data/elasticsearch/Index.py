@@ -6,10 +6,9 @@ from elasticsearch import Elasticsearch, helpers
 
 class Index:
 
-    def __init__(self, connection: Elasticsearch, index_name: str, doc_type: str, settings: Dict):
+    def __init__(self, connection: Elasticsearch, index_name: str, doc_type: str):
         self._connection = connection
         self._index_name = index_name
-        self.create_index(settings)
         self._doc_type = doc_type
 
     def typ(self) -> str:
@@ -49,6 +48,3 @@ class Index:
                 }
             }
         })
-
-    def delete(self):
-        self._connection.indices.delete(index=self._index_name, ignore=[400, 404])

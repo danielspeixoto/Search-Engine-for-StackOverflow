@@ -15,54 +15,9 @@ class PostIndex(Index):
     INDEX_NAME = 'questions'
 
     def __init__(self, connection: Elasticsearch):
-        super().__init__(connection, PostIndex.INDEX_NAME, PostIndex.DOC_TYPE, self.settings)
+        super().__init__(connection, PostIndex.INDEX_NAME, PostIndex.DOC_TYPE)
 
-    settings = {
-        "settings": {
-            "number_of_shards": 1,
-            "number_of_replicas": 0,
-            "analysis": {
-                "analyzer": {
-                    "question_analysis": {
-                        "tokenizer": "classic",
-                        "filter": ["standard", "lowercase", "porter_stem", "stop"],
-                        "char_filter": ["html_strip"],
-                    }
-                }
-            }
-        },
-        "mappings": {
-            "questions": {
-                "dynamic": "false",
-                "properties": {
-                    "title": {
-                        "type": "text",
-                        "analyzer": "question_analysis",
-                        "boost": 3
-                    },
-                    "body": {
-                        "type": "text",
-                        "analyzer": "question_analysis",
-                        "boost": 1
-                    },
-                    "score": {
-                        "type": "float"
-                    },
-                    "last_activity_date": {
-                        "type": "date"
-                    },
-                    "creation_date": {
-                        "type": "date"
-                    },
-                    "accepted_answer_id": {
-                        "type": "keyword"
-                    }
-                }
-            }
-        }
-    }
-
-    def similar(self, query) -> Iterable[Question]:
+    def query(self, query) -> Iterable[Question]:
         return self.search(PostIndex.DOC_TYPE, {
             "query": {
                 "function_score": {
@@ -93,4 +48,3 @@ class PostIndex(Index):
                 }
             }
         })
-
