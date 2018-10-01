@@ -6,4 +6,4 @@ ENV MYSQL_HOST mysql
 ENV CONNECTOR_PATH /connector/connector.jar
 ENV MYSQL_PASS admin
 
-CMD logstash -f /logstash.conf
+CMD sleep 120 && logstash -f /logstash.conf

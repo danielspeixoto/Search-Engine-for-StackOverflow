@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-sudo docker-compose -f compose/setup.yaml up
+sudo docker volume create es-data
+sudo docker volume create mysql

@@ -28,7 +28,9 @@ class Index:
         return outcome
 
     def search(self, doc_type: str, search):
-        res = self._connection.search(index=self._index_name, doc_type=doc_type, body=search)
+        res = self._connection.search(index=self._index_name, doc_type=doc_type, body=search)["hits"]["hits"]
+        for i in res:
+            yield i["_source"]
         return res
 
     def bulk_insert(self, doc_type: str, records: [object]):

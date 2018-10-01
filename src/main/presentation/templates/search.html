@@ -1,0 +1,14 @@
+<!doctype html>
+<title>Search!</title>
+<form action="/">
+    <input class="query" type="text" name="query">
+    <input class="submit" type="submit" value="Submit">
+</form>
+{% if query %}
+    {% for question in query %}
+<div class="item">
+    <a class="title" href="/question/{{ question['id'] }}">{{ question["title"] }}!</a> <br>
+    <span class="body">{{ question["body"] | safe }}</span>
+</div>
+    {% endfor %}
+{% endif %}
