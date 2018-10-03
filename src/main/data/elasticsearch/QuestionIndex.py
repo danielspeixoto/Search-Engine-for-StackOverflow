@@ -14,8 +14,18 @@ class QuestionIndex(Index):
     def __init__(self, connection: Elasticsearch):
         super().__init__(connection, QuestionIndex.INDEX_NAME, QuestionIndex.DOC_TYPE)
 
+    def id(self, id: str):
+        return super().search(QuestionIndex.DOC_TYPE, {
+            "query": {
+                "match": {
+                    "id": id
+                }
+            }
+        })
+
     def query(self, query) -> Iterable[Question]:
         return self.search(QuestionIndex.DOC_TYPE, {
+            "from": 0, "size": 5,
             "query": {
                 "function_score": {
                     "query": {

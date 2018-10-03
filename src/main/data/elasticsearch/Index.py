@@ -31,7 +31,6 @@ class Index:
         res = self._connection.search(index=self._index_name, doc_type=doc_type, body=search)["hits"]["hits"]
         for i in res:
             yield i["_source"]
-        return res
 
     def bulk_insert(self, doc_type: str, records: [object]):
         def to_dict():
@@ -46,7 +45,7 @@ class Index:
         return self.search(doc_type, {
             "query": {
                 "match": {
-                    "_id": id
+                    "id": id
                 }
             }
         })

@@ -41,6 +41,12 @@
         "score": {
           "type": "float"
         },
+        "id": {
+          "type": "number"
+        },
+        "user_reputation": {
+          "type": "number"
+        },
         "title": {
           "type": "text",
           "analyzer": "question_analysis"

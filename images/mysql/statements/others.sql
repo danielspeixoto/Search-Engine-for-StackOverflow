@@ -11,7 +11,7 @@ into table qa.users ( Id,
   creation_date = @CreationDate;
 
 LOAD XML CONCURRENT LOCAL INFILE
-'/custom/PostLinks.xml'
+'/custom/Links.xml'
 into table qa.links ( Id,
   @PostId,
   @RelatedPostId,

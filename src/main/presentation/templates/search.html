@@ -7,7 +7,7 @@
 {% if query %}
     {% for question in query %}
 <div class="item">
-    <a class="title" href="/question/{{ question['id'] }}">{{ question["title"] }}!</a> <br>
+    <a class="title" href="/question/{{ question['id'] }}">{{ question["title"] }}</a> <br>
     <span class="body">{{ question["body"] | safe }}</span>
 </div>
     {% endfor %}

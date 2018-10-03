@@ -26,7 +26,8 @@ class TestElasticSearch(unittest.TestCase):
     def test_search_id(self):
         # ToDO: Asserts
         index = QuestionIndex(Config("localhost", "9200")._connection)
-        print(index.search_by_id(QuestionIndex.DOC_TYPE, "2")["hits"]["hits"][0]['_source'])
+        for i in index.id("1ZwxMGYBM9IJcyorc1N3"):
+            print(i)
 
     def test_answers(self):
         # ToDO: Asserts
