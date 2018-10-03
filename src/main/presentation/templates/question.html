@@ -1,3 +1,21 @@
 <!doctype html>
 <title>{{ question["title"] }}</title>
-{{ question }}
+<h2>Question</h2>
+<strong>Title:</strong> {{ question["title"] }} <br>
+<strong>Score:</strong> {{ question["score"] }} <br>
+<strong>Body:</strong> {{ question["body"] | safe }} <br>
+<strong>User Reputation:</strong> {{ question["user_reputation"] }} <br>
+<strong>Creation Date:</strong> {{ question["creation_date"] }} <br>
+<strong>Last Activity Date:</strong> {{ question["last_activity_date"] }} <br>
+<br>
+<div style="margin-left: 50px">
+<h2>Answers</h2>
+{% for answer in question["answers"] %}
+    <hr>
+    <strong>Score:</strong> {{ answer["score"] }} <br>
+    <strong>Body:</strong> {{ answer["body"] | safe }} <br>
+    <strong>User Reputation:</strong> {{ answer["user_reputation"] }} <br>
+    <strong>Creation Date:</strong> {{ answer["creation_date"] }} <br>
+    <strong>Last Activity Date:</strong> {{ answer["last_activity_date"] }} <br>
+{% endfor %}
+</div>

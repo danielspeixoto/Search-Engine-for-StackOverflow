@@ -1,11 +1,13 @@
 <!doctype html>
 <title>Search!</title>
 <form action="/">
-    <input class="query" type="text" name="query">
-    <input class="submit" type="submit" value="Submit">
+    <input style="width: 50%; display:block; padding: 10px; margin:auto;" placeholder="Your search here" class="query" type="text" name="query">
+    <div style="margin-top:10px; "></div>
+    <input style="margin:auto; display:block; padding:10px;"class="submit" type="submit" value="Submit">
 </form>
 {% if query %}
     {% for question in query %}
+<hr>
 <div class="item">
     <a class="title" href="/question/{{ question['id'] }}">{{ question["title"] }}</a> <br>
     <span class="body">{{ question["body"] | safe }}</span>
