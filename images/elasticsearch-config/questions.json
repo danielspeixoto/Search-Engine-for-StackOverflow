@@ -39,17 +39,20 @@
           "type": "date"
         },
         "score": {
-          "type": "float"
+          "type": "integer"
         },
         "id": {
-          "type": "number"
+          "type": "integer"
         },
         "user_reputation": {
-          "type": "number"
+          "type": "integer"
         },
         "title": {
           "type": "text",
           "analyzer": "question_analysis"
+        },
+        "relations": {
+          "type": "integer"
         }
       }
     }

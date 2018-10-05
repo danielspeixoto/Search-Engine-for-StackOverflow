@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for i in {60..0}; do
+while true; do
     if curl mysql:3306; then
         echo 'mySQL ready'
         logstash -f /logstash.conf

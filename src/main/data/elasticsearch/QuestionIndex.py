@@ -25,7 +25,7 @@ class QuestionIndex(Index):
 
     def query(self, query) -> Iterable[Question]:
         return self.search(QuestionIndex.DOC_TYPE, {
-            "from": 0, "size": 5,
+            "from": 0, "size": 30,
             "query": {
                 "function_score": {
                     "query": {
@@ -42,16 +42,16 @@ class QuestionIndex(Index):
                                     }
                                 }
                             ],
-                            "filter": {
-                                "exists": {
-                                    "field": "accepted_answer_id"
-                                }
-                            }
+                            # "filter": {
+                            #     "exists": {
+                            #         "field": "accepted_answer_id"
+                            #     }
+                            # }
                         }
                     },
-                    "script_score": {
-                        "script": "_score * Math.log(2 + Math.max(0, doc['score'].value))"
-                    }
+                    # "script_score": {
+                    #     "script": "_score * Math.log(2 + Math.max(0, doc['score'].value))"
+                    # }
                 }
             }
         })
