@@ -55,3 +55,32 @@ class QuestionIndex(Index):
                 }
             }
         })
+
+    def sample_data(self, start: int, amount: int):
+        return self.search(QuestionIndex.DOC_TYPE, {
+            "from": start, "size": amount,
+            "_source": [
+                "title",
+                "id",
+                "body",
+                "relations"
+            ],
+            "query": {
+                "function_score": {
+                    "query": {
+                        "bool": {
+                            "must": [
+                                {
+                                    "match_all": {}
+                                }
+                            ],
+                            "filter": {
+                                "script": {
+                                    "script": "doc['relations'].values.length > 0"
+                                }
+                            }
+                        }
+                    },
+                }
+            }
+        })
