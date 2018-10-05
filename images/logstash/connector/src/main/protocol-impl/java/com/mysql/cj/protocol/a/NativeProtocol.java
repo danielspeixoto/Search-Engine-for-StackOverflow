@@ -843,14 +843,14 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
     }
 
     /**
-     * Build a query packet from the given string and send it to the server.
+     * Build a _query packet from the given string and send it to the server.
      * 
      * @param <T>
      *            extends {@link Resultset}
      * @param callingQuery
      *            {@link Query}
-     * @param query
-     *            query string
+     * @param _query
+     *            _query string
      * @param characterEncoding
      *            Java encoding name
      * @param maxRows
@@ -869,7 +869,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
      * @throws IOException
      *             if an i/o error occurs
      */
-    public final <T extends Resultset> T sendQueryString(Query callingQuery, String query, String characterEncoding, int maxRows, boolean streamResults,
+    public final <T extends Resultset> T sendQueryString(Query callingQuery, String _query, String characterEncoding, int maxRows, boolean streamResults,
             String catalog, ColumnDefinition cachedMetadata, GetProfilerEventHandlerInstanceFunction getProfilerEventHandlerInstanceFunction,
             ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory) throws IOException {
         String statementComment = this.queryComment;
@@ -878,9 +878,9 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
             statementComment = (statementComment != null ? statementComment + ", " : "") + "java thread: " + Thread.currentThread().getName();
         }
 
-        // We don't know exactly how many bytes we're going to get from the query. Since we're dealing with UTF-8, the max is 4, so pad it
-        // (4 * query) + space for headers
-        int packLength = 1 + (query.length() * 4) + 2;
+        // We don't know exactly how many bytes we're going to get from the _query. Since we're dealing with UTF-8, the max is 4, so pad it
+        // (4 * _query) + space for headers
+        int packLength = 1 + (_query.length() * 4) + 2;
 
         byte[] commentAsBytes = null;
 
@@ -906,10 +906,10 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
             sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, Constants.SPACE_STAR_SLASH_SPACE_AS_BYTES);
         }
 
-        if (!this.platformDbCharsetMatches && StringUtils.startsWithIgnoreCaseAndWs(query, "LOAD DATA")) {
-            sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, StringUtils.getBytes(query));
+        if (!this.platformDbCharsetMatches && StringUtils.startsWithIgnoreCaseAndWs(_query, "LOAD DATA")) {
+            sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, StringUtils.getBytes(_query));
         } else {
-            sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, StringUtils.getBytes(query, characterEncoding));
+            sendPacket.writeBytes(StringLengthDataType.STRING_FIXED, StringUtils.getBytes(_query, characterEncoding));
         }
 
         return sendQueryPacket(callingQuery, sendPacket, maxRows, streamResults, catalog, cachedMetadata, getProfilerEventHandlerInstanceFunction,
@@ -917,14 +917,14 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
     }
 
     /**
-     * Send a query stored in a packet to the server.
+     * Send a _query stored in a packet to the server.
      * 
      * @param <T>
      *            extends {@link Resultset}
      * @param callingQuery
      *            {@link Query}
      * @param queryPacket
-     *            {@link NativePacketPayload} containing query
+     *            {@link NativePacketPayload} containing _query
      * @param maxRows
      *            rows limit
      * @param streamResults
@@ -956,12 +956,12 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
 
         queryStartTime = getCurrentTimeNanosOrMillis();
 
-        LazyString query = new LazyString(queryBuf, 1, (oldPacketPosition - 1));
+        LazyString _query = new LazyString(queryBuf, 1, (oldPacketPosition - 1));
 
         try {
 
             if (this.queryInterceptors != null) {
-                T interceptedResults = invokeQueryInterceptorsPre(query, callingQuery, false);
+                T interceptedResults = invokeQueryInterceptorsPre(_query, callingQuery, false);
 
                 if (interceptedResults != null) {
                     return interceptedResults;
@@ -969,14 +969,14 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
             }
 
             if (this.autoGenerateTestcaseScript) {
-                StringBuilder debugBuf = new StringBuilder(query.length() + 32);
+                StringBuilder debugBuf = new StringBuilder(_query.length() + 32);
                 generateQueryCommentBlock(debugBuf);
-                debugBuf.append(query);
+                debugBuf.append(_query);
                 debugBuf.append(';');
                 TestUtils.dumpTestcaseQuery(debugBuf.toString());
             }
 
-            // Send query command and sql query string
+            // Send _query command and sql _query string
             NativePacketPayload resultPacket = sendCommand(queryPacket, false, 0);
 
             long fetchBeginTime = 0;
@@ -1012,7 +1012,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
                 }
 
                 if (shouldExtractQuery) {
-                    // Extract the actual query from the network packet
+                    // Extract the actual _query from the network packet
                     boolean truncated = false;
 
                     int extractPosition = oldPacketPosition;
@@ -1056,7 +1056,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
                 if (this.propertySet.getBooleanProperty(PropertyDefinitions.PNAME_explainSlowQueries).getValue()) {
                     if (oldPacketPosition < MAX_QUERY_SIZE_TO_EXPLAIN) {
                         queryPacket.setPosition(1); // skip first byte 
-                        explainSlowQuery(query.toString(), profileQueryToLog);
+                        explainSlowQuery(_query.toString(), profileQueryToLog);
                     } else {
                         this.log.logWarn(Messages.getString("Protocol.3", new Object[] { MAX_QUERY_SIZE_TO_EXPLAIN }));
                     }
@@ -1101,7 +1101,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
             }
 
             if (this.queryInterceptors != null) {
-                T interceptedResults = invokeQueryInterceptorsPost(query, callingQuery, rs, false);
+                T interceptedResults = invokeQueryInterceptorsPost(_query, callingQuery, rs, false);
 
                 if (interceptedResults != null) {
                     rs = interceptedResults;
@@ -1111,7 +1111,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
             return rs;
         } catch (CJException sqlEx) {
             if (this.queryInterceptors != null) {
-                invokeQueryInterceptorsPost(query, callingQuery, null, false); // we don't do anything with the result set in this case
+                invokeQueryInterceptorsPost(_query, callingQuery, null, false); // we don't do anything with the result set in this case
             }
 
             if (callingQuery != null) {
@@ -1151,7 +1151,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
      * @param <M>
      *            extends {@link Message}
      * @param queryPacket
-     *            {@link NativePacketPayload} containing query
+     *            {@link NativePacketPayload} containing _query
      * @param forceExecute
      *            currently ignored
      * @return M instance
@@ -1202,7 +1202,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
      * @param <M>
      *            extends {@link Message}
      * @param queryPacket
-     *            {@link NativePacketPayload} containing query
+     *            {@link NativePacketPayload} containing _query
      * @param originalResponsePacket
      *            {@link NativePacketPayload} containing response
      * @param forceExecute
@@ -1246,20 +1246,20 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
     }
 
     /**
-     * Runs an 'EXPLAIN' on the given query and dumps the results to the log
+     * Runs an 'EXPLAIN' on the given _query and dumps the results to the log
      * 
-     * @param query
-     *            full query string
+     * @param _query
+     *            full _query string
      * @param truncatedQuery
-     *            query string truncated for profiling
+     *            _query string truncated for profiling
      * 
      */
-    public void explainSlowQuery(String query, String truncatedQuery) {
+    public void explainSlowQuery(String _query, String truncatedQuery) {
         if (StringUtils.startsWithIgnoreCaseAndWs(truncatedQuery, EXPLAINABLE_STATEMENT)
                 || (versionMeetsMinimum(5, 6, 3) && StringUtils.startsWithIgnoreCaseAndWs(truncatedQuery, EXPLAINABLE_STATEMENT_EXTENSION) != -1)) {
 
             try {
-                NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(getSharedSendPacket(), "EXPLAIN " + query), false, 0);
+                NativePacketPayload resultPacket = sendCommand(this.commandBuilder.buildComQuery(getSharedSendPacket(), "EXPLAIN " + _query), false, 0);
 
                 Resultset rs = readAllResults(-1, false, resultPacket, false, null, new ResultsetFactory(Type.FORWARD_ONLY, null));
 

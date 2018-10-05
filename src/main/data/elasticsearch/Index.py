@@ -2,12 +2,13 @@ import logging
 from typing import Dict
 
 from elasticsearch import Elasticsearch, helpers
+from src.main.data.elasticsearch.Config import Config
 
 
 class Index:
 
-    def __init__(self, connection: Elasticsearch, index_name: str, doc_type: str):
-        self._connection = connection
+    def __init__(self, config: Config, index_name: str, doc_type: str):
+        self._connection = config.connection
         self._index_name = index_name
         self._doc_type = doc_type
 

@@ -86,17 +86,17 @@ public class MultiHostConnectionTest extends BaseTestCase {
     }
 
     /**
-     * Asserts the execution and return for a simple single value query.
+     * Asserts the execution and return for a simple single value _query.
      * 
      * @param testStmt
-     *            The statement instance that runs the query.
-     * @param query
-     *            The query.
+     *            The statement instance that runs the _query.
+     * @param _query
+     *            The _query.
      * @param result
      *            The expected result.
      */
-    private static void assertSingleValueQuery(Statement testStmt, String query, Object result) throws Exception {
-        ResultSet testRs = testStmt.executeQuery(query);
+    private static void assertSingleValueQuery(Statement testStmt, String _query, Object result) throws Exception {
+        ResultSet testRs = testStmt.executeQuery(_query);
         assertTrue(testRs.next());
         assertEquals(result, testRs.getObject(1));
         assertFalse(testRs.next());
@@ -127,19 +127,19 @@ public class MultiHostConnectionTest extends BaseTestCase {
     }
 
     /**
-     * Asserts the SQLException thrown for a query execution.
+     * Asserts the SQLException thrown for a _query execution.
      * 
      * @param testStmt
-     *            The statement instance that runs the query.
-     * @param query
-     *            The query.
+     *            The statement instance that runs the _query.
+     * @param _query
+     *            The _query.
      * @param messageRegEx
      *            The expected message regular expression pattern.
      */
-    private static void assertSQLException(final Statement testStmt, final String query, String messageRegEx) {
+    private static void assertSQLException(final Statement testStmt, final String _query, String messageRegEx) {
         assertThrows(SQLException.class, messageRegEx, new Callable<Void>() {
             public Void call() throws Exception {
-                testStmt.execute(query);
+                testStmt.execute(_query);
                 return null;
             }
         });

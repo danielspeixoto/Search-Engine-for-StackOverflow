@@ -252,15 +252,15 @@ public class ResultSetMetaData implements java.sql.ResultSetMetaData {
     }
 
     /**
-     * Returns amount of correction that should be applied to the precision
+     * Returns amount of correction that should be applied to the _precision
      * value.
      *
-     * Different versions of MySQL report different precision values.
+     * Different versions of MySQL report different _precision values.
      * 
      * @param f
      *            field
      *
-     * @return the amount to adjust precision value by.
+     * @return the amount to adjust _precision value by.
      */
     public int getPrecisionAdjustFactor(Field f) {
         //

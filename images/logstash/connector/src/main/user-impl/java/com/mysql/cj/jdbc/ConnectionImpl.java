@@ -1150,7 +1150,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     /**
      * NOT JDBC-Compliant, but clients can use this method to determine how long
      * this connection has been idle. This time (reported in milliseconds) is
-     * updated once a query has completed.
+     * updated once a _query has completed.
      * 
      * @return number of ms that this connection has been idle, 0 if the driver
      *         is busy retrieving results.
@@ -2126,10 +2126,10 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
                 quotedId = "";
             }
 
-            StringBuilder query = new StringBuilder("USE ");
-            query.append(StringUtils.quoteIdentifier(catalog, quotedId, this.pedantic.getValue()));
+            StringBuilder _query = new StringBuilder("USE ");
+            _query.append(StringUtils.quoteIdentifier(catalog, quotedId, this.pedantic.getValue()));
 
-            this.session.execSQL(null, query.toString(), -1, null, false, this.nullStatementResultSetFactory, this.database, null, false);
+            this.session.execSQL(null, _query.toString(), -1, null, false, this.nullStatementResultSetFactory, this.database, null, false);
 
             this.database = catalog;
         }

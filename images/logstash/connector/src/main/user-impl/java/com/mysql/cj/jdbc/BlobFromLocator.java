@@ -184,30 +184,30 @@ public class BlobFromLocator implements java.sql.Blob {
         System.arraycopy(bytes, offset, bytesToWrite, 0, length);
 
         // FIXME: Needs to use identifiers for column/table names
-        StringBuilder query = new StringBuilder("UPDATE ");
-        query.append(this.tableName);
-        query.append(" SET ");
-        query.append(this.blobColumnName);
-        query.append(" = INSERT(");
-        query.append(this.blobColumnName);
-        query.append(", ");
-        query.append(writeAt);
-        query.append(", ");
-        query.append(length);
-        query.append(", ?) WHERE ");
+        StringBuilder _query = new StringBuilder("UPDATE ");
+        _query.append(this.tableName);
+        _query.append(" SET ");
+        _query.append(this.blobColumnName);
+        _query.append(" = INSERT(");
+        _query.append(this.blobColumnName);
+        _query.append(", ");
+        _query.append(writeAt);
+        _query.append(", ");
+        _query.append(length);
+        _query.append(", ?) WHERE ");
 
-        query.append(this.primaryKeyColumns.get(0));
-        query.append(" = ?");
+        _query.append(this.primaryKeyColumns.get(0));
+        _query.append(" = ?");
 
         for (int i = 1; i < this.numPrimaryKeys; i++) {
-            query.append(" AND ");
-            query.append(this.primaryKeyColumns.get(i));
-            query.append(" = ?");
+            _query.append(" AND ");
+            _query.append(this.primaryKeyColumns.get(i));
+            _query.append(" = ?");
         }
 
         try {
             // FIXME: Have this passed in instead
-            pStmt = this.creatorResultSet.getConnection().prepareStatement(query.toString());
+            pStmt = this.creatorResultSet.getConnection().prepareStatement(_query.toString());
 
             pStmt.setBytes(1, bytesToWrite);
 
@@ -268,24 +268,24 @@ public class BlobFromLocator implements java.sql.Blob {
         java.sql.PreparedStatement pStmt = null;
 
         // FIXME: Needs to use identifiers for column/table names
-        StringBuilder query = new StringBuilder("SELECT LENGTH(");
-        query.append(this.blobColumnName);
-        query.append(") FROM ");
-        query.append(this.tableName);
-        query.append(" WHERE ");
+        StringBuilder _query = new StringBuilder("SELECT LENGTH(");
+        _query.append(this.blobColumnName);
+        _query.append(") FROM ");
+        _query.append(this.tableName);
+        _query.append(" WHERE ");
 
-        query.append(this.primaryKeyColumns.get(0));
-        query.append(" = ?");
+        _query.append(this.primaryKeyColumns.get(0));
+        _query.append(" = ?");
 
         for (int i = 1; i < this.numPrimaryKeys; i++) {
-            query.append(" AND ");
-            query.append(this.primaryKeyColumns.get(i));
-            query.append(" = ?");
+            _query.append(" AND ");
+            _query.append(this.primaryKeyColumns.get(i));
+            _query.append(" = ?");
         }
 
         try {
             // FIXME: Have this passed in instead
-            pStmt = this.creatorResultSet.getConnection().prepareStatement(query.toString());
+            pStmt = this.creatorResultSet.getConnection().prepareStatement(_query.toString());
 
             for (int i = 0; i < this.numPrimaryKeys; i++) {
                 pStmt.setString(i + 1, this.primaryKeyValues.get(i));
@@ -332,27 +332,27 @@ public class BlobFromLocator implements java.sql.Blob {
         java.sql.PreparedStatement pStmt = null;
 
         // FIXME: Needs to use identifiers for column/table names
-        StringBuilder query = new StringBuilder("SELECT LOCATE(");
-        query.append("?, ");
-        query.append(this.blobColumnName);
-        query.append(", ");
-        query.append(start);
-        query.append(") FROM ");
-        query.append(this.tableName);
-        query.append(" WHERE ");
+        StringBuilder _query = new StringBuilder("SELECT LOCATE(");
+        _query.append("?, ");
+        _query.append(this.blobColumnName);
+        _query.append(", ");
+        _query.append(start);
+        _query.append(") FROM ");
+        _query.append(this.tableName);
+        _query.append(" WHERE ");
 
-        query.append(this.primaryKeyColumns.get(0));
-        query.append(" = ?");
+        _query.append(this.primaryKeyColumns.get(0));
+        _query.append(" = ?");
 
         for (int i = 1; i < this.numPrimaryKeys; i++) {
-            query.append(" AND ");
-            query.append(this.primaryKeyColumns.get(i));
-            query.append(" = ?");
+            _query.append(" AND ");
+            _query.append(this.primaryKeyColumns.get(i));
+            _query.append(" = ?");
         }
 
         try {
             // FIXME: Have this passed in instead
-            pStmt = this.creatorResultSet.getConnection().prepareStatement(query.toString());
+            pStmt = this.creatorResultSet.getConnection().prepareStatement(_query.toString());
             pStmt.setBytes(1, pattern);
 
             for (int i = 0; i < this.numPrimaryKeys; i++) {
@@ -394,28 +394,28 @@ public class BlobFromLocator implements java.sql.Blob {
         java.sql.PreparedStatement pStmt = null;
 
         // FIXME: Needs to use identifiers for column/table names
-        StringBuilder query = new StringBuilder("UPDATE ");
-        query.append(this.tableName);
-        query.append(" SET ");
-        query.append(this.blobColumnName);
-        query.append(" = LEFT(");
-        query.append(this.blobColumnName);
-        query.append(", ");
-        query.append(length);
-        query.append(") WHERE ");
+        StringBuilder _query = new StringBuilder("UPDATE ");
+        _query.append(this.tableName);
+        _query.append(" SET ");
+        _query.append(this.blobColumnName);
+        _query.append(" = LEFT(");
+        _query.append(this.blobColumnName);
+        _query.append(", ");
+        _query.append(length);
+        _query.append(") WHERE ");
 
-        query.append(this.primaryKeyColumns.get(0));
-        query.append(" = ?");
+        _query.append(this.primaryKeyColumns.get(0));
+        _query.append(" = ?");
 
         for (int i = 1; i < this.numPrimaryKeys; i++) {
-            query.append(" AND ");
-            query.append(this.primaryKeyColumns.get(i));
-            query.append(" = ?");
+            _query.append(" AND ");
+            _query.append(this.primaryKeyColumns.get(i));
+            _query.append(" = ?");
         }
 
         try {
             // FIXME: Have this passed in instead
-            pStmt = this.creatorResultSet.getConnection().prepareStatement(query.toString());
+            pStmt = this.creatorResultSet.getConnection().prepareStatement(_query.toString());
 
             for (int i = 0; i < this.numPrimaryKeys; i++) {
                 pStmt.setString(i + 1, this.primaryKeyValues.get(i));
@@ -440,27 +440,27 @@ public class BlobFromLocator implements java.sql.Blob {
     }
 
     java.sql.PreparedStatement createGetBytesStatement() throws SQLException {
-        StringBuilder query = new StringBuilder("SELECT SUBSTRING(");
+        StringBuilder _query = new StringBuilder("SELECT SUBSTRING(");
 
-        query.append(this.blobColumnName);
-        query.append(", ");
-        query.append("?");
-        query.append(", ");
-        query.append("?");
-        query.append(") FROM ");
-        query.append(this.tableName);
-        query.append(" WHERE ");
+        _query.append(this.blobColumnName);
+        _query.append(", ");
+        _query.append("?");
+        _query.append(", ");
+        _query.append("?");
+        _query.append(") FROM ");
+        _query.append(this.tableName);
+        _query.append(" WHERE ");
 
-        query.append(this.primaryKeyColumns.get(0));
-        query.append(" = ?");
+        _query.append(this.primaryKeyColumns.get(0));
+        _query.append(" = ?");
 
         for (int i = 1; i < this.numPrimaryKeys; i++) {
-            query.append(" AND ");
-            query.append(this.primaryKeyColumns.get(i));
-            query.append(" = ?");
+            _query.append(" AND ");
+            _query.append(this.primaryKeyColumns.get(i));
+            _query.append(" = ?");
         }
 
-        return this.creatorResultSet.getConnection().prepareStatement(query.toString());
+        return this.creatorResultSet.getConnection().prepareStatement(_query.toString());
     }
 
     byte[] getBytesInternal(java.sql.PreparedStatement pStmt, long pos, int length) throws SQLException {

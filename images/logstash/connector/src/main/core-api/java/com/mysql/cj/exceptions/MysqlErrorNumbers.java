@@ -260,11 +260,11 @@ public final class MysqlErrorNumbers {
     public final static int ER_NO_REFERENCED_ROW = 1216; //SQLSTATE: 23000 Message: Cannot add or update a child row: a foreign key constraint fails
     public final static int ER_ROW_IS_REFERENCED = 1217; //SQLSTATE: 23000 Message: Cannot delete or update a parent row: a foreign key constraint fails
     public final static int ER_CONNECT_TO_MASTER = 1218; //SQLSTATE: 08S01 Message: Error connecting to master: %s
-    public final static int ER_QUERY_ON_MASTER = 1219; //SQLSTATE: HY000 Message: Error running query on master: %s
+    public final static int ER_QUERY_ON_MASTER = 1219; //SQLSTATE: HY000 Message: Error running _query on master: %s
     public final static int ER_ERROR_WHEN_EXECUTING_COMMAND = 1220; //SQLSTATE: HY000 Message: Error when executing command %s: %s
     public final static int ER_WRONG_USAGE = 1221; //SQLSTATE: HY000 Message: Incorrect usage of %s and %s
     public final static int ER_WRONG_NUMBER_OF_COLUMNS_IN_SELECT = 1222; //SQLSTATE: 21000 Message: The used SELECT statements have a different number of columns
-    public final static int ER_CANT_UPDATE_WITH_READLOCK = 1223; //SQLSTATE: HY000 Message: Can't execute the query because you have a conflicting read lock
+    public final static int ER_CANT_UPDATE_WITH_READLOCK = 1223; //SQLSTATE: HY000 Message: Can't execute the _query because you have a conflicting read lock
     public final static int ER_MIXING_NOT_ALLOWED = 1224; //SQLSTATE: HY000 Message: Mixing of transactional and non-transactional tables is disabled
     public final static int ER_DUP_ARGUMENT = 1225; //SQLSTATE: HY000 Message: Option '%s' used twice in statement
     public final static int ER_USER_LIMIT_REACHED = 1226; //SQLSTATE: 42000 Message: User '%s' has exceeded the '%s' resource (current value: %ld)
@@ -278,7 +278,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_CANT_USE_OPTION_HERE = 1234; //SQLSTATE: 42000 Message: Incorrect usage/placement of '%s'
     public final static int ER_NOT_SUPPORTED_YET = 1235; //SQLSTATE: 42000 Message: This version of MySQL doesn't yet support '%s'
     public final static int ER_MASTER_FATAL_ERROR_READING_BINLOG = 1236; //SQLSTATE: HY000 Message: Got fatal error %d from master when reading data from binary log: '%s'
-    public final static int ER_SLAVE_IGNORED_TABLE = 1237; //SQLSTATE: HY000 Message: Slave SQL thread ignored the query because of replicate-*-table rules
+    public final static int ER_SLAVE_IGNORED_TABLE = 1237; //SQLSTATE: HY000 Message: Slave SQL thread ignored the _query because of replicate-*-table rules
     public final static int ER_INCORRECT_GLOBAL_LOCAL_VAR = 1238; //SQLSTATE: HY000 Message: Variable '%s' is a %s variable
     public final static int ER_WRONG_FK_DEF = 1239; //SQLSTATE: 42000 Message: Incorrect foreign key definition for '%s': %s
     public final static int ER_KEY_REF_DO_NOT_MATCH_TABLE_REF = 1240; //SQLSTATE: HY000 Message: Key reference and table reference don't match
@@ -323,7 +323,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_UNTIL_COND_IGNORED = 1279; //SQLSTATE: HY000 Message: SQL thread is not to be started so UNTIL options are ignored
     public final static int ER_WRONG_NAME_FOR_INDEX = 1280; //SQLSTATE: 42000 Message: Incorrect index name '%s'
     public final static int ER_WRONG_NAME_FOR_CATALOG = 1281; //SQLSTATE: 42000 Message: Incorrect catalog name '%s'
-    public final static int ER_WARN_QC_RESIZE = 1282; //SQLSTATE: HY000 Message: Query cache failed to set size %lu; new query cache size is %lu
+    public final static int ER_WARN_QC_RESIZE = 1282; //SQLSTATE: HY000 Message: Query cache failed to set size %lu; new _query cache size is %lu
     public final static int ER_BAD_FT_COLUMN = 1283; //SQLSTATE: HY000 Message: Column '%s' cannot be part of FULLTEXT index
     public final static int ER_UNKNOWN_KEY_CACHE = 1284; //SQLSTATE: HY000 Message: Unknown key cache '%s'
     public final static int ER_WARN_HOSTNAME_WONT_WORK = 1285; //SQLSTATE: HY000 Message: MySQL is started in --skip-name-resolve mode; you must restart it without this switch for this grant to work
@@ -467,11 +467,11 @@ public final class MysqlErrorNumbers {
     public final static int ER_NO_DEFAULT_FOR_VIEW_FIELD = 1423; //SQLSTATE: HY000 Message: Field of view '%s.%s' underlying table doesn't have a default value
     public final static int ER_SP_NO_RECURSION = 1424; //SQLSTATE: HY000 Message: Recursive stored functions and triggers are not allowed.
     public final static int ER_TOO_BIG_SCALE = 1425; //SQLSTATE: 42000 Message: Too big scale %d specified for column '%s'. Maximum is %lu.
-    public final static int ER_TOO_BIG_PRECISION = 1426; //SQLSTATE: 42000 Message: Too big precision %d specified for column '%s'. Maximum is %lu.
+    public final static int ER_TOO_BIG_PRECISION = 1426; //SQLSTATE: 42000 Message: Too big _precision %d specified for column '%s'. Maximum is %lu.
     public final static int ER_M_BIGGER_THAN_D = 1427; //SQLSTATE: 42000 Message: For float(M,D), double(M,D) or decimal(M,D), M must be >= D (column '%s').
     public final static int ER_WRONG_LOCK_OF_SYSTEM_TABLE = 1428; //SQLSTATE: HY000 Message: You can't combine write-locking of system tables with other tables or lock types
     public final static int ER_CONNECT_TO_FOREIGN_DATA_SOURCE = 1429; //SQLSTATE: HY000 Message: Unable to connect to foreign data source: %s
-    public final static int ER_QUERY_ON_FOREIGN_DATA_SOURCE = 1430; //SQLSTATE: HY000 Message: There was a problem processing the query on the foreign data source. Data source error: %s
+    public final static int ER_QUERY_ON_FOREIGN_DATA_SOURCE = 1430; //SQLSTATE: HY000 Message: There was a problem processing the _query on the foreign data source. Data source error: %s
     public final static int ER_FOREIGN_DATA_SOURCE_DOESNT_EXIST = 1431; //SQLSTATE: HY000 Message: The foreign data source you are trying to reference does not exist. Data source error: %s
     public final static int ER_FOREIGN_DATA_STRING_INVALID_CANT_CREATE = 1432; //SQLSTATE: HY000 Message: Can't create federated table. The data source connection string '%s' is not in the correct format
     public final static int ER_FOREIGN_DATA_STRING_INVALID = 1433; //SQLSTATE: HY000 Message: The data source connection string '%s' is not in the correct format
@@ -537,7 +537,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_RANGE_NOT_INCREASING_ERROR = 1493; //SQLSTATE: HY000 Message: VALUES LESS THAN value must be strictly increasing for each partition
     public final static int ER_INCONSISTENT_TYPE_OF_FUNCTIONS_ERROR = 1494; //SQLSTATE: HY000 Message: VALUES value must be of same type as partition function
     public final static int ER_MULTIPLE_DEF_CONST_IN_LIST_PART_ERROR = 1495; //SQLSTATE: HY000 Message: Multiple definition of same constant in list partitioning
-    public final static int ER_PARTITION_ENTRY_ERROR = 1496; //SQLSTATE: HY000 Message: Partitioning can not be used stand-alone in query
+    public final static int ER_PARTITION_ENTRY_ERROR = 1496; //SQLSTATE: HY000 Message: Partitioning can not be used stand-alone in _query
     public final static int ER_MIX_HANDLER_ERROR = 1497; //SQLSTATE: HY000 Message: The mix of handlers in the partitions is not allowed in this version of MySQL
     public final static int ER_PARTITION_NOT_DEFINED_ERROR = 1498; //SQLSTATE: HY000 Message: For the partitioned engine it is necessary to define all %s
     public final static int ER_TOO_MANY_PARTITIONS_ERROR = 1499; //SQLSTATE: HY000 Message: Too many partitions (including subpartitions) were defined
@@ -711,7 +711,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_BINLOG_MULTIPLE_ENGINES_AND_SELF_LOGGING_ENGINE = 1667; //SQLSTATE: HY000 Message: Cannot execute statement: impossible to write to binary log since more than one engine is involved and at least one engine is self-logging.
     public final static int ER_BINLOG_UNSAFE_LIMIT = 1668; //SQLSTATE: HY000 Message: The statement is unsafe because it uses a LIMIT clause. This is unsafe because the set of rows included cannot be predicted.
     public final static int ER_BINLOG_UNSAFE_INSERT_DELAYED = 1669; //SQLSTATE: HY000 Message: The statement is unsafe because it uses INSERT DELAYED. This is unsafe because the times when rows are inserted cannot be predicted.
-    public final static int ER_BINLOG_UNSAFE_SYSTEM_TABLE = 1670; //SQLSTATE: HY000 Message: The statement is unsafe because it uses the general log, slow query log, or performance_schema table(s). This is unsafe because system tables may differ on slaves.
+    public final static int ER_BINLOG_UNSAFE_SYSTEM_TABLE = 1670; //SQLSTATE: HY000 Message: The statement is unsafe because it uses the general log, slow _query log, or performance_schema table(s). This is unsafe because system tables may differ on slaves.
     public final static int ER_BINLOG_UNSAFE_AUTOINC_COLUMNS = 1671; //SQLSTATE: HY000 Message: Statement is unsafe because it invokes a trigger or a stored function that inserts into an AUTO_INCREMENT column. Inserted values cannot be logged correctly.
     public final static int ER_BINLOG_UNSAFE_UDF = 1672; //SQLSTATE: HY000 Message: Statement is unsafe because it uses a UDF which may not return the same value on the slave.
     public final static int ER_BINLOG_UNSAFE_SYSTEM_VARIABLE = 1673; //SQLSTATE: HY000 Message: Statement is unsafe because it uses a system variable that may have a different value on the slave.
@@ -806,7 +806,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_FOREIGN_DUPLICATE_KEY_WITH_CHILD_INFO = 1761; //SQLSTATE: 23000 Message: Foreign key constraint for table '%s', record '%s' would lead to a duplicate entry in table '%s', key '%s'
     public final static int ER_FOREIGN_DUPLICATE_KEY_WITHOUT_CHILD_INFO = 1762; //SQLSTATE: 23000 Message: Foreign key constraint for table '%s', record '%s' would lead to a duplicate entry in a child table
     public final static int ER_SQLTHREAD_WITH_SECURE_SLAVE = 1763; //SQLSTATE: HY000 Message: Setting authentication options is not possible when only the Slave SQL Thread is being started.
-    public final static int ER_TABLE_HAS_NO_FT = 1764; //SQLSTATE: HY000 Message: The table does not have FULLTEXT index to support this query
+    public final static int ER_TABLE_HAS_NO_FT = 1764; //SQLSTATE: HY000 Message: The table does not have FULLTEXT index to support this _query
     public final static int ER_VARIABLE_NOT_SETTABLE_IN_SF_OR_TRIGGER = 1765; //SQLSTATE: HY000 Message: The system variable %s cannot be set in stored functions or triggers.
     public final static int ER_VARIABLE_NOT_SETTABLE_IN_TRANSACTION = 1766; //SQLSTATE: HY000 Message: The system variable %s cannot be set when there is an ongoing transaction.
     public final static int ER_GTID_NEXT_IS_NOT_IN_GTID_NEXT_LIST = 1767; //SQLSTATE: HY000 Message: The system variable @@SESSION.GTID_NEXT has the value %s, which is not listed in @@SESSION.GTID_NEXT_LIST.
@@ -927,7 +927,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_INNODB_FORCED_RECOVERY = 1881; //SQLSTATE: HY000 Message: Operation not allowed when innodb_forced_recovery > 0.; was introduced in 5.7.4.
     public final static int ER_AES_INVALID_IV = 1882; //SQLSTATE: HY000 Message: The initialization vector supplied to %s is too short. Must be at least %d bytes long; was introduced in 5.7.4.
     public final static int ER_FILE_CORRUPT = 1883; //SQLSTATE: HY000 Message: File %s is corrupted
-    public final static int ER_ERROR_ON_MASTER = 1884; //SQLSTATE: HY000 Message: Query partially completed on the master (error on master: %d) and was aborted. There is a chance that your master is inconsistent at this point. If you are sure that your master is ok, run this query manually on the slave and then restart the slave with SET GLOBAL SQL_SLAVE_SKIP_COUNTER=1; START SLAVE;. Query:'%s'
+    public final static int ER_ERROR_ON_MASTER = 1884; //SQLSTATE: HY000 Message: Query partially completed on the master (error on master: %d) and was aborted. There is a chance that your master is inconsistent at this point. If you are sure that your master is ok, run this _query manually on the slave and then restart the slave with SET GLOBAL SQL_SLAVE_SKIP_COUNTER=1; START SLAVE;. Query:'%s'
     public final static int ER_INCONSISTENT_ERROR = 1885; //SQLSTATE: HY000 Message: Query caused different errors on master and slave. Error on master: message (format)='%s' error code=%d; Error on slave:actual message='%s', error code=%d. Default database:'%s'. Query:'%s'
     public final static int ER_STORAGE_ENGINE_NOT_LOADED = 1886; //SQLSTATE: HY000 Message: Storage engine for table '%s'.'%s' is not loaded.
     public final static int ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER = 1887; //SQLSTATE: 0Z002 Message: GET STACKED DIAGNOSTICS when handler not active

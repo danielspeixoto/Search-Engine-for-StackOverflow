@@ -94,7 +94,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
 
         String paramName;
 
-        int precision;
+        int _precision;
 
         int scale;
 
@@ -102,7 +102,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
 
         MysqlType desiredMysqlType = MysqlType.UNKNOWN;
 
-        CallableStatementParam(String name, int idx, boolean in, boolean out, int jdbcType, String typeName, int precision, int scale, short nullability,
+        CallableStatementParam(String name, int idx, boolean in, boolean out, int jdbcType, String typeName, int _precision, int scale, short nullability,
                 int inOutModifier) {
             this.paramName = name;
             this.isIn = in;
@@ -111,7 +111,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
 
             this.jdbcType = jdbcType;
             this.typeName = typeName;
-            this.precision = precision;
+            this._precision = _precision;
             this.scale = scale;
             this.nullability = nullability;
             this.inOutModifier = inOutModifier;
@@ -155,7 +155,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
          *            procedure or function.
          */
         CallableStatementParamInfo(CallableStatementParamInfo fullParamInfo) {
-            this.nativeSql = ((PreparedQuery<?>) CallableStatement.this.query).getOriginalSql();
+            this.nativeSql = ((PreparedQuery<?>) CallableStatement.this._query).getOriginalSql();
             this.catalogInUse = CallableStatement.this.getCurrentCatalog();
             this.isFunctionCall = fullParamInfo.isFunctionCall;
             @SuppressWarnings("synthetic-access")
@@ -190,7 +190,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
         CallableStatementParamInfo(java.sql.ResultSet paramTypesRs) throws SQLException {
             boolean hadRows = paramTypesRs.last();
 
-            this.nativeSql = ((PreparedQuery<?>) CallableStatement.this.query).getOriginalSql();
+            this.nativeSql = ((PreparedQuery<?>) CallableStatement.this._query).getOriginalSql();
             this.catalogInUse = CallableStatement.this.getCurrentCatalog();
             this.isFunctionCall = CallableStatement.this.callingStoredFunction;
 
@@ -252,11 +252,11 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
 
                 int jdbcType = paramTypesRs.getInt(6);
                 String typeName = paramTypesRs.getString(7);
-                int precision = paramTypesRs.getInt(8);
+                int _precision = paramTypesRs.getInt(8);
                 int scale = paramTypesRs.getInt(10);
                 short nullability = paramTypesRs.getShort(12);
 
-                CallableStatementParam paramInfoToAdd = new CallableStatementParam(paramName, i++, isInParameter, isOutParameter, jdbcType, typeName, precision,
+                CallableStatementParam paramInfoToAdd = new CallableStatementParam(paramName, i++, isInParameter, isOutParameter, jdbcType, typeName, _precision,
                         scale, nullability, inOutModifier);
 
                 this.parameterList.add(paramInfoToAdd);
@@ -346,7 +346,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
         public int getPrecision(int arg0) throws SQLException {
             checkBounds(arg0);
 
-            return getParameter(arg0 - 1).precision;
+            return getParameter(arg0 - 1)._precision;
         }
 
         @Override
@@ -456,7 +456,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
         this.callingStoredFunction = this.paramInfo.isFunctionCall;
 
         if (this.callingStoredFunction) {
-            ((PreparedQuery<?>) this.query).setParameterCount(((PreparedQuery<?>) this.query).getParameterCount() + 1);
+            ((PreparedQuery<?>) this._query).setParameterCount(((PreparedQuery<?>) this._query).getParameterCount() + 1);
         }
 
         this.retrieveGeneratedKeys = true; // not provided for in the JDBC spec
@@ -518,7 +518,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
                 parameterCountFromMetaData--;
             }
 
-            PreparedQuery<?> q = ((PreparedQuery<?>) this.query);
+            PreparedQuery<?> q = ((PreparedQuery<?>) this._query);
             if (this.paramInfo != null && q.getParameterCount() != parameterCountFromMetaData) {
                 this.placeholderToParameterIndexMap = new int[q.getParameterCount()];
 
@@ -590,7 +590,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
             determineParameterTypes();
             generateParameterMap();
 
-            ((PreparedQuery<?>) this.query).setParameterCount(((PreparedQuery<?>) this.query).getParameterCount() + 1);
+            ((PreparedQuery<?>) this._query).setParameterCount(((PreparedQuery<?>) this._query).getParameterCount() + 1);
         }
 
         this.retrieveGeneratedKeys = true; // not provided for in the JDBC spec
@@ -730,7 +730,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
 
             ArrayList<Row> resultRows = new ArrayList<>();
 
-            for (int i = 0; i < ((PreparedQuery<?>) this.query).getParameterCount(); i++) {
+            for (int i = 0; i < ((PreparedQuery<?>) this._query).getParameterCount(); i++) {
                 byte[][] row = new byte[13][];
                 row[0] = null; // PROCEDURE_CAT
                 row[1] = null; // PROCEDURE_SCHEM
@@ -897,7 +897,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
     }
 
     private String extractProcedureName() throws SQLException {
-        String sanitizedSql = StringUtils.stripComments(((PreparedQuery<?>) this.query).getOriginalSql(), "`\"'", "`\"'", true, false, true, true);
+        String sanitizedSql = StringUtils.stripComments(((PreparedQuery<?>) this._query).getOriginalSql(), "`\"'", "`\"'", true, false, true, true);
 
         // TODO: Do this with less memory allocation
         int endCallIndex = StringUtils.indexOfIgnoreCase(sanitizedSql, "CALL ");
@@ -1819,7 +1819,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
     }
 
     /**
-     * Issues a second query to retrieve all output parameters.
+     * Issues a second _query to retrieve all output parameters.
      * 
      * @throws SQLException
      *             if an error occurs.
@@ -1871,7 +1871,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
                 }
 
                 if (hadOutputParams) {
-                    // We can't use 'ourself' to execute this query, or any pending result sets would be overwritten
+                    // We can't use 'ourself' to execute this _query, or any pending result sets would be overwritten
                     java.sql.Statement outParameterStmt = null;
                     java.sql.ResultSet outParamRs = null;
 
@@ -1977,7 +1977,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
                         try {
                             setPstmt = ((Wrapper) this.connection.clientPrepareStatement(queryBuf.toString())).unwrap(ClientPreparedStatement.class);
 
-                            if (((PreparedQuery<?>) this.query).getQueryBindings().getBindValues()[inParamInfo.index].isNull()) {
+                            if (((PreparedQuery<?>) this._query).getQueryBindings().getBindValues()[inParamInfo.index].isNull()) {
                                 setPstmt.setBytesNoEscapeNoQuotes(1, "NULL".getBytes());
 
                             } else {

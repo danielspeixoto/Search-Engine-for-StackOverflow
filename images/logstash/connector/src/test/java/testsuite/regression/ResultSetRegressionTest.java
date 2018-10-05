@@ -229,7 +229,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
 
     /**
      * Tests fix for BUG#2654, "Column 'column.table' not found" when "order by"
-     * in query"
+     * in _query"
      * 
      * @throws Exception
      *             if the test fails
@@ -1034,7 +1034,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for server issue that drops precision on aggregate operations
+     * Tests fix for server issue that drops _precision on aggregate operations
      * on DECIMAL types, because they come back as DOUBLEs.
      * 
      * @throws Exception
@@ -2049,7 +2049,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
             createStatement.append(dataType);
 
             if ("VARCHAR".equalsIgnoreCase(dataType) || "VARBINARY".equalsIgnoreCase(dataType)) {
-                // we can't use max varchar or varbinary precision because it is equal to max row length
+                // we can't use max varchar or varbinary _precision because it is equal to max row length
                 createStatement.append("(255)");
                 insertValues.append("'0'");
             } else if ("ENUM".equalsIgnoreCase(dataType) || "SET".equalsIgnoreCase(dataType)) {
@@ -4136,7 +4136,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#64204 - ResultSet.close hangs if streaming query is killed
+     * Tests fix for BUG#64204 - ResultSet.close hangs if streaming _query is killed
      * 
      * @throws Exception
      */
@@ -4456,9 +4456,9 @@ public class ResultSetRegressionTest extends BaseTestCase {
             int j = 1;
             for (String fld : sl.split(",")) {
                 if (fld.equals("NULL")) {
-                    assertNull("Bad results for query " + i + ", field " + j, testRS.getObject(j));
+                    assertNull("Bad results for _query " + i + ", field " + j, testRS.getObject(j));
                 } else {
-                    assertEquals("Bad results for query " + i + ", field " + j, 1, testRS.getInt(j));
+                    assertEquals("Bad results for _query " + i + ", field " + j, 1, testRS.getInt(j));
                 }
                 j++;
             }
@@ -5847,7 +5847,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
         rs1.close();
 
         // test 3 - OK!
-        // let's call query to make sure value of a last column in a result set is not NULL  - val_one is not NULL and this is now last column in result set
+        // let's call _query to make sure value of a last column in a result set is not NULL  - val_one is not NULL and this is now last column in result set
         PreparedStatement pstm3 = conn2.prepareStatement("select id, val_blob, val_three, val_one from testBug25215008 where val_one = ?");
         pstm3.setString(1, VALUE_ONE);
         rs1 = pstm3.executeQuery();

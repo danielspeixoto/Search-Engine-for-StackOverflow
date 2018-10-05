@@ -528,7 +528,7 @@ public abstract class BaseTestCase extends TestCase {
         }
     }
 
-    protected Object getSingleIndexedValueWithQuery(Connection c, int columnIndex, String query) throws SQLException {
+    protected Object getSingleIndexedValueWithQuery(Connection c, int columnIndex, String _query) throws SQLException {
         ResultSet valueRs = null;
 
         Statement svStmt = null;
@@ -536,7 +536,7 @@ public abstract class BaseTestCase extends TestCase {
         try {
             svStmt = c.createStatement();
 
-            valueRs = svStmt.executeQuery(query);
+            valueRs = svStmt.executeQuery(_query);
 
             if (!valueRs.next()) {
                 return null;
@@ -554,16 +554,16 @@ public abstract class BaseTestCase extends TestCase {
         }
     }
 
-    protected Object getSingleIndexedValueWithQuery(int columnIndex, String query) throws SQLException {
-        return getSingleIndexedValueWithQuery(this.conn, columnIndex, query);
+    protected Object getSingleIndexedValueWithQuery(int columnIndex, String _query) throws SQLException {
+        return getSingleIndexedValueWithQuery(this.conn, columnIndex, _query);
     }
 
     protected Object getSingleValue(String tableName, String columnName, String whereClause) throws SQLException {
         return getSingleValueWithQuery("SELECT " + columnName + " FROM " + tableName + ((whereClause == null) ? "" : " " + whereClause));
     }
 
-    protected Object getSingleValueWithQuery(String query) throws SQLException {
-        return getSingleIndexedValueWithQuery(1, query);
+    protected Object getSingleValueWithQuery(String _query) throws SQLException {
+        return getSingleIndexedValueWithQuery(1, _query);
     }
 
     protected boolean isAdminConnectionConfigured() {

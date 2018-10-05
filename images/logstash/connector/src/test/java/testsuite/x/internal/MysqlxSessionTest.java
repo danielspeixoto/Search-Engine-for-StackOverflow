@@ -131,11 +131,11 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         Predicate<com.mysql.cj.result.Row> rowFiler = r -> (strTypes).contains(r.getValue(1, svf));
         Function<com.mysql.cj.result.Row, String> rowToName = r -> r.getValue(0, svf);
 
-        List<String> collNames = this.session.query(builder.buildListObjects(getTestDatabase(), null), rowFiler, rowToName, Collectors.toList());
+        List<String> collNames = this.session._query(builder.buildListObjects(getTestDatabase(), null), rowFiler, rowToName, Collectors.toList());
         assertTrue(collNames.contains(collName));
-        collNames = this.session.query(builder.buildListObjects(getTestDatabase(), "none%"), rowFiler, rowToName, Collectors.toList());
+        collNames = this.session._query(builder.buildListObjects(getTestDatabase(), "none%"), rowFiler, rowToName, Collectors.toList());
         assertFalse(collNames.contains(collName));
-        collNames = this.session.query(builder.buildListObjects(getTestDatabase(), "%get_obj%"), rowFiler, rowToName, Collectors.toList());
+        collNames = this.session._query(builder.buildListObjects(getTestDatabase(), "%get_obj%"), rowFiler, rowToName, Collectors.toList());
         assertTrue(collNames.contains(collName));
         this.session.sendMessage(builder.buildDropCollection(getTestDatabase(), collName));
     }
@@ -199,7 +199,7 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
             return;
         }
         XMessageBuilder builder = (XMessageBuilder) this.session.<XMessage> getMessageBuilder();
-        List<Integer> ints = this.session.query(builder.buildSqlStatement("select 2 union select 1"), null, r -> r.getValue(0, new IntegerValueFactory()),
+        List<Integer> ints = this.session._query(builder.buildSqlStatement("select 2 union select 1"), null, r -> r.getValue(0, new IntegerValueFactory()),
                 Collectors.toList());
         assertEquals(2, ints.size());
         assertEquals(new Integer(2), ints.get(0));

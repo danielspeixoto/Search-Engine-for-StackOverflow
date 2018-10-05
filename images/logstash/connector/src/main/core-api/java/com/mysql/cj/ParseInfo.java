@@ -38,7 +38,7 @@ import com.mysql.cj.exceptions.WrongArgumentException;
 import com.mysql.cj.util.StringUtils;
 
 /**
- * Represents the "parsed" state of a prepared query, with the statement broken up into its static and dynamic (where parameters are bound) parts.
+ * Represents the "parsed" state of a prepared _query, with the statement broken up into its static and dynamic (where parameters are bound) parts.
  */
 public class ParseInfo {
 

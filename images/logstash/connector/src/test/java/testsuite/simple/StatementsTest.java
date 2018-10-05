@@ -880,7 +880,7 @@ public class StatementsTest extends BaseTestCase {
         try {
             boolean autoCommit = this.conn.getAutoCommit();
 
-            // Test running a query for an update. It should fail.
+            // Test running a _query for an update. It should fail.
             try {
                 this.conn.setAutoCommit(false);
                 this.stmt.executeUpdate("SELECT * FROM statement_test");
@@ -890,7 +890,7 @@ public class StatementsTest extends BaseTestCase {
                 this.conn.setAutoCommit(autoCommit);
             }
 
-            // Test running a update for an query. It should fail.
+            // Test running a update for an _query. It should fail.
             try {
                 this.conn.setAutoCommit(false);
                 this.stmt.execute("UPDATE statement_test SET strdata1='blah' WHERE 1=0");

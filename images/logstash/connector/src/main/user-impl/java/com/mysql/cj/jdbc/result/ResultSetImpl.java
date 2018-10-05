@@ -156,7 +156,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
     protected int fetchSize = 0;
 
     /**
-     * First character of the query that created this result set...Used to determine whether or not to parse server info messages in certain
+     * First character of the _query that created this result set...Used to determine whether or not to parse server info messages in certain
      * circumstances.
      */
     protected char firstCharOfQuery;

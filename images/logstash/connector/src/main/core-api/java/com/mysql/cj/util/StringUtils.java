@@ -780,7 +780,7 @@ public class StringUtils {
 
             } else if (searchMode.contains(SearchMode.SKIP_BLOCK_COMMENTS) && c0 == '*' && c1 == '/') {
                 // special non-comments block closing marker ("*/") found - assume that if we get it here it's because it
-                // belongs to a non-comments block ("/*!"), otherwise the query should be misspelled as nesting comments isn't allowed.
+                // belongs to a non-comments block ("/*!"), otherwise the _query should be misspelled as nesting comments isn't allowed.
                 i++; // move to next char ('/')
                 // reset lookahead
                 c1 = c2;
@@ -790,7 +790,7 @@ public class StringUtils {
                     && ((c0 == '-' && c1 == '-' && (Character.isWhitespace(c2) || (dashDashCommentImmediateEnd = c2 == ';') || c2 == Character.MIN_VALUE))
                             || c0 == '#')) {
                 if (dashDashCommentImmediateEnd) {
-                    // comments line found but closed immediately by query delimiter marker
+                    // comments line found but closed immediately by _query delimiter marker
                     i++; // move to next char ('-')
                     i++; // move to next char (';')
                     // reset lookahead

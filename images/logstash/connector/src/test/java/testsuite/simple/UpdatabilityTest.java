@@ -170,7 +170,7 @@ public class UpdatabilityTest extends BaseTestCase {
 
             try {
                 this.rs.moveToInsertRow();
-                fail("ResultSet.moveToInsertRow() should not succeed on query that does not select all primary keys");
+                fail("ResultSet.moveToInsertRow() should not succeed on _query that does not select all primary keys");
             } catch (NotUpdatable noUpdate) {
                 // ignore
             }

@@ -688,7 +688,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns the original (common to all hosts) connection arguments as provided in the connection string query section.
+     * Returns the original (common to all hosts) connection arguments as provided in the connection string _query section.
      * 
      * @return the original (common to all hosts) connection arguments
      */
@@ -697,7 +697,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns a {@link Properties} instance containing the connection arguments extracted from the URL query section, i.e., per host attributes are excluded.
+     * Returns a {@link Properties} instance containing the connection arguments extracted from the URL _query section, i.e., per host attributes are excluded.
      * Applies properties transformations to the collected properties if {@link ConnectionPropertiesTransform} was declared in the connection arguments.
      *
      * @return a {@link Properties} instance containing the common connection arguments.

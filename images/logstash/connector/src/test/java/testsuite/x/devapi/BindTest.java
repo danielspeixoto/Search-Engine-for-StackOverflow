@@ -128,9 +128,9 @@ public class BindTest extends BaseCollectionTestCase {
         } else {
             this.collection.add("{'x':1,'y':2}".replaceAll("'", "\"")).execute();
         }
-        // same order as query
+        // same order as _query
         assertEquals(1, this.collection.find("x = :x and y = :y").bind("x", 1).bind("y", 2).execute().count());
-        // opposite order as query
+        // opposite order as _query
         assertEquals(1, this.collection.find("x = :x and y = :y").bind("y", 2).bind("x", 1).execute().count());
     }
 

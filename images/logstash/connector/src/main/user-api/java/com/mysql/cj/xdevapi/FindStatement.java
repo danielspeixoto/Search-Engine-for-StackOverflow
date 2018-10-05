@@ -52,7 +52,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     FindStatement fields(Expression docProjection);
 
     /**
-     * Add/replace the aggregation fields for this query.
+     * Add/replace the aggregation fields for this _query.
      * 
      * @param groupBy
      *            groupBy expression
@@ -61,7 +61,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     FindStatement groupBy(String... groupBy);
 
     /**
-     * Add/replace the aggregate criteria for this query.
+     * Add/replace the aggregate criteria for this _query.
      * 
      * @param having
      *            having expression
@@ -70,7 +70,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     FindStatement having(String having);
 
     /**
-     * Add/replace the order specification for this query.
+     * Add/replace the order specification for this _query.
      * 
      * @param sortFields
      *            sort expression
@@ -79,7 +79,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     FindStatement orderBy(String... sortFields);
 
     /**
-     * Add/replace the order specification for this query.
+     * Add/replace the order specification for this _query.
      * <p>
      * Synonym for {@link #orderBy(String...)}
      * 
@@ -90,7 +90,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     FindStatement sort(String... sortFields);
 
     /**
-     * Add/replace the document offset for this query.
+     * Add/replace the document offset for this _query.
      * 
      * @param limitOffset
      *            number of documents to skip
@@ -103,7 +103,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     }
 
     /**
-     * Add/replace the document offset for this query.
+     * Add/replace the document offset for this _query.
      * 
      * @param limitOffset
      *            number of documents to skip
@@ -112,7 +112,7 @@ public interface FindStatement extends Statement<FindStatement, DocResult> {
     FindStatement offset(long limitOffset);
 
     /**
-     * Add/replace the document limit for this query.
+     * Add/replace the document limit for this _query.
      * 
      * @param numberOfRows
      *            limit

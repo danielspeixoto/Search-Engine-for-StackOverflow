@@ -117,7 +117,7 @@ public class NativeSession extends CoreSession implements Serializable {
      */
     private boolean requiresEscapingEncoder;
 
-    /** When did the last query finish? */
+    /** When did the last _query finish? */
     private long lastQueryFinishedTime = 0;
 
     /** Does this connection need to be tested? */
@@ -427,7 +427,7 @@ public class NativeSession extends CoreSession implements Serializable {
      * Sets up client character set. This must be done before any further communication with the server!
      * 
      * @param dontCheckServerMatch
-     *            if true then send the SET NAMES query even if server charset already matches the new value
+     *            if true then send the SET NAMES _query even if server charset already matches the new value
      * @return true if this routine actually configured the client character
      *         set, or false if the driver needs to use 'older' methods to
      *         detect the character set, as it is connected to a MySQL server
@@ -904,19 +904,19 @@ public class NativeSession extends CoreSession implements Serializable {
             }
 
             if (!variablesToSet.isEmpty()) {
-                StringBuilder query = new StringBuilder("SET ");
+                StringBuilder _query = new StringBuilder("SET ");
                 String separator = "";
                 for (String variableToSet : variablesToSet) {
                     if (variableToSet.length() > 0) {
-                        query.append(separator);
+                        _query.append(separator);
                         if (!variableToSet.startsWith("@")) {
-                            query.append("SESSION ");
+                            _query.append("SESSION ");
                         }
-                        query.append(variableToSet);
+                        _query.append(variableToSet);
                         separator = ",";
                     }
                 }
-                sendCommand(this.commandBuilder.buildComQuery(null, query.toString()), false, 0);
+                sendCommand(this.commandBuilder.buildComQuery(null, _query.toString()), false, 0);
             }
         }
     }
@@ -1124,7 +1124,7 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     /**
-     * Send a query to the server. Returns one of the ResultSet objects.
+     * Send a _query to the server. Returns one of the ResultSet objects.
      * To ensure that Statement's queries are serialized, calls to this method
      * should be enclosed in a connection mutex synchronized block.
      * 
@@ -1132,7 +1132,7 @@ public class NativeSession extends CoreSession implements Serializable {
      *            extends {@link Resultset}
      * @param callingQuery
      *            {@link Query} object
-     * @param query
+     * @param _query
      *            the SQL statement to be executed
      * @param maxRows
      *            rows limit
@@ -1147,11 +1147,11 @@ public class NativeSession extends CoreSession implements Serializable {
      * @param cachedMetadata
      *            use this metadata instead of the one provided on wire
      * @param isBatch
-     *            is it a batch query
+     *            is it a batch _query
      * 
      * @return a ResultSet holding the results
      */
-    public <T extends Resultset> T execSQL(Query callingQuery, String query, int maxRows, NativePacketPayload packet, boolean streamResults,
+    public <T extends Resultset> T execSQL(Query callingQuery, String _query, int maxRows, NativePacketPayload packet, boolean streamResults,
             ProtocolEntityFactory<T, NativePacketPayload> resultSetFactory, String catalog, ColumnDefinition cachedMetadata, boolean isBatch) {
 
         long queryStartTime = 0;
@@ -1179,7 +1179,7 @@ public class NativeSession extends CoreSession implements Serializable {
         try {
             if (packet == null) {
                 String encoding = this.characterEncoding.getValue();
-                return ((NativeProtocol) this.protocol).sendQueryString(callingQuery, query, encoding, maxRows, streamResults, catalog, cachedMetadata,
+                return ((NativeProtocol) this.protocol).sendQueryString(callingQuery, _query, encoding, maxRows, streamResults, catalog, cachedMetadata,
                         this::getProfilerEventHandlerInstanceFunction, resultSetFactory);
             }
             return ((NativeProtocol) this.protocol).sendQueryPacket(callingQuery, packet, maxRows, streamResults, catalog, cachedMetadata,
@@ -1187,7 +1187,7 @@ public class NativeSession extends CoreSession implements Serializable {
 
         } catch (CJException sqlE) {
             if (getPropertySet().getBooleanProperty(PropertyDefinitions.PNAME_dumpQueriesOnException).getValue()) {
-                String extractedSql = NativePacketPayload.extractSqlFromPacket(query, packet, endOfQueryPacketPosition,
+                String extractedSql = NativePacketPayload.extractSqlFromPacket(_query, packet, endOfQueryPacketPosition,
                         getPropertySet().getIntegerProperty(PropertyDefinitions.PNAME_maxQuerySizeToLog).getValue());
                 StringBuilder messageBuf = new StringBuilder(extractedSql.length() + 32);
                 messageBuf.append("\n\nQuery being executed when exception was thrown:\n");
@@ -1363,7 +1363,7 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     @Override
-    public <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector) {
+    public <M extends Message, RES_T, R> RES_T _query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector) {
         throw ExceptionFactory.createException(CJOperationNotSupportedException.class, "Not supported");
     }
 }

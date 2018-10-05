@@ -334,9 +334,9 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
                 default:
             }
 
-            // if not defined explicitly take the max precision
+            // if not defined explicitly take the max _precision
             if (this.columnSize == null) {
-                // JDBC spec reserved only 'int' type for precision, thus we need to cut longer values
+                // JDBC spec reserved only 'int' type for _precision, thus we need to cut longer values
                 this.columnSize = this.mysqlType.getPrecision() > Integer.MAX_VALUE ? Integer.MAX_VALUE : this.mysqlType.getPrecision().intValue();
             }
 
@@ -1158,7 +1158,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
     }
 
     /**
-     * Creates a result set query enough to 'SHOW TABLE STATUS' to allow the
+     * Creates a result set _query enough to 'SHOW TABLE STATUS' to allow the
      * same code to work on extracting the foreign key data
      * 
      * @param catalog
@@ -1205,10 +1205,10 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
             for (int i = 0; i < numTables; i++) {
                 String tableToExtract = tableList.get(i);
 
-                String query = new StringBuilder("SHOW CREATE TABLE ").append(getFullyQualifiedName(catalog, tableToExtract)).toString();
+                String _query = new StringBuilder("SHOW CREATE TABLE ").append(getFullyQualifiedName(catalog, tableToExtract)).toString();
 
                 try {
-                    rs = stmt.executeQuery(query);
+                    rs = stmt.executeQuery(_query);
                 } catch (SQLException sqlEx) {
                     // Table might've disappeared on us, not really an error
                     String sqlState = sqlEx.getSQLState();
@@ -1387,7 +1387,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
     }
 
     /*
-     * Extract parameter details for Procedures and Functions by parsing the DDL query obtained from SHOW CREATE [PROCEDURE|FUNCTION] ... statements.
+     * Extract parameter details for Procedures and Functions by parsing the DDL _query obtained from SHOW CREATE [PROCEDURE|FUNCTION] ... statements.
      * The result rows returned follow the required structure for getProcedureColumns() and getFunctionColumns() methods.
      * 
      * Internal use only.
@@ -3877,7 +3877,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
 
         rowVal[0] = s2b(mysqlTypeName);                                                     // Type name
         rowVal[1] = Integer.toString(mt.getJdbcType()).getBytes();                          // JDBC Data type
-        // JDBC spec reserved only 'int' type for precision, thus we need to cut longer values
+        // JDBC spec reserved only 'int' type for _precision, thus we need to cut longer values
         rowVal[2] = Integer.toString(mt.getPrecision() > Integer.MAX_VALUE ? Integer.MAX_VALUE : mt.getPrecision().intValue()).getBytes(); // Precision
         switch (mt) {
             case TINYBLOB:
@@ -4835,10 +4835,10 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
     }
 
     /**
-     * Get a prepared statement to query information_schema tables.
+     * Get a prepared statement to _query information_schema tables.
      * 
      * @param sql
-     *            query
+     *            _query
      * @return PreparedStatement
      * @throws SQLException
      *             if a database access error occurs

@@ -108,7 +108,7 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
     /**
      * 
      * @param sql
-     *            query string
+     *            _query string
      * @throws IOException
      *             if an i/o error occurs
      */
@@ -258,7 +258,7 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         packet.writeInteger(IntegerDataType.INT4, this.serverStatementId);
 
         // we only create cursor-backed result sets if
-        // a) The query is a SELECT
+        // a) The _query is a SELECT
         // b) The server supports it
         // c) We know it is forward-only (note this doesn't preclude updatable result sets)
         // d) The user has set a fetch size
@@ -333,7 +333,7 @@ public class ServerPreparedQuery extends AbstractPreparedQuery<ServerPreparedQue
         CancelQueryTask timeoutTask = null;
 
         try {
-            // Get this before executing to avoid a shared packet pollution in the case some other query is issued internally, such as when using I_S.
+            // Get this before executing to avoid a shared packet pollution in the case some other _query is issued internally, such as when using I_S.
 
             timeoutTask = startQueryTimer(this, this.timeoutInMillis);
 

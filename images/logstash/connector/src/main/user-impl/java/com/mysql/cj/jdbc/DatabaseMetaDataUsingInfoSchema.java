@@ -699,7 +699,7 @@ public class DatabaseMetaDataUsingInfoSchema extends DatabaseMetaData {
         sqlBuf.append(" UPPER(CASE WHEN LOCATE('UNSIGNED', UPPER(DATA_TYPE)) != 0 AND LOCATE('UNSIGNED', UPPER(DATA_TYPE)) = 0");
         sqlBuf.append(" THEN CONCAT(DATA_TYPE, ' UNSIGNED') ELSE DATA_TYPE END) AS `TYPE_NAME`,");
 
-        // PRECISION</B> int => precision
+        // PRECISION</B> int => _precision
         sqlBuf.append(" NUMERIC_PRECISION AS `PRECISION`,");
 
         // LENGTH</B> int => length in bytes of data
@@ -952,7 +952,7 @@ public class DatabaseMetaDataUsingInfoSchema extends DatabaseMetaData {
                 "UPPER(CASE WHEN LOCATE('UNSIGNED', UPPER(DATA_TYPE)) != 0 AND LOCATE('UNSIGNED', UPPER(DATA_TYPE)) = 0 THEN CONCAT(DATA_TYPE, ' UNSIGNED') "
                         + "ELSE DATA_TYPE END) AS `TYPE_NAME`,");
 
-        // PRECISION int => precision
+        // PRECISION int => _precision
         sqlBuf.append("NUMERIC_PRECISION AS `PRECISION`, ");
         // LENGTH int => length in bytes of data
         sqlBuf.append("CASE WHEN LCASE(DATA_TYPE)='date' THEN 10 WHEN LCASE(DATA_TYPE)='time' THEN 8 WHEN LCASE(DATA_TYPE)='datetime' THEN 19 WHEN "

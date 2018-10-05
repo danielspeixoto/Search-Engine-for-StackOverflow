@@ -116,7 +116,7 @@ public class NumbersRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests that ResultSetMetaData precision and scale methods work correctly
+     * Tests that ResultSetMetaData _precision and scale methods work correctly
      * for all numeric types.
      * 
      * @throws Exception

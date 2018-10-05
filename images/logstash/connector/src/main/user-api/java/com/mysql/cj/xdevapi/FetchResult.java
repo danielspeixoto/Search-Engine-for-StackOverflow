@@ -33,14 +33,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A set of elements from a query command.
+ * A set of elements from a _query command.
  *
  * @param <T>
- *            the type of element returned from the query (doc or row)
+ *            the type of element returned from the _query (doc or row)
  */
 public interface FetchResult<T> extends Iterator<T>, Iterable<T> {
     /**
-     * Does this result have data? This indicates that the result was produced from a data-returning query. It does not indicate whether there are more than 0
+     * Does this result have data? This indicates that the result was produced from a data-returning _query. It does not indicate whether there are more than 0
      * rows in the result.
      * 
      * @return true if has data

@@ -77,7 +77,7 @@ public class FailoverConnectionProxy extends MultiHostConnectionProxy {
 
     /**
      * Proxy class to intercept and deal with errors that may occur in any object bound to the current connection.
-     * Additionally intercepts query executions and triggers an execution count on the outer class.
+     * Additionally intercepts _query executions and triggers an execution count on the outer class.
      */
     class FailoverJdbcInterfaceProxy extends JdbcInterfaceProxy {
         FailoverJdbcInterfaceProxy(Object toInvokeOn) {
@@ -381,7 +381,7 @@ public class FailoverConnectionProxy extends MultiHostConnectionProxy {
     }
 
     /**
-     * Increments counter for query executions.
+     * Increments counter for _query executions.
      */
     synchronized void incrementQueriesIssuedSinceFailover() {
         this.queriesIssuedSinceFailover++;

@@ -44,7 +44,7 @@ public interface Query {
     }
 
     /**
-     * Returns the query id used when profiling
+     * Returns the _query id used when profiling
      * 
      * @return id
      */

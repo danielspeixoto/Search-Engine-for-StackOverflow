@@ -46,7 +46,7 @@ public interface ProfilerEvent {
     public static final byte TYPE_PREPARE = 2;
 
     /**
-     * Profiler event for a query being executed
+     * Profiler event for a _query being executed
      */
     public static final byte TYPE_QUERY = 3;
 
@@ -61,7 +61,7 @@ public interface ProfilerEvent {
     public static final byte TYPE_FETCH = 5;
 
     /**
-     * Profiler event for slow query
+     * Profiler event for slow _query
      */
     public static final byte TYPE_SLOW_QUERY = 6;
 

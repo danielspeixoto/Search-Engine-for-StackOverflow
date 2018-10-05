@@ -79,7 +79,7 @@ public class SessionImpl implements Session {
     public List<Schema> getSchemas() {
         Function<Row, String> rowToName = r -> r.getValue(0, new StringValueFactory());
         Function<Row, Schema> rowToSchema = rowToName.andThen(n -> new SchemaImpl(this.session, this, n));
-        return this.session.query(this.xbuilder.buildSqlStatement("select schema_name from information_schema.schemata"), null, rowToSchema,
+        return this.session._query(this.xbuilder.buildSqlStatement("select schema_name from information_schema.schemata"), null, rowToSchema,
                 Collectors.toList());
     }
 

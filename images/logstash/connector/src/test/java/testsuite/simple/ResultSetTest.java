@@ -174,9 +174,9 @@ public class ResultSetTest extends BaseTestCase {
 
     private void testPaddingForConnection(Connection paddedConn, int numChars, StringBuilder selectBuf) throws SQLException {
 
-        String query = "SELECT " + selectBuf.toString() + " FROM testPadding ORDER by ord";
+        String _query = "SELECT " + selectBuf.toString() + " FROM testPadding ORDER by ord";
 
-        this.rs = paddedConn.createStatement().executeQuery(query);
+        this.rs = paddedConn.createStatement().executeQuery(_query);
         int numCols = this.rs.getMetaData().getColumnCount();
 
         while (this.rs.next()) {
@@ -188,7 +188,7 @@ public class ResultSetTest extends BaseTestCase {
             }
         }
 
-        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) paddedConn).clientPrepareStatement(query).executeQuery();
+        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) paddedConn).clientPrepareStatement(_query).executeQuery();
 
         while (this.rs.next()) {
             for (int i = 0; i < numCols; i++) {
@@ -199,7 +199,7 @@ public class ResultSetTest extends BaseTestCase {
             }
         }
 
-        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) paddedConn).serverPrepareStatement(query).executeQuery();
+        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) paddedConn).serverPrepareStatement(_query).executeQuery();
 
         while (this.rs.next()) {
             for (int i = 0; i < numCols; i++) {
@@ -210,7 +210,7 @@ public class ResultSetTest extends BaseTestCase {
             }
         }
 
-        this.rs = this.stmt.executeQuery(query);
+        this.rs = this.stmt.executeQuery(_query);
 
         while (this.rs.next()) {
             for (int i = 0; i < numCols; i++) {
@@ -228,7 +228,7 @@ public class ResultSetTest extends BaseTestCase {
             }
         }
 
-        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement(query).executeQuery();
+        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement(_query).executeQuery();
 
         while (this.rs.next()) {
             for (int i = 0; i < numCols; i++) {
@@ -246,7 +246,7 @@ public class ResultSetTest extends BaseTestCase {
             }
         }
 
-        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement(query).executeQuery();
+        this.rs = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).serverPrepareStatement(_query).executeQuery();
 
         while (this.rs.next()) {
             for (int i = 0; i < numCols; i++) {

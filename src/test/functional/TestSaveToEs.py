@@ -21,17 +21,17 @@ class TestElasticSearch(unittest.TestCase):
 
     def setUp(self):
         super().setUp()
-        self.index = QuestionIndex(Config("localhost", "9200")._connection)
+        self.index = QuestionIndex(Config("localhost", "9200").connection)
 
     def test_search_id(self):
         # ToDO: Asserts
-        index = QuestionIndex(Config("localhost", "9200")._connection)
+        index = QuestionIndex(Config("localhost", "9200").connection)
         for i in index.id("1ZwxMGYBM9IJcyorc1N3"):
             print(i)
 
     def test_answers(self):
         # ToDO: Asserts
-        index = QuestionIndex(Config("localhost", "9200")._connection)
+        index = QuestionIndex(Config("localhost", "9200").connection)
         query = "how to change file permissions?"
         results = index.query(query)
 

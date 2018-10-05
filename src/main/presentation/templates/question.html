@@ -8,10 +8,16 @@
 <strong>Creation Date:</strong> {{ question["creation_date"] }} <br>
 <strong>Last Activity Date:</strong> {{ question["last_activity_date"] }} <br>
 <br>
+
 <div style="margin-left: 50px">
 <h2>Answers</h2>
+<strong>Accepted Answer was:</strong> {{ question["accepted_answer_id"] }}
 {% for answer in question["answers"] %}
     <hr>
+    {% if answer['id'] == question["accepted_answer_id"] %}
+        <strong style="color: green;"> Accepted ANSWER!</strong>
+    {% endif %}
+    <strong>Id:</strong> {{ answer["id"] }} <br>
     <strong>Score:</strong> {{ answer["score"] }} <br>
     <strong>Body:</strong> {{ answer["body"] | safe }} <br>
     <strong>User Reputation:</strong> {{ answer["user_reputation"] }} <br>

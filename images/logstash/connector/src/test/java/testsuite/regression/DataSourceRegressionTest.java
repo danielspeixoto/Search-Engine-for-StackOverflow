@@ -518,10 +518,10 @@ public class DataSourceRegressionTest extends BaseTestCase {
         MysqlDataSource ds = new MysqlDataSource();
         ds.setUrl(dbUrl);
         Connection c = ds.getConnection();
-        String query = "select 1,2,345";
-        PreparedStatement ps = c.prepareStatement(query);
+        String _query = "select 1,2,345";
+        PreparedStatement ps = c.prepareStatement(_query);
         String psString = ps.toString();
-        assertTrue("String representation of wrapped ps should contain query string", psString.endsWith(": " + query));
+        assertTrue("String representation of wrapped ps should contain _query string", psString.endsWith(": " + _query));
         ps.close();
         ps.toString();
         c.close();

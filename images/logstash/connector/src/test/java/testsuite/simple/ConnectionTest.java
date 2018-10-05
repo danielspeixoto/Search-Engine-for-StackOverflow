@@ -235,7 +235,7 @@ public class ConnectionTest extends BaseTestCase {
             try {
                 this.conn.createStatement().execute("SELECT * FROM t1 WHERE id=0 FOR UPDATE");
 
-                // The following query should hang because con1 is locking the page
+                // The following _query should hang because con1 is locking the page
                 deadlockConn.createStatement().executeUpdate("UPDATE t1 SET x=2 WHERE id=0");
             } finally {
                 this.conn.commit();
@@ -1917,8 +1917,8 @@ public class ConnectionTest extends BaseTestCase {
      * Test the new connection property 'enableEscapeProcessing', as well as the old connection property 'processEscapeCodesForPrepStmts' and interrelation
      * between them.
      * 
-     * This test uses a QueryInterceptor to capture the query sent to the server and assert whether escape processing has been done in the client side or if
-     * the query is sent untouched and escape processing will be done at server side, according to provided connection properties and type of Statement objects
+     * This test uses a QueryInterceptor to capture the _query sent to the server and assert whether escape processing has been done in the client side or if
+     * the _query is sent untouched and escape processing will be done at server side, according to provided connection properties and type of Statement objects
      * in use.
      */
     public void testEnableEscapeProcessing() throws Exception {
@@ -1935,7 +1935,7 @@ public class ConnectionTest extends BaseTestCase {
             }
             testUrl = testUrl.substring(0, b) + testUrl.substring(e, testUrl.length());
         }
-        String query = "SELECT /* testEnableEscapeProcessing: (%d) */ {fn sin(pi()/2)}, {ts '2015-08-16 11:22:33'}, {fn ucase('this is mysql')}";
+        String _query = "SELECT /* testEnableEscapeProcessing: (%d) */ {fn sin(pi()/2)}, {ts '2015-08-16 11:22:33'}, {fn ucase('this is mysql')}";
         Timestamp testTimestamp = new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("2015-08-16 11:22:33").getTime());
 
         for (int tst = 0; tst < 8; tst++) {
@@ -1951,7 +1951,7 @@ public class ConnectionTest extends BaseTestCase {
 
             Connection testConn = getConnectionWithProps(testUrl, props);
             this.stmt = testConn.createStatement();
-            this.rs = this.stmt.executeQuery(String.format(query, tst));
+            this.rs = this.stmt.executeQuery(String.format(_query, tst));
 
             String testCase = String.format("Case: %d [ %s | %s | %s ]/Statement", tst, enableEscapeProcessing ? "enEscProc" : "-",
                     processEscapeCodesForPrepStmts ? "procEscProcPS" : "-", useServerPrepStmts ? "useSSPS" : "-");
@@ -1961,7 +1961,7 @@ public class ConnectionTest extends BaseTestCase {
             assertEquals(testCase, "THIS IS MYSQL", this.rs.getString(3));
             assertFalse(testCase, this.rs.next());
 
-            this.pstmt = testConn.prepareStatement(String.format(query, tst));
+            this.pstmt = testConn.prepareStatement(String.format(_query, tst));
             this.rs = this.pstmt.executeQuery();
 
             testCase = String.format("Case: %d [ %s | %s | %s ]/PreparedStatement", tst, enableEscapeProcessing ? "enEscProc" : "-",

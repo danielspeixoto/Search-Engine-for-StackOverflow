@@ -1494,7 +1494,7 @@ public final class MysqlxResultset {
    *     An arbitrary length number. The number is encoded as a single byte
    *     indicating the position of the decimal point followed by the Packed BCD
    *     encoded number. Packed BCD is used to simplify conversion to and
-   *     from strings and other native arbitrary precision math datatypes.
+   *     from strings and other native arbitrary _precision math datatypes.
    *     .. seealso:: packed BCD in https://en.wikipedia.org/wiki/Binary-coded_decimal
    *     ``.length``
    *       maximum number of displayable decimal digits (*excluding* the decimal point and sign, but including ``.fractional_digits``)
@@ -2441,7 +2441,7 @@ public final class MysqlxResultset {
      *     An arbitrary length number. The number is encoded as a single byte
      *     indicating the position of the decimal point followed by the Packed BCD
      *     encoded number. Packed BCD is used to simplify conversion to and
-     *     from strings and other native arbitrary precision math datatypes.
+     *     from strings and other native arbitrary _precision math datatypes.
      *     .. seealso:: packed BCD in https://en.wikipedia.org/wiki/Binary-coded_decimal
      *     ``.length``
      *       maximum number of displayable decimal digits (*excluding* the decimal point and sign, but including ``.fractional_digits``)

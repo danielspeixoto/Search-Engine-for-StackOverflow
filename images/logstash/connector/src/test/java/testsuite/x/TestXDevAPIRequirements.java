@@ -116,7 +116,7 @@ public class TestXDevAPIRequirements extends BaseXDevAPITestCase {
         //sess.getSchemas();
         //sess.getUri();
 
-        //String sql = ""; // TODO set query
+        //String sql = ""; // TODO set _query
         //sess.executeSql(sql);
     }
 

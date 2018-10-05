@@ -1111,11 +1111,11 @@ public class StatementRegressionTest extends BaseTestCase {
 
         this.stmt.executeUpdate("insert into test3 (field1, field3, field4) values (1, 'blewis', 'Bob Lewis')");
 
-        String query = "UPDATE test3 SET field2=?, field3=?, field4=?, field5=? WHERE field1 = ?";
+        String _query = "UPDATE test3 SET field2=?, field3=?, field4=?, field5=? WHERE field1 = ?";
 
         java.sql.Date mydate = null;
 
-        this.pstmt = this.conn.prepareStatement(query);
+        this.pstmt = this.conn.prepareStatement(_query);
 
         this.pstmt.setInt(1, 13);
         this.pstmt.setString(2, "abc");
@@ -1710,11 +1710,11 @@ public class StatementRegressionTest extends BaseTestCase {
      * @throws Exception
      */
     public void testBug5133() throws Exception {
-        String query = "SELECT 1";
-        String output = this.conn.prepareStatement(query).toString();
+        String _query = "SELECT 1";
+        String output = this.conn.prepareStatement(_query).toString();
         System.out.println(output);
 
-        assertTrue(output.indexOf(query) != -1);
+        assertTrue(output.indexOf(_query) != -1);
     }
 
     /**
@@ -2449,7 +2449,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
     /**
      * Tests for BUG#9288, parameter index out of range if LIKE, ESCAPE '\'
-     * present in query.
+     * present in _query.
      * 
      * @throws Exception
      *             if the test fails.
@@ -2829,7 +2829,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
     /**
      * Tests fix for BUG#17099 - Statement.getGeneratedKeys() throws NPE when no
-     * query has been processed.
+     * _query has been processed.
      * 
      * @throws Exception
      *             if the test fails
@@ -3049,7 +3049,7 @@ public class StatementRegressionTest extends BaseTestCase {
             this.pstmt.setString(1, "c:\\j%");
             // if we comment out the previous line and uncomment the following, the like clause matches
             // this.pstmt.setString(1,"c:\\\\j%");
-            System.out.println("about to execute query " + select_sql);
+            System.out.println("about to execute _query " + select_sql);
             this.rs = this.pstmt.executeQuery();
             assertTrue(this.rs.next());
         } finally {
@@ -3636,9 +3636,9 @@ public class StatementRegressionTest extends BaseTestCase {
      *             if the test fails.
      */
     public void testBug28596() throws Exception {
-        String query = "SELECT #\n?, #\n? #?\r\n,-- abcdefg \n?";
+        String _query = "SELECT #\n?, #\n? #?\r\n,-- abcdefg \n?";
 
-        this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement(query);
+        this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement(_query);
         this.pstmt.setInt(1, 1);
         this.pstmt.setInt(2, 2);
         this.pstmt.setInt(3, 3);
@@ -5961,8 +5961,8 @@ public class StatementRegressionTest extends BaseTestCase {
 
     public void testbug12565726() throws Exception {
         // Not putting the space between VALUES() and ON DUPLICATE KEY UPDATE
-        // causes C/J a) enter rewriting the query altrhough it has ON UPDATE 
-        // and b) to generate the wrong query with multiple ON DUPLICATE KEY
+        // causes C/J a) enter rewriting the _query altrhough it has ON UPDATE
+        // and b) to generate the wrong _query with multiple ON DUPLICATE KEY
 
         Properties props = new Properties();
         props.setProperty(PropertyDefinitions.PNAME_rewriteBatchedStatements, "true");
@@ -6160,7 +6160,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * @throws SQLException
      */
     public void testExecutionPlanForSlowQueries() throws Exception {
-        // once slow query (with execution plan) warning is sent to System.err, we capture messages sent here to check proper operation.
+        // once slow _query (with execution plan) warning is sent to System.err, we capture messages sent here to check proper operation.
         final class TestHandler {
             // System.err diversion handling
             PrintStream systemErrBackup = null;
@@ -6179,7 +6179,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 String errMsg = this.systemErrDetour.toString();
                 boolean found = false;
 
-                if (errMsg.indexOf("Slow query explain results for '" + lookFor + "'") != -1) {
+                if (errMsg.indexOf("Slow _query explain results for '" + lookFor + "'") != -1) {
                     found = true;
                 }
                 this.systemErrDetour.reset();
@@ -6200,7 +6200,7 @@ public class StatementRegressionTest extends BaseTestCase {
                 releaseConnectionResources();
                 this.testConn = getConnectionWithProps("logSlowQueries=true,explainSlowQueries=true");
                 Statement st = this.testConn.createStatement();
-                // execute several fast queries to unlock slow query analysis and lower query execution time mean
+                // execute several fast queries to unlock slow _query analysis and lower _query execution time mean
                 for (int i = 0; i < 25; i++) {
                     st.execute("SELECT 1");
                 }
@@ -6228,19 +6228,19 @@ public class StatementRegressionTest extends BaseTestCase {
                         "REPLACE INTO testWL4897 VALUES (SLEEP(0.33) + 2, 'Database'), (SLEEP(0.33) + 3, 'Connector'), (SLEEP(0.33) + 4, 'Java')",
                         "UPDATE testWL4897 SET f1 = f1 * 10 + SLEEP(0.25)", "DELETE FROM testWL4897 WHERE f1 + SLEEP(0.25) = f1" };
 
-                for (String query : slowQueries) {
+                for (String _query : slowQueries) {
                     testStatement = testHandler.getNewConnectionForSlowQueries().createStatement();
-                    testStatement.execute(query);
-                    assertTrue("A slow query explain results warning should have been issued for: '" + query + "'.", testHandler.containsSlowQueryMsg(query));
+                    testStatement.execute(_query);
+                    assertTrue("A slow _query explain results warning should have been issued for: '" + _query + "'.", testHandler.containsSlowQueryMsg(_query));
                     testStatement.close();
                 }
             } else {
-                // only SELECT is qualified to log slow query explain results warning
-                final String query = "SELECT SLEEP(1)";
+                // only SELECT is qualified to log slow _query explain results warning
+                final String _query = "SELECT SLEEP(1)";
 
                 testStatement = testHandler.getNewConnectionForSlowQueries().createStatement();
-                testStatement.execute(query);
-                assertTrue("A slow query explain results warning should have been issued for: '" + query + "'.", testHandler.containsSlowQueryMsg(query));
+                testStatement.execute(_query);
+                assertTrue("A slow _query explain results warning should have been issued for: '" + _query + "'.", testHandler.containsSlowQueryMsg(_query));
                 testStatement.close();
             }
         } finally {
@@ -6386,7 +6386,7 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#71396 - setMaxRows (SQL_SELECT_LIMIT) from one query used in later queries (sometimes)
+     * Tests fix for BUG#71396 - setMaxRows (SQL_SELECT_LIMIT) from one _query used in later queries (sometimes)
      * 
      * @throws Exception
      *             if the test fails.
@@ -6422,7 +6422,7 @@ public class StatementRegressionTest extends BaseTestCase {
         // check results count using the same Statement[maxRows = 1] for all queries
         testBug71396StatementMultiCheck(testStmt, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new Statement[default maxRows] per query
+        // check results count using same Connection and one new Statement[default maxRows] per _query
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
         // recheck results count reusing the first Statement[maxRows = 1] for all queries - confirm maxRows wasn't lost
@@ -6445,13 +6445,13 @@ public class StatementRegressionTest extends BaseTestCase {
         // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new PreparedStatement[default maxRows] per _query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per _query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6473,13 +6473,13 @@ public class StatementRegressionTest extends BaseTestCase {
         // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new PreparedStatement[default maxRows] per _query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per _query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6500,7 +6500,7 @@ public class StatementRegressionTest extends BaseTestCase {
         // check results count using the same Statement[maxRows = 1] for all queries
         testBug71396StatementMultiCheck(testStmt, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new Statement[default maxRows] per query
+        // check results count using same Connection and one new Statement[default maxRows] per _query
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
         // recheck results count reusing the first Statement[maxRows = 1] for all queries - confirm maxRows wasn't lost
@@ -6523,13 +6523,13 @@ public class StatementRegressionTest extends BaseTestCase {
         // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new PreparedStatement[default maxRows] per _query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per _query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6551,13 +6551,13 @@ public class StatementRegressionTest extends BaseTestCase {
         // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
-        // check results count using same Connection and one PreparedStatement[maxRows = 1] per query
+        // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
-        // check results count using same Connection and one new PreparedStatement[default maxRows] per query
+        // check results count using same Connection and one new PreparedStatement[default maxRows] per _query
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // check results count reusing the first PreparedStatement[maxRows = 1] per query - confirm maxRows wasn't lost
+        // check results count reusing the first PreparedStatement[maxRows = 1] per _query - confirm maxRows wasn't lost
         testBug71396PrepStatementMultiCheck(testPStmtSet, queries, new int[] { 1, 1, 1, 1, 1 });
 
         testBug71396PrepStatementClose(testPStmtSet);
@@ -6641,7 +6641,7 @@ public class StatementRegressionTest extends BaseTestCase {
 
     /**
      * Initializes and returns a Statement with maxRows defined. Tests the SQL_SELECT_LIMIT defined. Executing this
-     * query also forces this limit to be defined at session level.
+     * _query also forces this limit to be defined at session level.
      */
     private Statement testBug71396StatementInit(Connection testConn, int maxRows) throws SQLException {
         ResultSet testRS;
@@ -6681,20 +6681,20 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes one query using a Statement and tests if the results count is the expected.
+     * Executes one _query using a Statement and tests if the results count is the expected.
      */
-    private void testBug71396StatementCheck(Statement testStmt, String query, int expRowCount) throws SQLException {
+    private void testBug71396StatementCheck(Statement testStmt, String _query, int expRowCount) throws SQLException {
         ResultSet testRS;
 
-        testRS = testStmt.executeQuery(query);
+        testRS = testStmt.executeQuery(_query);
         assertTrue(testRS.last());
-        assertEquals(String.format("Wrong number of rows for query '%s'", query), expRowCount, testRS.getRow());
+        assertEquals(String.format("Wrong number of rows for _query '%s'", _query), expRowCount, testRS.getRow());
         testRS.close();
 
-        testStmt.execute(query);
+        testStmt.execute(_query);
         testRS = testStmt.getResultSet();
         assertTrue(testRS.last());
-        assertEquals(String.format("Wrong number of rows for query '%s'", query), expRowCount, testRS.getRow());
+        assertEquals(String.format("Wrong number of rows for _query '%s'", _query), expRowCount, testRS.getRow());
         testRS.close();
     }
 
@@ -6747,40 +6747,40 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Executes one query using a newly created PreparedStatement, setting its maxRows limit, and tests if the results
+     * Executes one _query using a newly created PreparedStatement, setting its maxRows limit, and tests if the results
      * count is the expected.
      */
-    private void testBug71396PrepStatementCheck(Connection testConn, String query, int expRowCount, int maxRows) throws SQLException {
+    private void testBug71396PrepStatementCheck(Connection testConn, String _query, int expRowCount, int maxRows) throws SQLException {
         PreparedStatement chkPStmt;
 
-        chkPStmt = testConn.prepareStatement(query);
+        chkPStmt = testConn.prepareStatement(_query);
         if (maxRows > 0) {
             chkPStmt.setMaxRows(maxRows);
         }
-        testBug71396PrepStatementCheck(chkPStmt, query, expRowCount);
+        testBug71396PrepStatementCheck(chkPStmt, _query, expRowCount);
         chkPStmt.close();
     }
 
     /**
-     * Executes one query using a PreparedStatement and tests if the results count is the expected.
+     * Executes one _query using a PreparedStatement and tests if the results count is the expected.
      */
-    private void testBug71396PrepStatementCheck(PreparedStatement testPStmt, String query, int expRowCount) throws SQLException {
+    private void testBug71396PrepStatementCheck(PreparedStatement testPStmt, String _query, int expRowCount) throws SQLException {
         ResultSet testRS;
 
         testRS = testPStmt.executeQuery();
         assertTrue(testRS.last());
-        assertEquals(String.format("Wrong number of rows for query '%s'", query), expRowCount, testRS.getRow());
+        assertEquals(String.format("Wrong number of rows for _query '%s'", _query), expRowCount, testRS.getRow());
         testRS.close();
 
         testPStmt.execute();
         testRS = testPStmt.getResultSet();
         assertTrue(testRS.last());
-        assertEquals(String.format("Wrong number of rows for query '%s'", query), expRowCount, testRS.getRow());
+        assertEquals(String.format("Wrong number of rows for _query '%s'", _query), expRowCount, testRS.getRow());
         testRS.close();
     }
 
     /**
-     * Executes a query containing the clause LIMIT with a Statement and a PreparedStatement, using a combination of
+     * Executes a _query containing the clause LIMIT with a Statement and a PreparedStatement, using a combination of
      * Connection properties, maxRows value and limit clause value, and tests if the results count is the expected.
      */
     private void testBug71396MultiSettingsCheck(String connProps, int maxRows, int limitClause, int expRowCount) throws SQLException {
@@ -6844,19 +6844,19 @@ public class StatementRegressionTest extends BaseTestCase {
             PreparedStatement ps1_1;
             PreparedStatement ps1_2;
 
-            String query = "Select 'a' from dual";
+            String _query = "Select 'a' from dual";
 
-            ps1_1 = con.prepareStatement(query);
+            ps1_1 = con.prepareStatement(_query);
             ps1_1.execute();
             ps1_1.close();
 
-            ps1_2 = con.prepareStatement(query);
+            ps1_2 = con.prepareStatement(_query);
             assertSame("SSPS should be taken from cache but is not the same.", ps1_1, ps1_2);
             ps1_2.execute();
             ps1_2.close();
             ps1_2.close();
 
-            ps1_1 = con.prepareStatement(query);
+            ps1_1 = con.prepareStatement(_query);
             assertNotSame("SSPS should not be taken from cache but is the same.", ps1_2, ps1_1);
             ps1_1.execute();
             ps1_1.close();
@@ -7204,7 +7204,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test again and combine with simple query
+        // test again and combine with simple _query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7514,7 +7514,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test again and combine with simple query
+        // test again and combine with simple _query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7852,7 +7852,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
 
-        // test again and combine with simple query
+        // test again and combine with simple _query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -8164,7 +8164,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test again and combine with simple query
+        // test again and combine with simple _query
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -8234,12 +8234,12 @@ public class StatementRegressionTest extends BaseTestCase {
 
     private class subTestBug68916ConcurrentTask implements Callable<String> {
         Connection testConnection = null;
-        String query = null;
+        String _query = null;
         boolean closeOnCompletionIsOverriden = false;
 
-        subTestBug68916ConcurrentTask(Connection testConnection, String query, boolean closeOnCompletionIsOverriden) {
+        subTestBug68916ConcurrentTask(Connection testConnection, String _query, boolean closeOnCompletionIsOverriden) {
             this.testConnection = testConnection;
-            this.query = query;
+            this._query = _query;
             this.closeOnCompletionIsOverriden = closeOnCompletionIsOverriden;
         }
 
@@ -8254,8 +8254,8 @@ public class StatementRegressionTest extends BaseTestCase {
                 testStatement = (StatementImpl) this.testConnection.createStatement();
                 testStatement.closeOnCompletion();
 
-                System.out.println(threadName + " is executing: " + this.query);
-                ResultSet testResultSet = testStatement.executeQuery(this.query);
+                System.out.println(threadName + " is executing: " + this._query);
+                ResultSet testResultSet = testStatement.executeQuery(this._query);
                 while (testResultSet.next()) {
                     count1++;
                 }
@@ -8318,14 +8318,14 @@ public class StatementRegressionTest extends BaseTestCase {
                 "INSERT INTO testBug71672 (ch, ct) VALUES ('B', 2), ('F', 6) ON DUPLICATE KEY UPDATE ct = -1 * (ABS(ct) + VALUES(ct))",
                 "INSERT INTO testBug71672 (ch, ct) VALUES ('G', 100)" }; // rewriteBatchedStatements needs > 4 queries
 
-        // expected update counts per query:
+        // expected update counts per _query:
         final int[] expectedUpdCountDef = new int[] { 3, 6, 1, 4, 1 };
-        // expected generated keys per query:
+        // expected generated keys per _query:
         final int[][] expectedGenKeysForChkODKU = new int[][] { { 1, 2, 3 }, { 4 }, { 8 }, { 8 }, { 11 } };
         final int[][] expectedGenKeysForNoChkODKU = new int[][] { { 1, 2, 3 }, { 4, 5, 6, 7, 8, 9 }, { 8 }, { 8, 9, 10, 11 }, { 11 } };
         final int[][] expectedGenKeysForBatchStmtRW = new int[][] { { 1 }, { 4 }, { 8 }, { 8 }, { 11 } };
 
-        // *** CONTROL DATA SET 2: query and params for batch PrepatedStatement
+        // *** CONTROL DATA SET 2: _query and params for batch PrepatedStatement
         final String queryBatchPStmt = "INSERT INTO testBug71672 (ch, ct) VALUES (?, ?) ON DUPLICATE KEY UPDATE ct = -1 * (ABS(ct) + VALUES(ct))";
         final String[] paramsBatchPStmt = new String[] { "A100", "C100", "D100", "B2", "C3", "D4", "E5", "F100", "B2", "F6", "G100" };
 
@@ -8394,8 +8394,8 @@ public class StatementRegressionTest extends BaseTestCase {
             // C. Test Statement.executeBatch() results
             createTable("testBug71672", tableDDL);
             testStmt = testConn.createStatement();
-            for (String query : queries) {
-                testStmt.addBatch(query);
+            for (String _query : queries) {
+                testStmt.addBatch(_query);
             }
             res = testStmt.executeBatch();
             assertEquals(testStep + ". Satement.executeBatch() result", expectedUpdCount.length, res.length);
@@ -8455,7 +8455,7 @@ public class StatementRegressionTest extends BaseTestCase {
         } while (!lastTest);
 
         // Test connection prop allowMultiQueries=true
-        // (behaves as if only first query has been executed)
+        // (behaves as if only first _query has been executed)
         lastTest = false;
         String allQueries = "";
         for (String q : queries) {
@@ -8499,16 +8499,16 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Check the update count and returned keys for an INSERT query using a Statement object. If expectedUpdateCount < 0 then runs Statement.execute() otherwise
+     * Check the update count and returned keys for an INSERT _query using a Statement object. If expectedUpdateCount < 0 then runs Statement.execute() otherwise
      * Statement.executeUpdate().
      */
-    public void testBug71672Statement(int testStep, Connection testConn, String query, int expectedUpdateCount, int[] expectedKeys) throws SQLException {
+    public void testBug71672Statement(int testStep, Connection testConn, String _query, int expectedUpdateCount, int[] expectedKeys) throws SQLException {
         Statement testStmt = testConn.createStatement();
 
         if (expectedUpdateCount < 0) {
-            assertFalse(testStep + ". Stmt.execute() result", testStmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(testStep + ". Stmt.execute() result", testStmt.execute(_query, Statement.RETURN_GENERATED_KEYS));
         } else {
-            assertEquals(testStep + ". Stmt.executeUpdate() result", expectedUpdateCount, testStmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(testStep + ". Stmt.executeUpdate() result", expectedUpdateCount, testStmt.executeUpdate(_query, Statement.RETURN_GENERATED_KEYS));
         }
 
         ResultSet testRS = testStmt.getGeneratedKeys();
@@ -8522,17 +8522,17 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Check the update count and returned keys for an INSERT query using a PreparedStatement object. If expectedUpdateCount < 0 then runs
+     * Check the update count and returned keys for an INSERT _query using a PreparedStatement object. If expectedUpdateCount < 0 then runs
      * PreparedStatement.execute() otherwise PreparedStatement.executeUpdate().
      */
-    public void testBug71672PreparedStatement(int testStep, Connection testConn, String query, int expectedUpdateCount, int[] expectedKeys)
+    public void testBug71672PreparedStatement(int testStep, Connection testConn, String _query, int expectedUpdateCount, int[] expectedKeys)
             throws SQLException {
-        PreparedStatement testPStmt = testConn.prepareStatement(query);
+        PreparedStatement testPStmt = testConn.prepareStatement(_query);
 
         if (expectedUpdateCount < 0) {
-            assertFalse(testStep + ". PrepStmt.execute() result", testPStmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(testStep + ". PrepStmt.execute() result", testPStmt.execute(_query, Statement.RETURN_GENERATED_KEYS));
         } else {
-            assertEquals(testStep + ". PrepStmt.executeUpdate() result", expectedUpdateCount, testPStmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(testStep + ". PrepStmt.executeUpdate() result", expectedUpdateCount, testPStmt.executeUpdate(_query, Statement.RETURN_GENERATED_KEYS));
         }
 
         ResultSet testRS = testPStmt.getGeneratedKeys();
@@ -8569,14 +8569,14 @@ public class StatementRegressionTest extends BaseTestCase {
                 "INSERT INTO testBug71923 (ch, ct, dt) VALUES ('C', 3, NULL), ('D', 4, 'ON DUPLICATE KEY UPDATE')" };
 
         int c = 0;
-        for (String query : testQueriesPositiveMatches) {
+        for (String _query : testQueriesPositiveMatches) {
             c++;
 
             // A. test Statement.execute()
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertFalse(this.stmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(this.stmt.execute(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.stmt.getGeneratedKeys();
             assertTrue(c + ".A Statement.execute() - generated keys row expected", this.rs.next());
             assertEquals(c + ".A Statement.execute() - wrong generated key value", 3, this.rs.getInt(1));
@@ -8589,7 +8589,7 @@ public class StatementRegressionTest extends BaseTestCase {
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertEquals(3, this.stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(3, this.stmt.executeUpdate(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.stmt.getGeneratedKeys();
             assertTrue(c + ".B Statement.executeUpdate() - generated keys row expected", this.rs.next());
             assertEquals(c + ".B Statement.executeUpdate() - wrong generated key value", 3, this.rs.getInt(1));
@@ -8597,13 +8597,13 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs.close();
 
             // prepare statement for next tet cases
-            this.pstmt = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            this.pstmt = this.conn.prepareStatement(_query, Statement.RETURN_GENERATED_KEYS);
 
             // C. test PreparedStatment.execute()
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertFalse(this.pstmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(this.pstmt.execute(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.pstmt.getGeneratedKeys();
             assertTrue(c + ".C PreparedStatment.execute() - generated keys row expected", this.rs.next());
             assertEquals(c + ".C PreparedStatment.execute() - wrong generated key value", 3, this.rs.getInt(1));
@@ -8616,7 +8616,7 @@ public class StatementRegressionTest extends BaseTestCase {
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertEquals(3, this.pstmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(3, this.pstmt.executeUpdate(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.pstmt.getGeneratedKeys();
             assertTrue(c + ".D PreparedStatment.executeUpdate() - generated keys row expected", this.rs.next());
             assertEquals(c + ".D PreparedStatment.executeUpdate() - wrong generated key value", 3, this.rs.getInt(1));
@@ -8627,14 +8627,14 @@ public class StatementRegressionTest extends BaseTestCase {
         }
 
         c = 0;
-        for (String query : testQueriesNegativeMatches) {
+        for (String _query : testQueriesNegativeMatches) {
             c++;
 
             // E. test Statement.execute()
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertFalse(this.stmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(this.stmt.execute(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.stmt.getGeneratedKeys();
             assertTrue(c + ".E Statement.execute() - generated keys 1st row expected", this.rs.next());
             assertEquals(c + ".E Statement.execute() - wrong 1st generated key value", 3, this.rs.getInt(1));
@@ -8649,7 +8649,7 @@ public class StatementRegressionTest extends BaseTestCase {
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertEquals(2, this.stmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(2, this.stmt.executeUpdate(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.stmt.getGeneratedKeys();
             assertTrue(c + ".F Statement.execute() - generated keys 1st row expected", this.rs.next());
             assertEquals(c + ".F Statement.execute() - wrong 1st generated key value", 3, this.rs.getInt(1));
@@ -8659,13 +8659,13 @@ public class StatementRegressionTest extends BaseTestCase {
             this.rs.close();
 
             // prepare statement for next tet cases
-            this.pstmt = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            this.pstmt = this.conn.prepareStatement(_query, Statement.RETURN_GENERATED_KEYS);
 
             // G. test PreparedStatment.execute()
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertFalse(this.pstmt.execute(query, Statement.RETURN_GENERATED_KEYS));
+            assertFalse(this.pstmt.execute(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.pstmt.getGeneratedKeys();
             assertTrue(c + ".G PreparedStatment.execute() - generated keys 1st row expected", this.rs.next());
             assertEquals(c + ".G PreparedStatment.execute() - wrong 1st generated key value", 3, this.rs.getInt(1));
@@ -8680,7 +8680,7 @@ public class StatementRegressionTest extends BaseTestCase {
             createTable("testBug71923", tableDDL);
             assertEquals(2, this.stmt.executeUpdate(defaultQuery));
 
-            assertEquals(2, this.pstmt.executeUpdate(query, Statement.RETURN_GENERATED_KEYS));
+            assertEquals(2, this.pstmt.executeUpdate(_query, Statement.RETURN_GENERATED_KEYS));
             this.rs = this.pstmt.getGeneratedKeys();
             assertTrue(c + ".H PreparedStatment.executeUpdate() - generated keys 1st row expected", this.rs.next());
             assertEquals(c + ".H PreparedStatment.executeUpdate() - wrong 1st generated key value", 3, this.rs.getInt(1));
@@ -8738,11 +8738,11 @@ public class StatementRegressionTest extends BaseTestCase {
 
         createTable("testBug74998", "(id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY, data LONGBLOB)"); // (*2)
 
-        StringBuilder query = new StringBuilder("INSERT INTO testBug74998 (data) VALUES ('X')");
+        StringBuilder _query = new StringBuilder("INSERT INTO testBug74998 (data) VALUES ('X')");
         for (int i = 0; i < 121; i++) {
-            query.append(",('X')");
+            _query.append(",('X')");
         }
-        assertEquals(122, this.stmt.executeUpdate(query.toString())); // (*3)
+        assertEquals(122, this.stmt.executeUpdate(_query.toString())); // (*3)
 
         int lengthOfRowForMultiPacket = maxAllowedPacketMinimumForTest - 15; // 32MB - 15Bytes causes an empty packet at the end of the multipacket sequence
 
@@ -9013,16 +9013,16 @@ public class StatementRegressionTest extends BaseTestCase {
         @Override
         public <T extends Resultset> T preProcess(Supplier<String> sql, Query interceptedQuery) {
             if (!(interceptedQuery instanceof ServerPreparedStatement || interceptedQuery instanceof ServerPreparedQuery)) {
-                String query = sql.get();
-                if (query == null && (interceptedQuery instanceof ClientPreparedStatement || interceptedQuery instanceof ClientPreparedQuery)) {
-                    query = interceptedQuery.toString();
-                    query = query.substring(query.indexOf(':') + 2);
+                String _query = sql.get();
+                if (_query == null && (interceptedQuery instanceof ClientPreparedStatement || interceptedQuery instanceof ClientPreparedQuery)) {
+                    _query = interceptedQuery.toString();
+                    _query = _query.substring(_query.indexOf(':') + 2);
                 }
 
-                if (query != null
-                        && ((query.startsWith("INSERT") || query.startsWith("UPDATE") || query.startsWith("CALL")) && !query.contains("no_ts_trunk"))) {
-                    if (this.sendFracSecs ^ query.contains(".999")) {
-                        fail("Wrong TIMESTAMP trunctation in query [" + query + "]");
+                if (_query != null
+                        && ((_query.startsWith("INSERT") || _query.startsWith("UPDATE") || _query.startsWith("CALL")) && !_query.contains("no_ts_trunk"))) {
+                    if (this.sendFracSecs ^ _query.contains(".999")) {
+                        fail("Wrong TIMESTAMP trunctation in _query [" + _query + "]");
                     }
                 }
             }
@@ -9034,7 +9034,7 @@ public class StatementRegressionTest extends BaseTestCase {
     /**
      * Tests fix for BUG#77681 - rewrite replace sql like insert when rewriteBatchedStatements=true (contribution)
      * 
-     * When using 'rewriteBatchedStatements=true' we rewrite several batched statements into one single query by extending its VALUES clause. Although INSERT
+     * When using 'rewriteBatchedStatements=true' we rewrite several batched statements into one single _query by extending its VALUES clause. Although INSERT
      * REPLACE have the same syntax, this wasn't happening for REPLACE statements.
      * 
      * This tests the number of queries actually sent to server when rewriteBatchedStatements is used and not by using a QueryInterceptor. The test is
@@ -9124,17 +9124,17 @@ public class StatementRegressionTest extends BaseTestCase {
 
         @Override
         public <T extends Resultset> T preProcess(Supplier<String> sql, Query interceptedQuery) {
-            String query = sql.get();
-            if (query == null && interceptedQuery instanceof ClientPreparedStatement) {
-                query = interceptedQuery.toString();
-                query = query.substring(query.indexOf(':') + 2);
+            String _query = sql.get();
+            if (_query == null && interceptedQuery instanceof ClientPreparedStatement) {
+                _query = interceptedQuery.toString();
+                _query = _query.substring(_query.indexOf(':') + 2);
             }
-            if (query != null && query.indexOf("testBug77681") != -1) {
-                System.out.println(this.execCounter + " --> " + query);
+            if (_query != null && _query.indexOf("testBug77681") != -1) {
+                System.out.println(this.execCounter + " --> " + _query);
                 if (this.execCounter > this.expected.length) {
                     fail("Failed to rewrite statements");
                 }
-                assertEquals("Wrong statement at execution number " + this.execCounter, this.expected[this.execCounter++], query.charAt(0));
+                assertEquals("Wrong statement at execution number " + this.execCounter, this.expected[this.execCounter++], _query.charAt(0));
             }
             return super.preProcess(sql, interceptedQuery);
         }
@@ -9417,7 +9417,7 @@ public class StatementRegressionTest extends BaseTestCase {
      * fail to be prepared. So, the connector ends up using client-side prepared statements after the number of open prepared statements on server hits the
      * value of 'max_prepared_stmt_count'.
      * 2. A prepared statement fails to be prepared when there are too many open prepared statements on server. By setting the options
-     * 'rewriteBatchedStatements=true&useServerPrepStmts=true' when a query happens to be rewritten a new (server-side) prepared statement is required but the
+     * 'rewriteBatchedStatements=true&useServerPrepStmts=true' when a _query happens to be rewritten a new (server-side) prepared statement is required but the
      * fail-safe mechanism isn't implemented in this spot, so, since the leakage described above already consumed all available prepared statements on server,
      * this ends up throwing the exception.
      * 
@@ -9668,12 +9668,12 @@ public class StatementRegressionTest extends BaseTestCase {
         @Override
         public <T extends Resultset> T preProcess(Supplier<String> sql, Query interceptedQuery) {
             if (isActive) {
-                String query = sql.get();
-                if (query == null && interceptedQuery instanceof ClientPreparedStatement) {
-                    query = interceptedQuery.toString();
-                    query = query.substring(query.indexOf(':') + 2);
+                String _query = sql.get();
+                if (_query == null && interceptedQuery instanceof ClientPreparedStatement) {
+                    _query = interceptedQuery.toString();
+                    _query = _query.substring(_query.indexOf(':') + 2);
                 }
-                fail(testCase + ": Unexpected query executed - " + query);
+                fail(testCase + ": Unexpected _query executed - " + _query);
             }
             return super.preProcess(sql, interceptedQuery);
         }
@@ -9744,7 +9744,7 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#84783 - query timeout is not working(thread hang).
+     * Tests fix for Bug#84783 - _query timeout is not working(thread hang).
      */
     public void testBug84783() throws Exception {
         // Test using a standard connection.

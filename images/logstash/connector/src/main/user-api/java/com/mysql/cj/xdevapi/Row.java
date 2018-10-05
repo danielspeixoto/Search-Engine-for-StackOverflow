@@ -35,7 +35,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
- * A row element returned from a SELECT query.
+ * A row element returned from a SELECT _query.
  */
 public interface Row {
     /**

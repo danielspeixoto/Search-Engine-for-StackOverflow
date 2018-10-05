@@ -165,7 +165,7 @@ public abstract class CoreSession implements Session {
         return this.protocol.sendAsync(message);
     }
 
-    public <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector) {
+    public <M extends Message, RES_T, R> RES_T _query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector) {
         this.protocol.send(message, 0);
         ColumnDefinition metadata = this.protocol.readMetadata();
         Iterator<Row> ris = this.protocol.getRowInputStream(metadata);

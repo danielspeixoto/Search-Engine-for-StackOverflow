@@ -1079,7 +1079,7 @@ public class ExprParser {
             }
             return e;
         } catch (IllegalArgumentException ex) {
-            throw new WrongArgumentException("Unable to parse query '" + this.string + "'", ex);
+            throw new WrongArgumentException("Unable to parse _query '" + this.string + "'", ex);
         }
     }
 
@@ -1163,7 +1163,7 @@ public class ExprParser {
     }
 
     /**
-     * Parse a document projection which is query to SELECT but with document paths as the target alias.
+     * Parse a document projection which is _query to SELECT but with document paths as the target alias.
      * 
      * @return list of {@link Projection} objects
      */

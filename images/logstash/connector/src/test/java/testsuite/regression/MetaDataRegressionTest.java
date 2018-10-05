@@ -216,8 +216,8 @@ public class MetaDataRegressionTest extends BaseTestCase {
             this.stmt.execute("DROP TABLE IF EXISTS charVarCharTest");
             this.stmt.execute("CREATE TABLE charVarCharTest (  TableName VARCHAR(64),  FieldName VARCHAR(64),  NextCounter INTEGER);");
 
-            String query = "SELECT TableName, FieldName, NextCounter FROM charVarCharTest";
-            this.rs = this.stmt.executeQuery(query);
+            String _query = "SELECT TableName, FieldName, NextCounter FROM charVarCharTest";
+            this.rs = this.stmt.executeQuery(_query);
 
             ResultSetMetaData rsmeta = this.rs.getMetaData();
 
@@ -1536,14 +1536,14 @@ public class MetaDataRegressionTest extends BaseTestCase {
         assertTrue(foundHost && foundPort);
     }
 
-    private void testAbsenceOfMetadataForQuery(String query) throws Exception {
+    private void testAbsenceOfMetadataForQuery(String _query) throws Exception {
         try {
-            this.pstmt = this.conn.prepareStatement(query);
+            this.pstmt = this.conn.prepareStatement(_query);
             ResultSetMetaData rsmd = this.pstmt.getMetaData();
 
             assertNull(rsmd);
 
-            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement(query);
+            this.pstmt = ((com.mysql.cj.jdbc.JdbcConnection) this.conn).clientPrepareStatement(_query);
             rsmd = this.pstmt.getMetaData();
 
             assertNull(rsmd);
@@ -1899,7 +1899,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
      * DBMD.getTypeInfo(), and capitalization of types is not consistent between
      * DBMD.getColumns(), RSMD.getColumnTypeName() and DBMD.getTypeInfo().
      * 
-     * This fix also ensures that the precision of UNSIGNED MEDIUMINT and
+     * This fix also ensures that the _precision of UNSIGNED MEDIUMINT and
      * UNSIGNED BIGINT is reported correctly via DBMD.getColumns().
      * 
      * Second fix ensures that list values of ENUM and SET types containing
@@ -2188,7 +2188,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 Types.CHAR, // 2. COLUMN_NAME String => column name
                 Types.INTEGER, // 3. DATA_TYPE int => SQL data type from java.sql.Types
                 Types.CHAR, // 4. TYPE_NAME String => Data source dependent type name, for a UDT the type name is fully qualified
-                Types.INTEGER, // 5. COLUMN_SIZE int => precision
+                Types.INTEGER, // 5. COLUMN_SIZE int => _precision
                 Types.INTEGER, // 6. BUFFER_LENGTH int => not used
                 Types.SMALLINT, // 7. DECIMAL_DIGITS short => scale
                 Types.SMALLINT, // 8. PSEUDO_COLUMN short => is this a pseudo column like an Oracle ROWID
@@ -2203,7 +2203,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 Types.CHAR, // COLUMN_NAME String => column name
                 Types.INTEGER, // DATA_TYPE int => SQL data type from java.sql.Types
                 Types.CHAR, // TYPE_NAME String => Data source-dependent type name
-                Types.INTEGER, // COLUMN_SIZE int => precision
+                Types.INTEGER, // COLUMN_SIZE int => _precision
                 Types.INTEGER, // BUFFER_LENGTH int => length of column value in bytes
                 Types.SMALLINT, // DECIMAL_DIGITS short => scale
                 Types.SMALLINT // PSEUDO_COLUMN short => whether this is pseudo column like an Oracle ROWID
@@ -2221,7 +2221,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                 Types.INTEGER, // 5. DATA_TYPE int => SQL type from java.sql.Types
                 Types.CHAR, // 6. TYPE_NAME String => Data source dependent type name, for a UDT the type name is fully qualified
                 Types.INTEGER, // 7. COLUMN_SIZE int => column size. For char or date types this is the maximum number of characters, for numeric or decimal
-                // types this is precision.
+                // types this is _precision.
                 Types.INTEGER, // 8. BUFFER_LENGTH is not used.
                 Types.INTEGER, // 9. DECIMAL_DIGITS int => the number of fractional digits
                 Types.INTEGER, // 10. NUM_PREC_RADIX int => Radix (typically either 10 or 2)
@@ -2250,7 +2250,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
 
         types = new int[] { Types.CHAR, // 1. TYPE_NAME String => Type name
                 Types.INTEGER, // 2. DATA_TYPE int => SQL data type from java.sql.Types
-                Types.INTEGER, // 3. PRECISION int => maximum precision
+                Types.INTEGER, // 3. PRECISION int => maximum _precision
                 Types.CHAR, // 4. LITERAL_PREFIX String => prefix used to quote a literal (may be null)
                 Types.CHAR, // 5. LITERAL_SUFFIX String => suffix used to quote a literal (may be null)
                 Types.CHAR, // 6. CREATE_PARAMS String => parameters used in creating the type (may be null)
@@ -2646,7 +2646,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
 
     /**
      * Tests fix for BUG#61332 - Check if "LIKE" or "=" is sent
-     * to server in I__S query when no wildcards are supplied
+     * to server in I__S _query when no wildcards are supplied
      * for schema parameter.
      * 
      * @throws Exception
@@ -2804,7 +2804,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#63456 - MetaData precision is different when using UTF8 or Latin1 tables
+     * Tests fix for BUG#63456 - MetaData _precision is different when using UTF8 or Latin1 tables
      * 
      * @throws Exception
      *             if the test fails.
@@ -4370,7 +4370,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#76187 (20675539), getTypeInfo report maximum precision of 255 for varchar.
+     * Tests fix for BUG#76187 (20675539), getTypeInfo report maximum _precision of 255 for varchar.
      * 
      * @throws Exception
      *             if the test fails.

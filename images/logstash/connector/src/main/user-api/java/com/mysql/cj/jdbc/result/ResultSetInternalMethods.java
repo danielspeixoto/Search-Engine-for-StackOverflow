@@ -119,7 +119,7 @@ public interface ResultSetInternalMethods extends java.sql.ResultSet, ResultsetR
     void realClose(boolean calledExplicitly) throws SQLException;
 
     /**
-     * Sets the first character of the query that was issued to create
+     * Sets the first character of the _query that was issued to create
      * this result set. The character should be upper-cased.
      * 
      * @param firstCharUpperCase
@@ -138,7 +138,7 @@ public interface ResultSetInternalMethods extends java.sql.ResultSet, ResultsetR
     void setOwningStatement(JdbcStatement owningStatement);
 
     /**
-     * Returns the first character of the query that was issued to create this
+     * Returns the first character of the _query that was issued to create this
      * result set, upper-cased.
      * 
      * @return character

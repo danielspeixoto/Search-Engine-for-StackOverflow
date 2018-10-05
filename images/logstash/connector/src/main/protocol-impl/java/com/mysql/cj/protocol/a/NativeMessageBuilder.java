@@ -55,19 +55,19 @@ public class NativeMessageBuilder implements MessageBuilder<NativePacketPayload>
         throw ExceptionFactory.createException(CJOperationNotSupportedException.class, "Not supported");
     }
 
-    public NativePacketPayload buildComQuery(NativePacketPayload sharedPacket, byte[] query) {
-        NativePacketPayload packet = sharedPacket != null ? sharedPacket : new NativePacketPayload(query.length + 1);
+    public NativePacketPayload buildComQuery(NativePacketPayload sharedPacket, byte[] _query) {
+        NativePacketPayload packet = sharedPacket != null ? sharedPacket : new NativePacketPayload(_query.length + 1);
         packet.writeInteger(IntegerDataType.INT1, NativeConstants.COM_QUERY);
-        packet.writeBytes(StringLengthDataType.STRING_FIXED, query);
+        packet.writeBytes(StringLengthDataType.STRING_FIXED, _query);
         return packet;
     }
 
-    public NativePacketPayload buildComQuery(NativePacketPayload sharedPacket, String query) {
-        return buildComQuery(sharedPacket, StringUtils.getBytes(query));
+    public NativePacketPayload buildComQuery(NativePacketPayload sharedPacket, String _query) {
+        return buildComQuery(sharedPacket, StringUtils.getBytes(_query));
     }
 
-    public NativePacketPayload buildComQuery(NativePacketPayload sharedPacket, String query, String encoding) {
-        return buildComQuery(sharedPacket, StringUtils.getBytes(query, encoding));
+    public NativePacketPayload buildComQuery(NativePacketPayload sharedPacket, String _query, String encoding) {
+        return buildComQuery(sharedPacket, StringUtils.getBytes(_query, encoding));
     }
 
     public NativePacketPayload buildComInitDb(NativePacketPayload sharedPacket, byte[] dbName) {
@@ -106,10 +106,10 @@ public class NativeMessageBuilder implements MessageBuilder<NativePacketPayload>
         return packet;
     }
 
-    public NativePacketPayload buildComStmtPrepare(NativePacketPayload sharedPacket, byte[] query) {
-        NativePacketPayload packet = sharedPacket != null ? sharedPacket : new NativePacketPayload(query.length + 1);
+    public NativePacketPayload buildComStmtPrepare(NativePacketPayload sharedPacket, byte[] _query) {
+        NativePacketPayload packet = sharedPacket != null ? sharedPacket : new NativePacketPayload(_query.length + 1);
         packet.writeInteger(IntegerDataType.INT1, NativeConstants.COM_STMT_PREPARE);
-        packet.writeBytes(StringLengthDataType.STRING_FIXED, query);
+        packet.writeBytes(StringLengthDataType.STRING_FIXED, _query);
         return packet;
     }
 

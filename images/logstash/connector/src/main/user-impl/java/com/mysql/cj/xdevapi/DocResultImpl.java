@@ -35,7 +35,7 @@ import com.mysql.cj.protocol.x.StatementExecuteOk;
 import com.mysql.cj.result.RowList;
 
 /**
- * A sequence of documents retrieved from a find query.
+ * A sequence of documents retrieved from a find _query.
  */
 public class DocResultImpl extends AbstractDataResult<DbDoc> implements DocResult {
 

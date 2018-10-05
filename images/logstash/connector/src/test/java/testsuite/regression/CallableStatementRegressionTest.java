@@ -796,7 +796,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                 java.sql.DatabaseMetaData.procedureColumnOut, java.sql.DatabaseMetaData.procedureColumnIn, java.sql.DatabaseMetaData.procedureColumnIn,
                 java.sql.DatabaseMetaData.procedureColumnOut };
 
-        int[] precision = new int[] { 20, 10, 10, 10, 10, 10, 2000, 2000, 8000, 10, 2000, 10 };
+        int[] _precision = new int[] { 20, 10, 10, 10, 10, 10, 2000, 2000, 8000, 10, 2000, 10 };
 
         int index = 0;
 
@@ -811,10 +811,10 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                 case 8:
                 case 10:
                 case 11:
-                    assertEquals(precision[index], this.rs.getInt("LENGTH"));
+                    assertEquals(_precision[index], this.rs.getInt("LENGTH"));
                     break;
                 default:
-                    assertEquals(precision[index], this.rs.getInt("PRECISION"));
+                    assertEquals(_precision[index], this.rs.getInt("PRECISION"));
             }
 
             assertEquals(direction[index], this.rs.getInt("COLUMN_TYPE"));
@@ -826,7 +826,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
         index = 0;
         parameterNames = new String[] { "/*id*/", "result2" };
         parameterTypes = new int[] { Types.VARCHAR, Types.DECIMAL };
-        precision = new int[] { 20, 10 };
+        _precision = new int[] { 20, 10 };
         direction = new int[] { java.sql.DatabaseMetaData.procedureColumnIn, java.sql.DatabaseMetaData.procedureColumnOut };
         int[] scale = new int[] { 0, 2 };
 
@@ -844,10 +844,10 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                 case 8:
                 case 10:
                 case 11:
-                    assertEquals(precision[index], this.rs.getInt("LENGTH"));
+                    assertEquals(_precision[index], this.rs.getInt("LENGTH"));
                     break;
                 default:
-                    assertEquals(precision[index], this.rs.getInt("PRECISION"));
+                    assertEquals(_precision[index], this.rs.getInt("PRECISION"));
             }
             assertEquals(scale[index], this.rs.getInt("SCALE"));
             assertEquals(direction[index], this.rs.getInt("COLUMN_TYPE"));
@@ -1525,7 +1525,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                 cstmtP.execute();
                 return null;
             }
-        }); // Although the procedure metadata could be obtained, the end query actually fails due to syntax errors.
+        }); // Although the procedure metadata could be obtained, the end _query actually fails due to syntax errors.
         cstmtP.close();
 
         /*
@@ -1561,7 +1561,7 @@ public class CallableStatementRegressionTest extends BaseTestCase {
                 cstmtF.execute();
                 return null;
             }
-        }); // Although the function metadata could be obtained, the end query actually fails due to syntax errors.
+        }); // Although the function metadata could be obtained, the end _query actually fails due to syntax errors.
         cstmtP.close();
         cstmtF.close();
     }

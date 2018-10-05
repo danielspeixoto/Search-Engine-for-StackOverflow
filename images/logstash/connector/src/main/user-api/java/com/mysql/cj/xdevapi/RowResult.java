@@ -32,7 +32,7 @@ package com.mysql.cj.xdevapi;
 import java.util.List;
 
 /**
- * A result exposing a set of rows from a SELECT query.
+ * A result exposing a set of rows from a SELECT _query.
  */
 public interface RowResult extends FetchResult<Row> {
     /**

@@ -141,12 +141,12 @@ public class TableImpl implements Table {
 
     @Override
     public boolean isView() {
-        // if this.isView isn't set (was unknown on the table construction time) then query database
+        // if this.isView isn't set (was unknown on the table construction time) then _query database
         if (this.isView == null) {
             ValueFactory<String> svf = new StringValueFactory();
             Function<Row, DatabaseObjectDescription> rowToDatabaseObjectDescription = r -> new DatabaseObjectDescription(r.getValue(0, svf),
                     r.getValue(1, svf));
-            List<DatabaseObjectDescription> objects = this.mysqlxSession.query(this.xbuilder.buildListObjects(this.schema.getName(), this.name), null,
+            List<DatabaseObjectDescription> objects = this.mysqlxSession._query(this.xbuilder.buildListObjects(this.schema.getName(), this.name), null,
                     rowToDatabaseObjectDescription, Collectors.toList());
             if (objects.isEmpty()) {
                 // object not found, means it doesn't exist in database

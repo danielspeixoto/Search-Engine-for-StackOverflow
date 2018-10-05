@@ -72,7 +72,7 @@ public class StringConverter<T> extends BaseDecoratingValueFactory<T> {
 
     private void issueConversionViaParsingWarning() {
         // TODO context information for the profiler event is unavailable here.
-        // Context information should be provided at higher levels. this includes catalog, query, rs metadata, etc
+        // Context information should be provided at higher levels. this includes catalog, _query, rs metadata, etc
         if (this.eventSink == null) {
             return;
         }

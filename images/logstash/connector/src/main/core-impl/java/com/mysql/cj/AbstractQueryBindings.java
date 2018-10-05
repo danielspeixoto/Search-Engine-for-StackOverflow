@@ -73,7 +73,7 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
     protected RuntimeProperty<Boolean> sendFractionalSeconds;
     private RuntimeProperty<Boolean> treatUtilDateAsTimestamp;
 
-    /** Is this query a LOAD DATA query? */
+    /** Is this _query a LOAD DATA _query? */
     protected boolean isLoadDataQuery = false;
 
     public AbstractQueryBindings(int parameterCount, Session sess) {

@@ -34,7 +34,7 @@ package com.mysql.cj.protocol;
  * eg., for native protocol, a ProtocolText::Resultset or ProtocolBinary::Resultset entity.
  * 
  * See:
- * http://dev.mysql.com/doc/internals/en/com-query-response.html#packet-ProtocolText::Resultset
+ * http://dev.mysql.com/doc/internals/en/com-_query-response.html#packet-ProtocolText::Resultset
  * http://dev.mysql.com/doc/internals/en/binary-protocol-resultset.html
  *
  */

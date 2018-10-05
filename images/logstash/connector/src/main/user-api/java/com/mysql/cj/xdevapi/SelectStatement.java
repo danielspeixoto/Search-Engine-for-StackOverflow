@@ -30,11 +30,11 @@
 package com.mysql.cj.xdevapi;
 
 /**
- * A statement representing a SELECT query.
+ * A statement representing a SELECT _query.
  */
 public interface SelectStatement extends Statement<SelectStatement, RowResult> {
     /**
-     * Add/replace the search condition for this query.
+     * Add/replace the search condition for this _query.
      * 
      * @param searchCondition
      *            search condition expression
@@ -43,7 +43,7 @@ public interface SelectStatement extends Statement<SelectStatement, RowResult> {
     SelectStatement where(String searchCondition);
 
     /**
-     * Add/replace the aggregation fields for this query.
+     * Add/replace the aggregation fields for this _query.
      * 
      * @param groupBy
      *            groupBy expression
@@ -52,7 +52,7 @@ public interface SelectStatement extends Statement<SelectStatement, RowResult> {
     SelectStatement groupBy(String... groupBy);
 
     /**
-     * Add/replace the aggregate criteria for this query.
+     * Add/replace the aggregate criteria for this _query.
      * 
      * @param having
      *            having expression
@@ -61,7 +61,7 @@ public interface SelectStatement extends Statement<SelectStatement, RowResult> {
     SelectStatement having(String having);
 
     /**
-     * Add/replace the order specification for this query.
+     * Add/replace the order specification for this _query.
      * 
      * @param sortFields
      *            sort expression
@@ -70,7 +70,7 @@ public interface SelectStatement extends Statement<SelectStatement, RowResult> {
     SelectStatement orderBy(String... sortFields);
 
     /**
-     * Add/replace the row limit for this query.
+     * Add/replace the row limit for this _query.
      * 
      * @param numberOfRows
      *            limit
@@ -79,7 +79,7 @@ public interface SelectStatement extends Statement<SelectStatement, RowResult> {
     SelectStatement limit(long numberOfRows);
 
     /**
-     * Add/replace the row offset for this query.
+     * Add/replace the row offset for this _query.
      * 
      * @param limitOffset
      *            limit offset

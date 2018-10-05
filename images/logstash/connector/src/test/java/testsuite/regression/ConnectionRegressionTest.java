@@ -1829,7 +1829,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Test of a new feature to fix BUG 22643, specifying a "validation query"
+     * Test of a new feature to fix BUG 22643, specifying a "validation _query"
      * in your connection pool that starts with "slash-star ping slash-star"
      * _exactly_ will cause the driver to " + instead send a ping to the server
      * (much lighter weight), and when using a ReplicationConnection or a
@@ -1862,7 +1862,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
     }
 
     private void checkPingQuery(Connection c) throws SQLException {
-        // Yes, I know we're sending 2, and looking for 1 that's part of the test, since we don't _really_ send the query to the server!
+        // Yes, I know we're sending 2, and looking for 1 that's part of the test, since we don't _really_ send the _query to the server!
         String aPingQuery = "/* ping */ SELECT 2";
         Statement pingStmt = c.createStatement();
         PreparedStatement pingPStmt = null;
@@ -4557,7 +4557,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             testConn = getConnectionWithProps(props);
             testSt = testConn.createStatement();
             testRs = testSt.executeQuery("SELECT * FROM `" + dbname + "`.`\u307b\u3052\u307b\u3052`");
-            fail("Exception should be thrown for attemping to query non-existing table");
+            fail("Exception should be thrown for attemping to _query non-existing table");
         } catch (SQLException e1) {
             if (e1.getClass().getName().endsWith("SQLSyntaxErrorException")) {
                 assertEquals("Table '" + dbname + ".\u307B\u3052\u307b\u3052' doesn't exist", e1.getMessage());
@@ -6520,9 +6520,9 @@ public class ConnectionRegressionTest extends BaseTestCase {
          */
         try {
             final int timeout = 10000;
-            final String query = "SELECT SLEEP(15)";
+            final String _query = "SELECT SLEEP(15)";
 
-            // 1. run a very slow query in a different thread
+            // 1. run a very slow _query in a different thread
             Executors.newSingleThreadExecutor().execute(new Runnable() {
                 public void run() {
                     try {
@@ -6530,7 +6530,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                         Connection testConn = getConnectionWithProps("socketTimeout=" + timeout);
                         Statement testStmt = testConn.createStatement();
                         try {
-                            testStmt.execute(query);
+                            testStmt.execute(_query);
                         } catch (SQLException e) {
                             assertEquals("Can not read response from server. Expected to read 4 bytes, read 0 bytes before connection was unexpectedly lost.",
                                     e.getCause().getMessage());
@@ -6543,7 +6543,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 }
             });
 
-            // 2. kill the connection running the slow query, at server side, to make sure the driver doesn't hang after its killed
+            // 2. kill the connection running the slow _query, at server side, to make sure the driver doesn't hang after its killed
             final long timestamp = System.currentTimeMillis();
             long elapsedTime = 0;
 
@@ -6551,7 +6551,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             while (run) {
                 this.rs = this.stmt.executeQuery("SHOW PROCESSLIST");
                 while (this.rs.next()) {
-                    if (query.equals(this.rs.getString(8))) {
+                    if (_query.equals(this.rs.getString(8))) {
                         this.stmt.execute("KILL CONNECTION " + this.rs.getInt(1));
                         run = false;
                         break;
@@ -7832,7 +7832,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      * connections. Later on, the second thread, eventually initiates a failover procedure too and hits the lock on {@link ReplicationConnectionGroup} owned by
      * the first thread. The first thread, at the same time, requires that the lock on {@link ReplicationConnection} is released by the second thread to be able
      * to complete the failover procedure is has initiated before.
-     * (*) Executing a query may trigger this too via locking on {@link LoadBalancedConnectionProxy}.
+     * (*) Executing a _query may trigger this too via locking on {@link LoadBalancedConnectionProxy}.
      * 
      * This test simulates the way Fabric connections operate when they need to synchronize the list of servers from a {@link ReplicationConnection} with the
      * Fabric's server group. In that operation we, like Fabric connections, use an {@link ExceptionInterceptor} that ends up changing the
@@ -9704,7 +9704,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      */
     public void testBug74711() throws Exception {
         if (!((MysqlConnection) this.conn).getSession().getServerSession().isQueryCacheEnabled()) {
-            System.err.println("Warning! testBug77411() requires a server supporting a query cache.");
+            System.err.println("Warning! testBug77411() requires a server supporting a _query cache.");
             return;
         }
         this.rs = this.stmt.executeQuery("SELECT @@global.query_cache_type, @@global.query_cache_size");
@@ -10413,7 +10413,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
 
         int key = 0;
         for (int i = 0; i < 5; i++) {
-            // Execute a query that runs faster than the socket timeout limit.
+            // Execute a _query that runs faster than the socket timeout limit.
             ps.setInt(1, ++key);
             ps.setInt(2, 0);
             try {
@@ -10425,7 +10425,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 fail("Exception [" + e.getClass().getName() + ": " + e.getMessage() + "] caught when no exception was expected.");
             }
 
-            // Execute a query that runs slower than the socket timeout limit.
+            // Execute a _query that runs slower than the socket timeout limit.
             ps.setInt(1, ++key);
             ps.setInt(2, 2);
             final PreparedStatement localPstmt = ps;

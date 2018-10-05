@@ -124,10 +124,10 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
 
         checkNullOrEmptyQuery(sql);
         String statementComment = this.session.getProtocol().getQueryComment();
-        ((PreparedQuery<?>) this.query).setOriginalSql(statementComment == null ? sql : "/* " + statementComment + " */ " + sql);
-        ((PreparedQuery<?>) this.query).setParseInfo(new ParseInfo(((PreparedQuery<?>) this.query).getOriginalSql(), this.session, this.charEncoding));
+        ((PreparedQuery<?>) this._query).setOriginalSql(statementComment == null ? sql : "/* " + statementComment + " */ " + sql);
+        ((PreparedQuery<?>) this._query).setParseInfo(new ParseInfo(((PreparedQuery<?>) this._query).getOriginalSql(), this.session, this.charEncoding));
 
-        this.hasOnDuplicateKeyUpdate = ((PreparedQuery<?>) this.query).getParseInfo().getFirstStmtChar() == 'I' && containsOnDuplicateKeyInString(sql);
+        this.hasOnDuplicateKeyUpdate = ((PreparedQuery<?>) this._query).getParseInfo().getFirstStmtChar() == 'I' && containsOnDuplicateKeyInString(sql);
 
         try {
             serverPrepare(sql);
@@ -144,7 +144,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
 
     @Override
     protected void initQuery() {
-        this.query = ServerPreparedQuery.getInstance(this.session);
+        this._query = ServerPreparedQuery.getInstance(this.session);
     }
 
     @Override
@@ -152,7 +152,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
         StringBuilder toStringBuf = new StringBuilder();
 
         toStringBuf.append(this.getClass().getName() + "[");
-        toStringBuf.append(((ServerPreparedQuery) this.query).getServerStatementId());
+        toStringBuf.append(((ServerPreparedQuery) this._query).getServerStatementId());
         toStringBuf.append("]: ");
 
         try {
@@ -168,7 +168,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
     @Override
     public void addBatch() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            this.query.addBatch(((PreparedQuery<?>) this.query).getQueryBindings().clone());
+            this._query.addBatch(((PreparedQuery<?>) this._query).getQueryBindings().clone());
         }
     }
 
@@ -180,12 +180,12 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
             ClientPreparedStatement pStmtForSub = null;
 
             try {
-                pStmtForSub = ClientPreparedStatement.getInstance(this.connection, ((PreparedQuery<?>) this.query).getOriginalSql(), this.getCurrentCatalog());
+                pStmtForSub = ClientPreparedStatement.getInstance(this.connection, ((PreparedQuery<?>) this._query).getOriginalSql(), this.getCurrentCatalog());
 
-                int numParameters = ((PreparedQuery<?>) pStmtForSub.query).getParameterCount();
-                int ourNumParameters = ((PreparedQuery<?>) this.query).getParameterCount();
+                int numParameters = ((PreparedQuery<?>) pStmtForSub._query).getParameterCount();
+                int ourNumParameters = ((PreparedQuery<?>) this._query).getParameterCount();
 
-                ServerPreparedQueryBindValue[] parameterBindings = ((ServerPreparedQuery) this.query).getQueryBindings().getBindValues();
+                ServerPreparedQueryBindValue[] parameterBindings = ((ServerPreparedQuery) this._query).getQueryBindings().getBindValues();
 
                 for (int i = 0; (i < numParameters) && (i < ourNumParameters); i++) {
                     if (parameterBindings[i] != null) {
@@ -250,7 +250,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
     @Override
     public void clearParameters() {
         synchronized (checkClosed().getConnectionMutex()) {
-            ((ServerPreparedQuery) this.query).clearParameters(true);
+            ((ServerPreparedQuery) this._query).clearParameters(true);
         }
     }
 
@@ -296,13 +296,13 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
 
             // Store this for later, we're going to 'swap' them out
             // as we execute each batched statement...
-            ServerPreparedQueryBindValue[] oldBindValues = ((ServerPreparedQuery) this.query).getQueryBindings().getBindValues();
+            ServerPreparedQueryBindValue[] oldBindValues = ((ServerPreparedQuery) this._query).getQueryBindings().getBindValues();
 
             try {
                 long[] updateCounts = null;
 
-                if (this.query.getBatchedArgs() != null) {
-                    int nbrCommands = this.query.getBatchedArgs().size();
+                if (this._query.getBatchedArgs() != null) {
+                    int nbrCommands = this._query.getBatchedArgs().size();
                     updateCounts = new long[nbrCommands];
 
                     if (this.retrieveGeneratedKeys) {
@@ -325,7 +325,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
                         timeoutTask = startQueryTimer(this, batchTimeout);
 
                         for (commandIndex = 0; commandIndex < nbrCommands; commandIndex++) {
-                            Object arg = this.query.getBatchedArgs().get(commandIndex);
+                            Object arg = this._query.getBatchedArgs().get(commandIndex);
 
                             try {
                                 if (arg instanceof String) {
@@ -334,15 +334,15 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
                                     // limit one generated key per OnDuplicateKey statement
                                     getBatchedGeneratedKeys(this.results.getFirstCharOfQuery() == 'I' && containsOnDuplicateKeyInString((String) arg) ? 1 : 0);
                                 } else {
-                                    ((ServerPreparedQuery) this.query).setQueryBindings((ServerPreparedQueryBindings) arg);
-                                    ServerPreparedQueryBindValue[] parameterBindings = ((ServerPreparedQuery) this.query).getQueryBindings().getBindValues();
+                                    ((ServerPreparedQuery) this._query).setQueryBindings((ServerPreparedQueryBindings) arg);
+                                    ServerPreparedQueryBindValue[] parameterBindings = ((ServerPreparedQuery) this._query).getQueryBindings().getBindValues();
 
                                     // We need to check types each time, as the user might have bound different types in each addBatch()
 
                                     if (previousBindValuesForBatch != null) {
                                         for (int j = 0; j < parameterBindings.length; j++) {
                                             if (parameterBindings[j].bufferType != previousBindValuesForBatch[j].bufferType) {
-                                                ((ServerPreparedQuery) this.query).getQueryBindings().getSendTypesToServer().set(true);
+                                                ((ServerPreparedQuery) this._query).getQueryBindings().getSendTypesToServer().set(true);
 
                                                 break;
                                             }
@@ -384,8 +384,8 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
 
                 return (updateCounts != null) ? updateCounts : new long[0];
             } finally {
-                ((ServerPreparedQuery) this.query).getQueryBindings().setBindValues(oldBindValues);
-                ((ServerPreparedQuery) this.query).getQueryBindings().getSendTypesToServer().set(true);
+                ((ServerPreparedQuery) this._query).getQueryBindings().setBindValues(oldBindValues);
+                ((ServerPreparedQuery) this._query).getQueryBindings().getSendTypesToServer().set(true);
 
                 clearBatch();
             }
@@ -406,8 +406,8 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
     protected <M extends Message> com.mysql.cj.jdbc.result.ResultSetInternalMethods executeInternal(int maxRowsToRetrieve, M sendPacket,
             boolean createStreamingResultSet, boolean queryIsSelectOnly, ColumnDefinition metadata, boolean isBatch) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            ((PreparedQuery<?>) this.query).getQueryBindings()
-                    .setNumberOfExecutions(((PreparedQuery<?>) this.query).getQueryBindings().getNumberOfExecutions() + 1);
+            ((PreparedQuery<?>) this._query).getQueryBindings()
+                    .setNumberOfExecutions(((PreparedQuery<?>) this._query).getQueryBindings().getNumberOfExecutions() + 1);
 
             // We defer to server-side execution
             try {
@@ -466,7 +466,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
     protected ServerPreparedQueryBindValue getBinding(int parameterIndex, boolean forLongData) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
             int i = getCoreParameterIndex(parameterIndex);
-            return ((ServerPreparedQuery) this.query).getQueryBindings().getBinding(i, forLongData);
+            return ((ServerPreparedQuery) this._query).getQueryBindings().getBinding(i, forLongData);
         }
     }
 
@@ -474,7 +474,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
     public java.sql.ResultSetMetaData getMetaData() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
 
-            ColumnDefinition resultFields = ((ServerPreparedQuery) this.query).getResultFields();
+            ColumnDefinition resultFields = ((ServerPreparedQuery) this._query).getResultFields();
 
             return resultFields == null || resultFields.getFields() == null ? null : new ResultSetMetaData(this.session, resultFields.getFields(),
                     this.session.getPropertySet().getBooleanProperty(PropertyDefinitions.PNAME_useOldAliasMetadataBehavior).getValue(),
@@ -487,8 +487,8 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
         synchronized (checkClosed().getConnectionMutex()) {
 
             if (this.parameterMetaData == null) {
-                this.parameterMetaData = new MysqlParameterMetadata(this.session, ((ServerPreparedQuery) this.query).getParameterFields(),
-                        ((PreparedQuery<?>) this.query).getParameterCount(), this.exceptionInterceptor);
+                this.parameterMetaData = new MysqlParameterMetadata(this.session, ((ServerPreparedQuery) this._query).getParameterFields(),
+                        ((PreparedQuery<?>) this._query).getParameterCount(), this.exceptionInterceptor);
             }
 
             return this.parameterMetaData;
@@ -525,7 +525,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
                     synchronized (this.connection.getConnectionMutex()) {
                         try {
 
-                            this.session.sendCommand(this.commandBuilder.buildComStmtClose(null, ((ServerPreparedQuery) this.query).getServerStatementId()),
+                            this.session.sendCommand(this.commandBuilder.buildComStmtClose(null, ((ServerPreparedQuery) this._query).getServerStatementId()),
                                     true, 0);
                         } catch (CJException sqlEx) {
                             exceptionDuringClose = sqlEx;
@@ -539,7 +539,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
                 }
                 super.realClose(calledExplicitly, closeOpenResults);
 
-                ((ServerPreparedQuery) this.query).clearParameters(false);
+                ((ServerPreparedQuery) this._query).clearParameters(false);
 
                 if (exceptionDuringClose != null) {
                     throw exceptionDuringClose;
@@ -560,7 +560,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
             this.invalidationException = null;
 
             try {
-                serverPrepare(((PreparedQuery<?>) this.query).getOriginalSql());
+                serverPrepare(((PreparedQuery<?>) this._query).getOriginalSql());
             } catch (Exception ex) {
                 this.invalidationException = ExceptionFactory.createException(ex.getMessage(), ex);
             }
@@ -568,7 +568,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
             if (this.invalidationException != null) {
                 this.invalid = true;
 
-                this.query.closeQuery();
+                this._query.closeQuery();
 
                 if (this.results != null) {
                     try {
@@ -602,7 +602,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
      * 
      * <pre>
      *    -   Server gets the command 'COM_EXECUTE' to execute the
-     *        previously         prepared query. If there is any param markers;
+     *        previously         prepared _query. If there is any param markers;
      *  then client will send the data in the following format:
      * 
      *  [COM_EXECUTE:1]
@@ -628,7 +628,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
      */
     protected ResultSetInternalMethods serverExecute(int maxRowsToRetrieve, boolean createStreamingResultSet, ColumnDefinition metadata) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            this.results = ((ServerPreparedQuery) this.query).serverExecute(maxRowsToRetrieve, createStreamingResultSet, metadata, this.resultSetFactory);
+            this.results = ((ServerPreparedQuery) this._query).serverExecute(maxRowsToRetrieve, createStreamingResultSet, metadata, this.resultSetFactory);
             return this.results;
         }
     }
@@ -637,7 +637,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
         synchronized (checkClosed().getConnectionMutex()) {
             try {
 
-                ServerPreparedQuery q = (ServerPreparedQuery) this.query;
+                ServerPreparedQuery q = (ServerPreparedQuery) this._query;
                 q.serverPrepare(sql);
             } catch (IOException ioEx) {
                 throw SQLError.createCommunicationsException(this.connection, this.session.getProtocol().getPacketSentTimeHolder(),
@@ -646,9 +646,9 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
                 SQLException ex = SQLExceptionsMapping.translateException(sqlEx);
 
                 if (this.dumpQueriesOnException.getValue()) {
-                    StringBuilder messageBuf = new StringBuilder(((PreparedQuery<?>) this.query).getOriginalSql().length() + 32);
+                    StringBuilder messageBuf = new StringBuilder(((PreparedQuery<?>) this._query).getOriginalSql().length() + 32);
                     messageBuf.append("\n\nQuery being prepared when exception was thrown:\n\n");
-                    messageBuf.append(((PreparedQuery<?>) this.query).getOriginalSql());
+                    messageBuf.append(((PreparedQuery<?>) this._query).getOriginalSql());
 
                     ex = appendMessageToException(ex, messageBuf.toString(), this.exceptionInterceptor);
                 }
@@ -663,7 +663,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
 
     @Override
     protected void checkBounds(int parameterIndex, int parameterIndexOffset) throws SQLException {
-        int paramCount = ((PreparedQuery<?>) this.query).getParameterCount();
+        int paramCount = ((PreparedQuery<?>) this._query).getParameterCount();
         if (paramCount == 0) {
             throw ExceptionFactory.createException(WrongArgumentException.class, Messages.getString("ServerPreparedStatement.8"),
                     this.session.getExceptionInterceptor());
@@ -693,7 +693,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
 
     @Override
     public long getServerStatementId() {
-        return ((ServerPreparedQuery) this.query).getServerStatementId();
+        return ((ServerPreparedQuery) this._query).getServerStatementId();
     }
 
     @Override
@@ -786,8 +786,8 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
     protected ClientPreparedStatement prepareBatchedInsertSQL(JdbcConnection localConn, int numBatches) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
             try {
-                ClientPreparedStatement pstmt = ((Wrapper) localConn.prepareStatement(((PreparedQuery<?>) this.query).getParseInfo().getSqlForBatch(numBatches),
-                        this.resultSetConcurrency, this.query.getResultType().getIntValue())).unwrap(ClientPreparedStatement.class);
+                ClientPreparedStatement pstmt = ((Wrapper) localConn.prepareStatement(((PreparedQuery<?>) this._query).getParseInfo().getSqlForBatch(numBatches),
+                        this.resultSetConcurrency, this._query.getResultType().getIntValue())).unwrap(ClientPreparedStatement.class);
                 pstmt.setRetrieveGeneratedKeys(this.retrieveGeneratedKeys);
 
                 return pstmt;

@@ -175,14 +175,14 @@ class EscapeProcessor {
                             escapeSequence = st.nextToken();
 
                             if (escapeSequence.length() < 3) {
-                                newSql.append(token); // it's just part of the query, push possible syntax errors onto server's shoulders
+                                newSql.append(token); // it's just part of the _query, push possible syntax errors onto server's shoulders
                             } else {
 
                                 escapeSequence = escapeSequence.substring(1, escapeSequence.length() - 1);
                                 replaceEscapeSequence = true;
                             }
                         } catch (java.util.NoSuchElementException e) {
-                            newSql.append(token); // it's just part of the query, push possible syntax errors onto server's shoulders
+                            newSql.append(token); // it's just part of the _query, push possible syntax errors onto server's shoulders
                         }
                     } else if (StringUtils.startsWithIgnoreCase(collapsedToken, "{fn")) {
                         int startPos = token.toLowerCase().indexOf("fn ") + 3;
@@ -203,7 +203,7 @@ class EscapeProcessor {
                         int endPos = token.lastIndexOf('\''); // no }
 
                         if ((startPos == -1) || (endPos == -1)) {
-                            newSql.append(token); // it's just part of the query, push possible syntax errors onto server's shoulders
+                            newSql.append(token); // it's just part of the _query, push possible syntax errors onto server's shoulders
                         } else {
 
                             String argument = token.substring(startPos, endPos);
@@ -256,11 +256,11 @@ class EscapeProcessor {
                         // MySQL already handles this escape sequence because of ODBC. Cool.
                         newSql.append(token);
                     } else {
-                        // not an escape code, just part of the query
+                        // not an escape code, just part of the _query
                         newSql.append(token);
                     }
                 } else {
-                    newSql.append(token); // it's just part of the query
+                    newSql.append(token); // it's just part of the _query
                 }
             }
         }
@@ -304,7 +304,7 @@ class EscapeProcessor {
         int endPos = token.lastIndexOf('\''); // no }
 
         if ((startPos == -1) || (endPos == -1)) {
-            newSql.append(token); // it's just part of the query, push possible syntax errors onto server's shoulders
+            newSql.append(token); // it's just part of the _query, push possible syntax errors onto server's shoulders
         } else {
 
             String argument = token.substring(startPos, endPos);
@@ -344,7 +344,7 @@ class EscapeProcessor {
         int endPos = token.lastIndexOf('\''); // no }
 
         if ((startPos == -1) || (endPos == -1)) {
-            newSql.append(token); // it's just part of the query, push possible syntax errors onto server's shoulders
+            newSql.append(token); // it's just part of the _query, push possible syntax errors onto server's shoulders
         } else {
 
             String argument = token.substring(startPos, endPos);

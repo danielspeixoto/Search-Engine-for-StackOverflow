@@ -41,7 +41,7 @@ import com.mysql.cj.util.StringUtils;
 //TODO should not be protocol-specific
 
 /**
- * Thread used to implement query timeouts...Eventually we could be more
+ * Thread used to implement _query timeouts...Eventually we could be more
  * efficient and have one thread with timers, but this is a straightforward
  * and simple way to implement a feature that isn't used all that often.
  */
@@ -109,7 +109,7 @@ public class CancelQueryTaskImpl extends TimerTask implements CancelQueryTask {
                     }
                     // } catch (NullPointerException npe) {
                     // Case when connection closed while starting to cancel.
-                    // We can't easily synchronise this, because then one thread can't cancel() a running query.
+                    // We can't easily synchronise this, because then one thread can't cancel() a running _query.
                     // Ignore, we shouldn't re-throw this, because the connection's already closed, so the statement has been timed out.
                 } catch (Throwable t) {
                     CancelQueryTaskImpl.this.caughtWhileCancelling = t;

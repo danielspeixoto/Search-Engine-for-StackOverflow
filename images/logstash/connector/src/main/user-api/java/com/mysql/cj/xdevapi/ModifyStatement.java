@@ -95,7 +95,7 @@ public interface ModifyStatement extends Statement<ModifyStatement, Result> {
 
     /**
      * Takes in a document patch and applies it on all documents matching the modify() filter, using the JSON_MERGE_PATCH() function.
-     * A document patch is query to a JSON object, with the key difference that document field values can be nested expressions in addition to literal values.
+     * A document patch is _query to a JSON object, with the key difference that document field values can be nested expressions in addition to literal values.
      * <br>
      * Example:<br>
      * collection.modify("_id = :id")<br>

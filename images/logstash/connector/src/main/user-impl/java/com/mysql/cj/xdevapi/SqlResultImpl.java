@@ -47,7 +47,7 @@ public class SqlResultImpl implements SqlResult, ResultStreamer {
      * Constructor.
      * 
      * @param resultStream
-     *            Supplies the result stream depending on query type. Could be {@link SqlDataResult}, {@link SqlUpdateResult} etc.
+     *            Supplies the result stream depending on _query type. Could be {@link SqlDataResult}, {@link SqlUpdateResult} etc.
      */
     public SqlResultImpl(Supplier<SqlResult> resultStream) {
         this.resultStream = resultStream;

@@ -65,12 +65,12 @@ public abstract class AbstractQuery implements Query {
     /** The character encoding to use (if available) */
     protected String charEncoding = null;
 
-    /** Mutex to prevent race between returning query results and noticing that query has been timed-out or cancelled. */
+    /** Mutex to prevent race between returning _query results and noticing that _query has been timed-out or cancelled. */
     protected Object cancelTimeoutMutex = new Object();
 
     private CancelStatus cancelStatus = CancelStatus.NOT_CANCELED;
 
-    /** The timeout for a query */
+    /** The timeout for a _query */
     protected int timeoutInMillis = 0;
 
     /** Holds batched commands */

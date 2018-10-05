@@ -183,7 +183,7 @@ public class StatementImpl implements JdbcStatement {
 
     protected ExceptionInterceptor exceptionInterceptor;
 
-    /** Whether or not the last query was of the form ON DUPLICATE KEY UPDATE */
+    /** Whether or not the last _query was of the form ON DUPLICATE KEY UPDATE */
     protected boolean lastQueryIsOnDupKeyUpdate = false;
 
     /** Are we currently closing results implicitly (internally)? */
@@ -199,7 +199,7 @@ public class StatementImpl implements JdbcStatement {
 
     protected ResultSetFactory resultSetFactory;
 
-    protected Query query;
+    protected Query _query;
     protected NativeSession session = null;
 
     /**
@@ -224,7 +224,7 @@ public class StatementImpl implements JdbcStatement {
 
         initQuery();
 
-        this.query.setCurrentCatalog(catalog);
+        this._query.setCurrentCatalog(catalog);
 
         JdbcPropertySet pset = c.getPropertySet();
 
@@ -258,7 +258,7 @@ public class StatementImpl implements JdbcStatement {
         if (profiling) {
             this.pointOfOrigin = LogUtils.findCallingClassAndMethod(new Throwable());
             try {
-                this.query.setEventSink(ProfilerEventHandlerFactory.getInstance(this.session));
+                this._query.setEventSink(ProfilerEventHandlerFactory.getInstance(this.session));
             } catch (CJException e) {
                 throw SQLExceptionsMapping.translateException(e, getExceptionInterceptor());
             }
@@ -276,31 +276,31 @@ public class StatementImpl implements JdbcStatement {
     }
 
     protected void initQuery() {
-        this.query = new SimpleQuery(this.session);
+        this._query = new SimpleQuery(this.session);
     }
 
     @Override
     public void addBatch(String sql) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
             if (sql != null) {
-                this.query.addBatch(sql);
+                this._query.addBatch(sql);
             }
         }
     }
 
     @Override
     public void addBatch(Object batch) {
-        this.query.addBatch(batch);
+        this._query.addBatch(batch);
     }
 
     @Override
     public List<Object> getBatchedArgs() {
-        return this.query.getBatchedArgs();
+        return this._query.getBatchedArgs();
     }
 
     @Override
     public void cancel() throws SQLException {
-        if (!this.query.getStatementExecuting().get()) {
+        if (!this._query.getStatementExecuting().get()) {
             return;
         }
 
@@ -361,7 +361,7 @@ public class StatementImpl implements JdbcStatement {
     }
 
     /**
-     * Checks if the given SQL query with the given first non-ws char is a DML
+     * Checks if the given SQL _query with the given first non-ws char is a DML
      * statement. Throws an exception if it is.
      * 
      * @param sql
@@ -393,7 +393,7 @@ public class StatementImpl implements JdbcStatement {
      *            the SQL to check
      * 
      * @throws SQLException
-     *             if query is null or empty.
+     *             if _query is null or empty.
      */
     protected void checkNullOrEmptyQuery(String sql) throws SQLException {
         if (sql == null) {
@@ -408,13 +408,13 @@ public class StatementImpl implements JdbcStatement {
     @Override
     public void clearBatch() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            this.query.clearBatchedArgs();
+            this._query.clearBatchedArgs();
         }
     }
 
     @Override
     public void clearBatchedArgs() {
-        this.query.clearBatchedArgs();
+        this._query.clearBatchedArgs();
     }
 
     @Override
@@ -562,16 +562,16 @@ public class StatementImpl implements JdbcStatement {
 
     /**
      * @param sql
-     *            query
+     *            _query
      * @return result set
      * @throws SQLException
      *             if a database access error occurs or this method is called on a closed Statement
      */
     private ResultSetInternalMethods createResultSetUsingServerFetch(String sql) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            java.sql.PreparedStatement pStmt = this.connection.prepareStatement(sql, this.query.getResultType().getIntValue(), this.resultSetConcurrency);
+            java.sql.PreparedStatement pStmt = this.connection.prepareStatement(sql, this._query.getResultType().getIntValue(), this.resultSetConcurrency);
 
-            pStmt.setFetchSize(this.query.getResultFetchSize());
+            pStmt.setFetchSize(this._query.getResultFetchSize());
 
             if (this.maxRows > -1) {
                 pStmt.setMaxRows(this.maxRows);
@@ -602,8 +602,8 @@ public class StatementImpl implements JdbcStatement {
      *         than read all at once.
      */
     protected boolean createStreamingResultSet() {
-        return ((this.query.getResultType() == Type.FORWARD_ONLY) && (this.resultSetConcurrency == java.sql.ResultSet.CONCUR_READ_ONLY)
-                && (this.query.getResultFetchSize() == Integer.MIN_VALUE));
+        return ((this._query.getResultType() == Type.FORWARD_ONLY) && (this.resultSetConcurrency == java.sql.ResultSet.CONCUR_READ_ONLY)
+                && (this._query.getResultFetchSize() == Integer.MIN_VALUE));
     }
 
     private Resultset.Type originalResultSetType = Type.FORWARD_ONLY;
@@ -612,8 +612,8 @@ public class StatementImpl implements JdbcStatement {
     @Override
     public void enableStreamingResults() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            this.originalResultSetType = this.query.getResultType();
-            this.originalFetchSize = this.query.getResultFetchSize();
+            this.originalResultSetType = this._query.getResultType();
+            this.originalFetchSize = this._query.getResultFetchSize();
 
             setFetchSize(Integer.MIN_VALUE);
             setResultSetType(Type.FORWARD_ONLY);
@@ -623,7 +623,7 @@ public class StatementImpl implements JdbcStatement {
     @Override
     public void disableStreamingResults() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            if (this.query.getResultFetchSize() == Integer.MIN_VALUE && this.query.getResultType() == Type.FORWARD_ONLY) {
+            if (this._query.getResultFetchSize() == Integer.MIN_VALUE && this._query.getResultType() == Type.FORWARD_ONLY) {
                 setFetchSize(this.originalFetchSize);
                 setResultSetType(this.originalResultSetType);
             }
@@ -653,12 +653,12 @@ public class StatementImpl implements JdbcStatement {
 
     @Override
     public CancelQueryTask startQueryTimer(Query stmtToCancel, int timeout) {
-        return this.query.startQueryTimer(stmtToCancel, timeout);
+        return this._query.startQueryTimer(stmtToCancel, timeout);
     }
 
     @Override
     public void stopQueryTimer(CancelQueryTask timeoutTask, boolean rethrowCancelReason, boolean checkCancelTimeout) {
-        this.query.stopQueryTimer(timeoutTask, rethrowCancelReason, checkCancelTimeout);
+        this._query.stopQueryTimer(timeoutTask, rethrowCancelReason, checkCancelTimeout);
     }
 
     @Override
@@ -728,7 +728,7 @@ public class StatementImpl implements JdbcStatement {
                             locallyScopedConn.setCatalog(getCurrentCatalog());
                         }
 
-                        // Check if we have cached metadata for this query...
+                        // Check if we have cached metadata for this _query...
                         if (locallyScopedConn.getPropertySet().getBooleanProperty(PropertyDefinitions.PNAME_cacheResultSetMetadata).getValue()) {
                             cachedMetaData = locallyScopedConn.getCachedMetaData(sql);
                         }
@@ -776,20 +776,20 @@ public class StatementImpl implements JdbcStatement {
 
                 return ((rs != null) && rs.hasRows());
             } finally {
-                this.query.getStatementExecuting().set(false);
+                this._query.getStatementExecuting().set(false);
             }
         }
     }
 
     @Override
     public void statementBegins() {
-        this.query.statementBegins();
+        this._query.statementBegins();
     }
 
     @Override
     public void resetCancelledState() {
         synchronized (checkClosed().getConnectionMutex()) {
-            this.query.resetCancelledState();
+            this._query.resetCancelledState();
         }
     }
 
@@ -824,7 +824,7 @@ public class StatementImpl implements JdbcStatement {
 
             implicitlyCloseAllOpenResults();
 
-            List<Object> batchedArgs = this.query.getBatchedArgs();
+            List<Object> batchedArgs = this._query.getBatchedArgs();
 
             if (batchedArgs == null || batchedArgs.size() == 0) {
                 return new long[0];
@@ -920,7 +920,7 @@ public class StatementImpl implements JdbcStatement {
 
                     return (updateCounts != null) ? updateCounts : new long[0];
                 } finally {
-                    this.query.getStatementExecuting().set(false);
+                    this._query.getStatementExecuting().set(false);
                 }
             } finally {
 
@@ -949,7 +949,7 @@ public class StatementImpl implements JdbcStatement {
     }
 
     /**
-     * Rewrites batch into a single query to send to the server. This method
+     * Rewrites batch into a single _query to send to the server. This method
      * will constrain each batch to be shorter than max_allowed_packet on the
      * server.
      * 
@@ -958,7 +958,7 @@ public class StatementImpl implements JdbcStatement {
      * @param nbrCommands
      *            number of queries in a batch
      * @param individualStatementTimeout
-     *            timeout for a single query in a batch
+     *            timeout for a single _query in a batch
      * 
      * @return update counts in the same manner as executeBatch()
      * @throws SQLException
@@ -1012,7 +1012,7 @@ public class StatementImpl implements JdbcStatement {
                 int argumentSetsInBatchSoFar = 0;
 
                 for (commandIndex = 0; commandIndex < nbrCommands; commandIndex++) {
-                    String nextQuery = (String) this.query.getBatchedArgs().get(commandIndex);
+                    String nextQuery = (String) this._query.getBatchedArgs().get(commandIndex);
 
                     if (((((queryBuf.length() + nextQuery.length()) * numberOfBytesPerChar) + 1 /* for semicolon */
                             + NativeConstants.HEADER_LENGTH) * escapeAdjust) + 32 > this.maxAllowedPacket.getValue()) {
@@ -1173,7 +1173,7 @@ public class StatementImpl implements JdbcStatement {
                 }
 
                 //
-                // Check if we have cached metadata for this query...
+                // Check if we have cached metadata for this _query...
                 //
                 if (locallyScopedConn.getPropertySet().getBooleanProperty(PropertyDefinitions.PNAME_cacheResultSetMetadata).getValue()) {
                     cachedMetaData = locallyScopedConn.getCachedMetaData(sql);
@@ -1195,7 +1195,7 @@ public class StatementImpl implements JdbcStatement {
                 throw SQLExceptionsMapping.translateException(e, this.exceptionInterceptor);
 
             } finally {
-                this.query.getStatementExecuting().set(false);
+                this._query.getStatementExecuting().set(false);
 
                 stopQueryTimer(timeoutTask, false, false);
 
@@ -1338,7 +1338,7 @@ public class StatementImpl implements JdbcStatement {
                 }
 
                 if (!isBatch) {
-                    this.query.getStatementExecuting().set(false);
+                    this._query.getStatementExecuting().set(false);
                 }
             }
 
@@ -1384,7 +1384,7 @@ public class StatementImpl implements JdbcStatement {
     @Override
     public int getFetchSize() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            return this.query.getResultFetchSize();
+            return this._query.getResultFetchSize();
         }
     }
 
@@ -1732,7 +1732,7 @@ public class StatementImpl implements JdbcStatement {
     @Override
     public int getResultSetType() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            return this.query.getResultType().getIntValue();
+            return this._query.getResultType().getIntValue();
         }
     }
 
@@ -1788,7 +1788,7 @@ public class StatementImpl implements JdbcStatement {
             if (!calledExplicitly) {
                 String message = Messages.getString("Statement.63") + Messages.getString("Statement.64");
 
-                this.query.getEventSink().consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_WARN, "", getCurrentCatalog(), this.session.getThreadId(),
+                this._query.getEventSink().consumeEvent(new ProfilerEventImpl(ProfilerEvent.TYPE_WARN, "", getCurrentCatalog(), this.session.getThreadId(),
                         this.getId(), -1, System.currentTimeMillis(), 0, Constants.MILLIS_I18N, null, this.pointOfOrigin, message));
             }
         }
@@ -1864,7 +1864,7 @@ public class StatementImpl implements JdbcStatement {
                 throw SQLError.createSQLException(Messages.getString("Statement.7"), MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT, getExceptionInterceptor());
             }
 
-            this.query.setResultFetchSize(rows);
+            this._query.setResultFetchSize(rows);
         }
     }
 
@@ -1944,7 +1944,7 @@ public class StatementImpl implements JdbcStatement {
     void setResultSetType(Resultset.Type typeFlag) throws SQLException {
         try {
             synchronized (checkClosed().getConnectionMutex()) {
-                this.query.setResultType(typeFlag);
+                this._query.setResultType(typeFlag);
                 // updating resultset factory because type is cached there
                 this.resultSetFactory = new ResultSetFactory(this.connection, this);
             }
@@ -2003,8 +2003,8 @@ public class StatementImpl implements JdbcStatement {
 
     private boolean useServerFetch() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
-            return this.session.getPropertySet().getBooleanProperty(PropertyDefinitions.PNAME_useCursorFetch).getValue() && this.query.getResultFetchSize() > 0
-                    && this.query.getResultType() == Type.FORWARD_ONLY;
+            return this.session.getPropertySet().getBooleanProperty(PropertyDefinitions.PNAME_useCursorFetch).getValue() && this._query.getResultFetchSize() > 0
+                    && this._query.getResultType() == Type.FORWARD_ONLY;
         }
     }
 
@@ -2181,7 +2181,7 @@ public class StatementImpl implements JdbcStatement {
 
     @Override
     public String getCurrentCatalog() {
-        return this.query.getCurrentCatalog();
+        return this._query.getCurrentCatalog();
     }
 
     public long getServerStatementId() {
@@ -2196,17 +2196,17 @@ public class StatementImpl implements JdbcStatement {
 
     @Override
     public int getId() {
-        return this.query.getId();
+        return this._query.getId();
     }
 
     @Override
     public void setCancelStatus(CancelStatus cs) {
-        this.query.setCancelStatus(cs);
+        this._query.setCancelStatus(cs);
     }
 
     @Override
     public void checkCancelTimeout() {
-        this.query.checkCancelTimeout();
+        this._query.checkCancelTimeout();
     }
 
     @Override
@@ -2216,78 +2216,78 @@ public class StatementImpl implements JdbcStatement {
 
     @Override
     public Object getCancelTimeoutMutex() {
-        return this.query.getCancelTimeoutMutex();
+        return this._query.getCancelTimeoutMutex();
     }
 
     @Override
     public void closeQuery() {
-        if (this.query != null) {
-            this.query.closeQuery();
+        if (this._query != null) {
+            this._query.closeQuery();
         }
     }
 
     @Override
     public int getResultFetchSize() {
-        return this.query.getResultFetchSize();
+        return this._query.getResultFetchSize();
     }
 
     @Override
     public void setResultFetchSize(int fetchSize) {
-        this.query.setResultFetchSize(fetchSize);
+        this._query.setResultFetchSize(fetchSize);
     }
 
     @Override
     public Resultset.Type getResultType() {
-        return this.query.getResultType();
+        return this._query.getResultType();
     }
 
     @Override
     public void setResultType(Resultset.Type resultSetType) {
-        this.query.setResultType(resultSetType);
+        this._query.setResultType(resultSetType);
     }
 
     @Override
     public int getTimeoutInMillis() {
-        return this.query.getTimeoutInMillis();
+        return this._query.getTimeoutInMillis();
     }
 
     @Override
     public void setTimeoutInMillis(int timeoutInMillis) {
-        this.query.setTimeoutInMillis(timeoutInMillis);
+        this._query.setTimeoutInMillis(timeoutInMillis);
     }
 
     @Override
     public ProfilerEventHandler getEventSink() {
-        return this.query.getEventSink();
+        return this._query.getEventSink();
     }
 
     @Override
     public void setEventSink(ProfilerEventHandler eventSink) {
-        this.query.setEventSink(eventSink);
+        this._query.setEventSink(eventSink);
     }
 
     @Override
     public AtomicBoolean getStatementExecuting() {
-        return this.query.getStatementExecuting();
+        return this._query.getStatementExecuting();
     }
 
     @Override
     public void setCurrentCatalog(String currentCatalog) {
-        this.query.setCurrentCatalog(currentCatalog);
+        this._query.setCurrentCatalog(currentCatalog);
     }
 
     @Override
     public boolean isClearWarningsCalled() {
-        return this.query.isClearWarningsCalled();
+        return this._query.isClearWarningsCalled();
     }
 
     @Override
     public void setClearWarningsCalled(boolean clearWarningsCalled) {
-        this.query.setClearWarningsCalled(clearWarningsCalled);
+        this._query.setClearWarningsCalled(clearWarningsCalled);
     }
 
     @Override
     public Query getQuery() {
-        return this.query;
+        return this._query;
     }
 }

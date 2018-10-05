@@ -152,7 +152,7 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
      *            the SQL to check
      * 
      * @throws WrongArgumentException
-     *             if query is null or empty.
+     *             if _query is null or empty.
      */
     public void checkNullOrEmptyQuery(String sql) {
         if (sql == null) {
@@ -209,9 +209,9 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
     protected abstract long[] computeMaxParameterSetSizeAndBatchSize(int numBatchedArgs);
 
     /**
-     * Creates the packet that contains the query to be sent to the server.
+     * Creates the packet that contains the _query to be sent to the server.
      * 
-     * @return A Buffer filled with the query representing the
+     * @return A Buffer filled with the _query representing the
      *         PreparedStatement.
      */
     @Override
@@ -222,12 +222,12 @@ public abstract class AbstractPreparedQuery<T extends QueryBindings<?>> extends 
     }
 
     /**
-     * Creates the packet that contains the query to be sent to the server.
+     * Creates the packet that contains the _query to be sent to the server.
      * 
      * @param bindings
      *            values
      * 
-     * @return a Buffer filled with the query that represents this statement
+     * @return a Buffer filled with the _query that represents this statement
      */
     @SuppressWarnings("unchecked")
     @Override

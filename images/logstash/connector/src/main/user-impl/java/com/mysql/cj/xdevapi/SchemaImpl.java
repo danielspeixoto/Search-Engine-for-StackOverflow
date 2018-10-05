@@ -91,7 +91,7 @@ public class SchemaImpl implements Schema {
                 .collect(Collectors.toSet());
         Predicate<com.mysql.cj.result.Row> rowFiler = r -> (strTypes).contains(r.getValue(1, this.svf));
         Function<com.mysql.cj.result.Row, String> rowToName = r -> r.getValue(0, this.svf);
-        List<String> objectNames = this.mysqlxSession.query(this.xbuilder.buildListObjects(this.name, pattern), rowFiler, rowToName, Collectors.toList());
+        List<String> objectNames = this.mysqlxSession._query(this.xbuilder.buildListObjects(this.name, pattern), rowFiler, rowToName, Collectors.toList());
         return objectNames.stream().map(this::getCollection).collect(Collectors.toList());
     }
 
@@ -105,7 +105,7 @@ public class SchemaImpl implements Schema {
                 .map(DatabaseObject.DbObjectType::toString).collect(Collectors.toSet());
         Predicate<com.mysql.cj.result.Row> rowFiler = r -> (strTypes).contains(r.getValue(1, this.svf));
         Function<com.mysql.cj.result.Row, String> rowToName = r -> r.getValue(0, this.svf);
-        List<String> objectNames = this.mysqlxSession.query(this.xbuilder.buildListObjects(this.name, pattern), rowFiler, rowToName, Collectors.toList());
+        List<String> objectNames = this.mysqlxSession._query(this.xbuilder.buildListObjects(this.name, pattern), rowFiler, rowToName, Collectors.toList());
         return objectNames.stream().map(this::getTable).collect(Collectors.toList());
     }
 

@@ -134,7 +134,7 @@ public class MessagesTest {
         assertEquals("Can't set scale of 'Test1' for DECIMAL argument 'Test2'", Messages.getString("PreparedStatement.65", new Object[] { "Test1", "Test2" }));
         assertEquals("No conversion from Test to Types.BOOLEAN possible.", Messages.getString("PreparedStatement.66", new Object[] { "Test" }));
 
-        assertEquals("Packet for query is too large (100 > 10). You can change this value on the server by setting the 'max_allowed_packet' variable.",
+        assertEquals("Packet for _query is too large (100 > 10). You can change this value on the server by setting the 'max_allowed_packet' variable.",
                 Messages.getString("PacketTooBigException.0", new Object[] { 100, 10 }));
 
         assertEquals("Can't use configured regex due to underlying exception.", Messages.getString("ResultSetScannerInterceptor.1"));

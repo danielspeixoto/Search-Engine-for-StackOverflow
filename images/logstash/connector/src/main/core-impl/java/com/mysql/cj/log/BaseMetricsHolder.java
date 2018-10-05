@@ -34,7 +34,7 @@ public class BaseMetricsHolder {
     private final static int HISTOGRAM_BUCKETS = 20;
 
     /**
-     * If gathering metrics, what was the execution time of the longest query so
+     * If gathering metrics, what was the execution time of the longest _query so
      * far ?
      */
     private long longestQueryTimeMs = 0;
@@ -140,7 +140,7 @@ public class BaseMetricsHolder {
 
     /**
      * @param queryTimeMs
-     *            query execution time in milliseconds
+     *            _query execution time in milliseconds
      */
     public void registerQueryExecutionTime(long queryTimeMs) {
         if (queryTimeMs > this.longestQueryTimeMs) {
@@ -196,9 +196,9 @@ public class BaseMetricsHolder {
         StringBuilder logMessage = new StringBuilder(256);
 
         logMessage.append("** Performance Metrics Report **\n");
-        logMessage.append("\nLongest reported query: " + this.longestQueryTimeMs + " ms");
-        logMessage.append("\nShortest reported query: " + this.shortestQueryTimeMs + " ms");
-        logMessage.append("\nAverage query execution time: " + (this.totalQueryTimeMs / this.numberOfQueriesIssued) + " ms");
+        logMessage.append("\nLongest reported _query: " + this.longestQueryTimeMs + " ms");
+        logMessage.append("\nShortest reported _query: " + this.shortestQueryTimeMs + " ms");
+        logMessage.append("\nAverage _query execution time: " + (this.totalQueryTimeMs / this.numberOfQueriesIssued) + " ms");
         logMessage.append("\nNumber of statements executed: " + this.numberOfQueriesIssued);
         logMessage.append("\nNumber of result sets created: " + this.numberOfResultSetsCreated);
         logMessage.append("\nNumber of statements prepared: " + this.numberOfPrepares);

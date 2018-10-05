@@ -105,16 +105,16 @@ public class LoadStorePerfTest extends BasePerfTest {
         //
         // Approximate a run-of-the-mill entity in a business application
         //
-        String query = "CREATE TABLE perfLoadStore (priKey INT NOT NULL, fk1 INT NOT NULL, fk2 INT NOT NULL, dtField " + dateTimeType
+        String _query = "CREATE TABLE perfLoadStore (priKey INT NOT NULL, fk1 INT NOT NULL, fk2 INT NOT NULL, dtField " + dateTimeType
                 + ", charField1 CHAR(32), charField2 CHAR(32), charField3 CHAR(32), charField4 CHAR(32), intField1 INT, intField2 INT, "
                 + "intField3 INT, intField4 INT, doubleField1 DECIMAL, doubleField2 DOUBLE, doubleField3 DOUBLE, doubleField4 DOUBLE,"
                 + "PRIMARY KEY (priKey))";
 
         if (BaseTestCase.dbUrl.indexOf("mysql") != -1) {
-            query += ("ENGINE =" + this.tableType);
+            _query += ("ENGINE =" + this.tableType);
         }
 
-        this.stmt.executeUpdate(query);
+        this.stmt.executeUpdate(_query);
 
         String currentDateValue = "NOW()";
 

@@ -81,7 +81,7 @@ public class RetrievalPerfTest extends BaseTestCase {
     }
 
     /**
-     * Tests retrieval from the query cache
+     * Tests retrieval from the _query cache
      * 
      * @throws Exception
      *             if an error occurs

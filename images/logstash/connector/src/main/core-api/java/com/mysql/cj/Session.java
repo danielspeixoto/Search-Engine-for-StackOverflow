@@ -145,5 +145,5 @@ public interface Session {
 
     DataStoreMetadata getDataStoreMetadata();
 
-    <M extends Message, RES_T, R> RES_T query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector);
+    <M extends Message, RES_T, R> RES_T _query(M message, Predicate<Row> filterRow, Function<Row, R> mapRow, Collector<R, ?, RES_T> collector);
 }

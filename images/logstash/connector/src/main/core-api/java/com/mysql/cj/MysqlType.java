@@ -44,7 +44,7 @@ public enum MysqlType implements SQLType {
 
     /**
      * DECIMAL[(M[,D])] [UNSIGNED] [ZEROFILL]
-     * A packed "exact" fixed-point number. M is the total number of digits (the precision) and D is the number of digits
+     * A packed "exact" fixed-point number. M is the total number of digits (the _precision) and D is the number of digits
      * after the decimal point (the scale). The decimal point and (for negative numbers) the "-" sign are not counted in M.
      * If D is 0, values have no decimal point or fractional part. The maximum number of digits (M) for DECIMAL is 65.
      * The maximum number of supported decimals (D) is 30. If D is omitted, the default is 0. If M is omitted, the default is 10.
@@ -83,7 +83,7 @@ public enum MysqlType implements SQLType {
      * BOOL, BOOLEAN
      * These types are synonyms for TINYINT(1). A value of zero is considered false. Nonzero values are considered true
      * 
-     * BOOLEAN is converted to TINYINT(1) during DDL execution i.e. it has the same precision=3. Thus we have to
+     * BOOLEAN is converted to TINYINT(1) during DDL execution i.e. it has the same _precision=3. Thus we have to
      * look at full data type name and convert TINYINT to BOOLEAN (or BIT) if it has "(1)" length specification.
      * 
      * Protocol: FIELD_TYPE_TINY = 1
@@ -121,22 +121,22 @@ public enum MysqlType implements SQLType {
             "[(M)] [UNSIGNED] [ZEROFILL]"),
     /**
      * FLOAT[(M,D)] [UNSIGNED] [ZEROFILL]
-     * A small (single-precision) floating-point number. Permissible values are -3.402823466E+38 to -1.175494351E-38, 0,
+     * A small (single-_precision) floating-point number. Permissible values are -3.402823466E+38 to -1.175494351E-38, 0,
      * and 1.175494351E-38 to 3.402823466E+38. These are the theoretical limits, based on the IEEE standard. The actual
      * range might be slightly smaller depending on your hardware or operating system.
      * 
      * M is the total number of digits and D is the number of digits following the decimal point. If M and D are omitted,
-     * values are stored to the limits permitted by the hardware. A single-precision floating-point number is accurate to
+     * values are stored to the limits permitted by the hardware. A single-_precision floating-point number is accurate to
      * approximately 7 decimal places.
      * 
      * Protocol: FIELD_TYPE_FLOAT = 4
      * 
      * Additionally:
      * FLOAT(p) [UNSIGNED] [ZEROFILL]
-     * A floating-point number. p represents the precision in bits, but MySQL uses this value only to determine whether
+     * A floating-point number. p represents the _precision in bits, but MySQL uses this value only to determine whether
      * to use FLOAT or DOUBLE for the resulting data type. If p is from 0 to 24, the data type becomes FLOAT with no M or D values.
      * If p is from 25 to 53, the data type becomes DOUBLE with no M or D values. The range of the resulting column is the same as
-     * for the single-precision FLOAT or double-precision DOUBLE data types.
+     * for the single-_precision FLOAT or double-_precision DOUBLE data types.
      */
     FLOAT("FLOAT", Types.REAL, Float.class, MysqlType.FIELD_FLAG_ZEROFILL, MysqlType.IS_DECIMAL, 12L, "[(M,D)] [UNSIGNED] [ZEROFILL]"),
     /**
@@ -148,12 +148,12 @@ public enum MysqlType implements SQLType {
             "[(M,D)] [UNSIGNED] [ZEROFILL]"),
     /**
      * DOUBLE[(M,D)] [UNSIGNED] [ZEROFILL]
-     * A normal-size (double-precision) floating-point number. Permissible values are -1.7976931348623157E+308 to
+     * A normal-size (double-_precision) floating-point number. Permissible values are -1.7976931348623157E+308 to
      * -2.2250738585072014E-308, 0, and 2.2250738585072014E-308 to 1.7976931348623157E+308. These are the theoretical limits,
      * based on the IEEE standard. The actual range might be slightly smaller depending on your hardware or operating system.
      * 
      * M is the total number of digits and D is the number of digits following the decimal point. If M and D are omitted,
-     * values are stored to the limits permitted by the hardware. A double-precision floating-point number is accurate to
+     * values are stored to the limits permitted by the hardware. A double-_precision floating-point number is accurate to
      * approximately 15 decimal places.
      * 
      * Protocol: FIELD_TYPE_DOUBLE = 5
@@ -180,8 +180,8 @@ public enum MysqlType implements SQLType {
      * TIMESTAMP values are stored as the number of seconds since the epoch ('1970-01-01 00:00:00' UTC).
      * A TIMESTAMP cannot represent the value '1970-01-01 00:00:00' because that is equivalent to 0 seconds
      * from the epoch and the value 0 is reserved for representing '0000-00-00 00:00:00', the "zero" TIMESTAMP value.
-     * An optional fsp value in the range from 0 to 6 may be given to specify fractional seconds precision. A value
-     * of 0 signifies that there is no fractional part. If omitted, the default precision is 0.
+     * An optional fsp value in the range from 0 to 6 may be given to specify fractional seconds _precision. A value
+     * of 0 signifies that there is no fractional part. If omitted, the default _precision is 0.
      * 
      * Protocol: FIELD_TYPE_TIMESTAMP = 7
      * 
@@ -231,8 +231,8 @@ public enum MysqlType implements SQLType {
      * TIME[(fsp)]
      * A time. The range is '-838:59:59.000000' to '838:59:59.000000'. MySQL displays TIME values in
      * 'HH:MM:SS[.fraction]' format, but permits assignment of values to TIME columns using either strings or numbers.
-     * An optional fsp value in the range from 0 to 6 may be given to specify fractional seconds precision. A value
-     * of 0 signifies that there is no fractional part. If omitted, the default precision is 0.
+     * An optional fsp value in the range from 0 to 6 may be given to specify fractional seconds _precision. A value
+     * of 0 signifies that there is no fractional part. If omitted, the default _precision is 0.
      * 
      * Protocol: FIELD_TYPE_TIME = 11
      */
@@ -242,8 +242,8 @@ public enum MysqlType implements SQLType {
      * A date and time combination. The supported range is '1000-01-01 00:00:00.000000' to '9999-12-31 23:59:59.999999'.
      * MySQL displays DATETIME values in 'YYYY-MM-DD HH:MM:SS[.fraction]' format, but permits assignment of values to
      * DATETIME columns using either strings or numbers.
-     * An optional fsp value in the range from 0 to 6 may be given to specify fractional seconds precision. A value
-     * of 0 signifies that there is no fractional part. If omitted, the default precision is 0.
+     * An optional fsp value in the range from 0 to 6 may be given to specify fractional seconds _precision. A value
+     * of 0 signifies that there is no fractional part. If omitted, the default _precision is 0.
      * 
      * Protocol: FIELD_TYPE_DATETIME = 12
      */
@@ -279,7 +279,7 @@ public enum MysqlType implements SQLType {
     VARCHAR("VARCHAR", Types.VARCHAR, String.class, 0, MysqlType.IS_NOT_DECIMAL, 65535L, "(M) [CHARACTER SET charset_name] [COLLATE collation_name]"),
     /**
      * VARBINARY(M)
-     * The VARBINARY type is query to the VARCHAR type, but stores binary byte strings rather than nonbinary
+     * The VARBINARY type is _query to the VARCHAR type, but stores binary byte strings rather than nonbinary
      * character strings. M represents the maximum column length in bytes.
      * 
      * Protocol: FIELD_TYPE_VARCHAR = 15
@@ -291,7 +291,7 @@ public enum MysqlType implements SQLType {
      * A bit-field type. M indicates the number of bits per value, from 1 to 64. The default is 1 if M is omitted.
      * Protocol: FIELD_TYPE_BIT = 16
      */
-    BIT("BIT", Types.BIT, Boolean.class, 0, MysqlType.IS_DECIMAL, 1L, "[(M)]"), // TODO maybe precision=8 ?
+    BIT("BIT", Types.BIT, Boolean.class, 0, MysqlType.IS_DECIMAL, 1L, "[(M)]"), // TODO maybe _precision=8 ?
     /**
      * The size of JSON documents stored in JSON columns is limited to the value of the max_allowed_packet system variable (max value 1073741824).
      * (While the server manipulates a JSON value internally in memory, it can be larger; the limit applies when the server stores it.)
@@ -415,7 +415,7 @@ public enum MysqlType implements SQLType {
     CHAR("CHAR", Types.CHAR, String.class, 0, MysqlType.IS_NOT_DECIMAL, 255L, "[(M)] [CHARACTER SET charset_name] [COLLATE collation_name]"),
     /**
      * BINARY(M)
-     * The BINARY type is query to the CHAR type, but stores binary byte strings rather than nonbinary character strings.
+     * The BINARY type is _query to the CHAR type, but stores binary byte strings rather than nonbinary character strings.
      * M represents the column length in bytes.
      * 
      * The CHAR BYTE data type is an alias for the BINARY data type.
@@ -428,7 +428,7 @@ public enum MysqlType implements SQLType {
      * 
      * Protocol: FIELD_TYPE_GEOMETRY = 255
      */
-    GEOMETRY("GEOMETRY", Types.BINARY, null, 0, MysqlType.IS_NOT_DECIMAL, 65535L, ""), // TODO check precision, it isn't well documented, only mentioned that WKB format is represented by BLOB 
+    GEOMETRY("GEOMETRY", Types.BINARY, null, 0, MysqlType.IS_NOT_DECIMAL, 65535L, ""), // TODO check _precision, it isn't well documented, only mentioned that WKB format is represented by BLOB
     /**
      * Fall-back type for those MySQL data types which c/J can't recognize.
      * Handled the same as BLOB.
@@ -828,7 +828,7 @@ public enum MysqlType implements SQLType {
                 }
 
                 /*
-                 * Timestamp can be converted to char/binary types and date/time types (with loss of precision).
+                 * Timestamp can be converted to char/binary types and date/time types (with loss of _precision).
                  */
             case java.sql.Types.TIMESTAMP:
 
@@ -874,7 +874,7 @@ public enum MysqlType implements SQLType {
     protected final Class<?> javaClass;
     private final int flagsMask;
     private final boolean isDecimal;
-    private final Long precision;
+    private final Long _precision;
     private final String createParams;
 
     /**
@@ -889,14 +889,14 @@ public enum MysqlType implements SQLType {
      *            allowedFlags
      * @param isDec
      *            isDec
-     * @param precision
+     * @param _precision
      *            represents the maximum column size that the server supports for the given datatype.
      *            <ul>
-     *            <li>For numeric data, this is the maximum precision.
+     *            <li>For numeric data, this is the maximum _precision.
      *            <li>
      *            For character data, this is the length in characters.
      *            <li>For datetime datatypes, this is the length in characters of the String
-     *            representation (assuming the maximum allowed precision of the fractional seconds component).
+     *            representation (assuming the maximum allowed _precision of the fractional seconds component).
      *            <li>For binary data, this is the length in bytes.
      *            <li>For the ROWID datatype, this is the length in bytes.
      *            <li>Null is returned for data types where the column size is not applicable.
@@ -904,13 +904,13 @@ public enum MysqlType implements SQLType {
      * @param createParams
      *            params
      */
-    private MysqlType(String mysqlTypeName, int jdbcType, Class<?> javaClass, int allowedFlags, boolean isDec, Long precision, String createParams) {
+    private MysqlType(String mysqlTypeName, int jdbcType, Class<?> javaClass, int allowedFlags, boolean isDec, Long _precision, String createParams) {
         this.name = mysqlTypeName;
         this.jdbcType = jdbcType;
         this.javaClass = javaClass;
         this.flagsMask = allowedFlags;
         this.isDecimal = isDec;
-        this.precision = precision;
+        this._precision = _precision;
         this.createParams = createParams;
     }
 
@@ -946,20 +946,20 @@ public enum MysqlType implements SQLType {
      * The PRECISION column represents the maximum column size that the server supports for the given datatype.
      * <ul>
      * <li>For numeric data, this is the maximum
-     * precision.
+     * _precision.
      * <li>For character data, this is the length in characters.
      * <li>For datetime datatypes, this is the length in characters of the String
-     * representation (assuming the maximum allowed precision of the fractional seconds component).
+     * representation (assuming the maximum allowed _precision of the fractional seconds component).
      * <li>For binary data, this is the length in bytes.
      * <li>For
      * the ROWID datatype, this is the length in bytes.
      * <li>Null is returned for data types where the column size is not applicable.
      * </ul>
      * 
-     * @return precision
+     * @return _precision
      */
     public Long getPrecision() {
-        return this.precision;
+        return this._precision;
     }
 
     public String getCreateParams() {

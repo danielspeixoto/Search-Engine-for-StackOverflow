@@ -785,9 +785,9 @@ public class SyntaxRegressionTest extends BaseTestCase {
                 "SELECT MATCH (title, body) AGAINST ('<MySQL >YourSQL' IN BOOLEAN MODE) FROM testFULLTEXTSearchInnoDB",
                 "SELECT MATCH (title, body) AGAINST ('+MySQL -YourSQL' IN BOOLEAN MODE) FROM testFULLTEXTSearchInnoDB" };
 
-        for (String query : querySamples) {
-            this.rs = this.stmt.executeQuery(query);
-            assertTrue("Query [" + query + "] should return some rows.", this.rs.next());
+        for (String _query : querySamples) {
+            this.rs = this.stmt.executeQuery(_query);
+            assertTrue("Query [" + _query + "] should return some rows.", this.rs.next());
             this.rs.close();
         }
     }
@@ -1090,7 +1090,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
      * - REPLACE /*+ ... *&#47 ...
      * - UPDATE /*+ ... *&#47 ...
      * - DELETE /*+ ... *&#47 ...
-     * At the beginning of query blocks:
+     * At the beginning of _query blocks:
      * - (SELECT /*+ ... *&#47 ... )
      * - (SELECT ... ) UNION (SELECT /*+ ... *&#47 ... )
      * - (SELECT /*+ ... *&#47 ... ) UNION (SELECT /*+ ... *&#47 ... )
@@ -1129,11 +1129,11 @@ public class SyntaxRegressionTest extends BaseTestCase {
         testHintsSyntax("SELECT /*!+1-1, */ 1", false, false);
 
         /*
-         * Test hints in different query types using Statements.
+         * Test hints in different _query types using Statements.
          */
         createTable("testHints", "(id INT PRIMARY KEY, txt CHAR(2))");
 
-        // Hints in single query.
+        // Hints in single _query.
         assertEquals(1, this.stmt.executeUpdate("INSERT /*+ mrr(testHints) */ INTO testHints VALUES (1, 'a')"));
         assertNull(this.stmt.getWarnings());
         assertEquals(2, this.stmt.executeUpdate("REPLACE /*+ mrr(testHints) */ INTO testHints VALUES (1, 'A')"));
@@ -1149,7 +1149,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
         assertEquals(1, this.stmt.executeUpdate("DELETE /*+ mrr(testHints) */ FROM testHints"));
         assertNull(this.stmt.getWarnings());
 
-        // Hints in sub-query block.
+        // Hints in sub-_query block.
         assertEquals(1, this.stmt.executeUpdate("INSERT INTO testHints (SELECT /*+ qb_name(dummy) */ 2, 'b')"));
         assertNull(this.stmt.getWarnings());
         assertEquals(2, this.stmt.executeUpdate("REPLACE INTO testHints (SELECT /*+ qb_name(dummy) */ 2, 'B')"));
@@ -1169,13 +1169,13 @@ public class SyntaxRegressionTest extends BaseTestCase {
         assertNull(this.stmt.getWarnings());
 
         /*
-         * Test hints in different query types using PreparedStatements.
+         * Test hints in different _query types using PreparedStatements.
          */
         for (String connProps : new String[] { "useServerPrepStmts=false", "useServerPrepStmts=true" }) {
             Connection testConn = null;
             testConn = getConnectionWithProps(connProps);
 
-            // Hints in single query.
+            // Hints in single _query.
             this.pstmt = testConn.prepareStatement("INSERT /*+ mrr(testHints) */ INTO testHints VALUES (?, ?)");
             this.pstmt.setInt(1, 1);
             this.pstmt.setString(2, "a");
@@ -1203,7 +1203,7 @@ public class SyntaxRegressionTest extends BaseTestCase {
             assertEquals(1, this.pstmt.executeUpdate());
             assertNull(this.pstmt.getWarnings());
 
-            // Hints in sub-query block.
+            // Hints in sub-_query block.
             this.pstmt = testConn.prepareStatement("INSERT INTO testHints (SELECT /*+ qb_name(dummy) */ ?, ?)");
             this.pstmt.setInt(1, 2);
             this.pstmt.setString(2, "b");
@@ -1239,9 +1239,9 @@ public class SyntaxRegressionTest extends BaseTestCase {
         }
     }
 
-    private void testHintsSyntax(String query, boolean processesHint, boolean warningExpected) throws Exception {
+    private void testHintsSyntax(String _query, boolean processesHint, boolean warningExpected) throws Exception {
         this.stmt.clearWarnings();
-        this.rs = this.stmt.executeQuery(query);
+        this.rs = this.stmt.executeQuery(_query);
         if (warningExpected) {
             assertNotNull(this.stmt.getWarnings());
             assertTrue(this.stmt.getWarnings().getMessage().startsWith("Optimizer hint syntax error"));

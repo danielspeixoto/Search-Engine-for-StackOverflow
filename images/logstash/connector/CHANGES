@@ -130,9 +130,9 @@ Version 8.0.9
 
   - Fix for BUG#26995710, WL#11161 : NULL POINTER EXCEPTION IN EXECUTEBATCH() AND CLOSE().
 
-  - WL#11161, Unify query bindings.
+  - WL#11161, Unify _query bindings.
 
-  - WL#8469, Don't extract query text from packets when possible.
+  - WL#8469, Don't extract _query text from packets when possible.
 
 Version 8.0.8
 
@@ -213,13 +213,13 @@ Version 8.0.7
 
   - Fix for Bug#79561 (22333996), NullPointerException when calling a fully qualified stored procedure.
 
-  - Fix for Bug#84783 (25490163), query timeout is not working(thread hang).
+  - Fix for Bug#84783 (25490163), _query timeout is not working(thread hang).
 
   - Fix for Bug#70704 (17653733), Deadlock using UpdatableResultSet.
 
   - Fix for Bug#66430 (16714868), setCatalog on connection leaves ServerPreparedStatement cache for old catalog.
 
-  - Fix for Bug#70808 (17757070), Set sessionVariables in a single query.
+  - Fix for Bug#70808 (17757070), Set sessionVariables in a single _query.
 
   - Fix for Bug#77192 (21170603), Description for the Property replicationConnetionGroup Missing from the Manual.
 
@@ -488,7 +488,7 @@ Version 6.0.6
 
   - Fix for Bug#75670 (20433047), Connection fails with "Public Key Retrieval is not allowed" for native auth.
 
-  - Fix for Bug#76187 (20675539), getTypeInfo report maximum precision of 255 for varchar.
+  - Fix for Bug#76187 (20675539), getTypeInfo report maximum _precision of 255 for varchar.
 
   - Merged version 5.1.36.
 
@@ -701,7 +701,7 @@ Version 6.0.6
 
   - Fix for Bug#67318 (16722637), SQLException thrown on already closed ResultSet. Thanks to Thomas Manville and Andrej Golovnin for their contribution.
 
-  - Fix for Bug#71396 (18110320), setMaxRows (SQL_SELECT_LIMIT) from one query used in later queries (sometimes).
+  - Fix for Bug#71396 (18110320), setMaxRows (SQL_SELECT_LIMIT) from one _query used in later queries (sometimes).
     Additionally, SQL_SELECT_LIMIT is no longer sent unnecessarily between consecutive queries.
 
   - Fix for Bug#71432 (18107621), Key store files not closed when making SSL connection
@@ -736,7 +736,7 @@ Version 6.0.6
 
   - Fix for Bug#70969, Shadow declaration of OperationNotSupportedException in RowDataDynamic.
 
-  - Fix for Bug#70835 (17750877), SQLExceptions thrown because of query interruption (KILL QUERY, query timeout, etc.)
+  - Fix for Bug#70835 (17750877), SQLExceptions thrown because of _query interruption (KILL QUERY, _query timeout, etc.)
     didn't extend java.sql.SQLNonTransientException for JDBC4+ deployments.
 
   - Fix for Bug#24344 test case, test fails if it's run with UTC timezone settings. 
@@ -763,7 +763,7 @@ Version 6.0.6
 
   - Added tests for InnoDB full-text search support introduced in 5.6GA.
 
-  - Extended slow query warning with query execution plan for INSERT, REPLACE, UPDATE and DELETE.
+  - Extended slow _query warning with _query execution plan for INSERT, REPLACE, UPDATE and DELETE.
 
   - Added tests for IPv6 functions introduced in 5.6GA.
 
@@ -868,7 +868,7 @@ Version 6.0.6
 
 03-05-13 - Version 5.1.24
 
-  - Fix for Bug#64204, ResultSet.close hangs if streaming query is killed.
+  - Fix for Bug#64204, ResultSet.close hangs if streaming _query is killed.
 
   - Fix for Bug#16224249, Deadlock on concurrently used LoadBalancedMySQLConnection:
     1) abortInternal() method was moved from com.mysql.jdbc.MySQLConnection to com.mysql.jdbc.Connection interface;
@@ -1032,13 +1032,13 @@ Version 6.0.6
 
   - Fix for Bug#13958793, ClassCastException in ConnectionImpl.buildCollationMapping() with 4.1 server.
 
-  - Fix for Bug#36478, Client prepared statement bugged if word 'limit' included in the query.
+  - Fix for Bug#36478, Client prepared statement bugged if word 'limit' included in the _query.
 
 04-02-12 - Version 5.1.19
   - Fix for Bug#64621, setMaxRows was not correctly processed during CS PS metadata
     collection causing entire resultset to be fetched and possibly leading to OOM.
 
-  - Fix for Bug#63456, MetaData precision is different when using UTF8 or Latin1 tables.
+  - Fix for Bug#63456, MetaData _precision is different when using UTF8 or Latin1 tables.
 	The problem was in finding maxBytesPerChar through versioned mapping from Java charset to MySQL charset.
 	That map returns "utf8mb4" instead "utf8" for server versions starting with 5.5.2.
 	CharsetMapping, ConnectionImpl and Field have been reorganized to use static maps INDEX_TO_MYSQL_CHARSET,
@@ -1086,8 +1086,8 @@ Version 6.0.6
 10-03-11 - Version 5.1.18
  
   - Fix for Bug#12565726, not putting the space between VALUES() and ON DUPLICATE KEY UPDATE
-	causes C/J a) enter rewriting the query although it has ON UPDATE 
-	and b) to generate the wrong query with multiple ON DUPLICATE KEY
+	causes C/J a) enter rewriting the _query although it has ON UPDATE
+	and b) to generate the wrong _query with multiple ON DUPLICATE KEY
 
   - Fix for Bug#12784170, "process fork failure" errors while running test suite via ant on Windows.
     Added new ant flag, com.mysql.jdbc.junit.fork, which controls whether JUnit will fork new processes
@@ -1105,7 +1105,7 @@ Version 6.0.6
     sessionVariables and characterEncoding. Fix covers only MySQL server 4.1+
     
   - Fix for Bug#61501 - Calling Statement.cancel() on a statement that isn't
-    currently executing will cause some later-executed query on the same
+    currently executing will cause some later-executed _query on the same
     connection to be cancelled unexpectedly. The driver now guards against this
     condition, but it is an underlying server issue. The MySQL statement "KILL QUERY"
     (which is what the driver uses to implement Statement.cancel()) is rather
@@ -1385,7 +1385,7 @@ Version 6.0.6
     - Added loadBalancePingTimeout property to allow a specific timeout to be set
       for each ping executed against the servers.  This ping is executed when the
       physical connections are rebalanced (commit/rollback or communication exception),
-      or when a query starting with (exactly) "/* ping */" is executed.  The latter
+      or when a _query starting with (exactly) "/* ping */" is executed.  The latter
       causes each open underlying physical connection to be pinged.
 
     - Fixed BUG#51776 - Connection.rollback() could swallow exceptions incorrectly.
@@ -1533,7 +1533,7 @@ Version 6.0.6
       scenario.
       
     - Added a new option, "queryTimeoutKillsConnection", when set to "true" will cause timeouts set
-      by Statement.setQueryTimeout() to forcibly kill the connection, not just the query.
+      by Statement.setQueryTimeout() to forcibly kill the connection, not just the _query.
       
     - Fixed BUG#32216, "PORT" property filled in by Driver.parseURL() not always present. The driver 
       will now always fill in the "PORT" (using 3306 if not specified) property, and the "HOST" property 
@@ -1599,7 +1599,7 @@ Version 6.0.6
       when connecting to MySQL-4.1 or older.
       
     - The driver will automatically disable elideSetAutoCommit and useLocalTransactionState
-      if it detects a MySQL server version older than 6.0.10 with the query cache enabled, due
+      if it detects a MySQL server version older than 6.0.10 with the _query cache enabled, due
       to Bug#36326 which can cause the server to report bogus transaction state.
       
     - Fixed a performance regression (Bug#41532) in rewritten batched inserts when "ON DUPLICATE KEY" 
@@ -1667,8 +1667,8 @@ Version 6.0.6
       for DatabaseMetaData.getProcedureColumns() and getFunctionColumns().
       
     - When "logSlowQueries" is set to "true", and the driver has made a connection to a server that has suport
-      for the SERVER_QUERY_WAS_SLOW flag in the protocol, the query will be logged if the server indicates the
-      query has passed the slow query threshold.
+      for the SERVER_QUERY_WAS_SLOW flag in the protocol, the _query will be logged if the server indicates the
+      _query has passed the slow _query threshold.
 
     - Added new property, "maxAllowedPacket" to set maximum allowed packet size to
       send to server.
@@ -1728,7 +1728,7 @@ Version 6.0.6
       By default, we follow the JDBC Specification here, in that the 4.0 behavior
 	  is correct. Calling programs should use ResultSetMetaData.getColumnLabel() to dynamically determine
 	  the correct "name" to pass to ResultSet.findColumn() or ResultSet.get...(String) whether or not the
-	  query specifies an alias via "AS" for the column. ResultSetMetaData.getColumnName() will return the
+	  _query specifies an alias via "AS" for the column. ResultSetMetaData.getColumnName() will return the
 	  actual name of the column, if it exists, and this name can *not* be used as input to ResultSet.findColumn()
 	  or ResultSet.get...(String).
 	  
@@ -1864,7 +1864,7 @@ Version 6.0.6
       facility. 
       
       The driver will consult the values of these properties when a ping is sent, either through 
-      calling Connection.ping(), issuing the "ping marker" query (any query that starts with 
+      calling Connection.ping(), issuing the "ping marker" _query (any _query that starts with
       "/* ping */"), or when using JDBC-4.0, calling Connection.isValid(). 
       
       If the connection has issued too many operations, or is too old, the driver will
@@ -1975,7 +1975,7 @@ Version 6.0.6
     - Added "autoSlowLog" configuration property, overrides 
       "slowQueryThreshold*" properties, driver determines slow
       queries by those that are slower than 5 * stddev of the mean
-      query time (outside the 96% percentile).
+      _query time (outside the 96% percentile).
       
     - Fixed BUG#28256 - When connection is in read-only mode, 
       queries that are wrapped in parentheses incorrectly identified 
@@ -2088,7 +2088,7 @@ Version 6.0.6
       com.mysql.jdbc.StatementInterceptor interface, examples are
       in com/mysql/jdbc/interceptors.
 
-      Implement this interface to be placed "in between" query execution, so that
+      Implement this interface to be placed "in between" _query execution, so that
       you can influence it. (currently experimental).
 
       StatementInterceptors are "chainable" when configured by the user, the
@@ -2168,7 +2168,7 @@ Version 6.0.6
 	  The implementation used by the driver is configured using the
 	  "clientInfoProvider" configuration property (with a default of value
 	  of "com.mysql.jdbc.JDBC4CommentClientInfoProvider", an implementation
-	  which lists the client info as a comment prepended to every query
+	  which lists the client info as a comment prepended to every _query
 	  sent to the server).
 
 	  This functionality is only available when using Java-6 or newer.
@@ -2210,7 +2210,7 @@ nn-nn-07 - Version 5.0.9
       leading to type-related bugs.
 
     - Fixed BUG#28972 - DatabaseMetaData.getTypeInfo() for the types DECIMAL
-      and NUMERIC will return a precision of 254 for server versions older than
+      and NUMERIC will return a _precision of 254 for server versions older than
       5.0.3, 64 for versions 5.0.3-5.0.5 and 65 for versions newer than 5.0.5.
     
     - Fixed BUG#29852 - Closing a load-balanced connection would cause a
@@ -2237,7 +2237,7 @@ nn-nn-07 - Version 5.0.9
     - Fixed BUG#30851, NPE with null column values when
       "padCharsWithSpace" is set to "true".
     
-    - Specifying a "validation query" in your connection pool 
+    - Specifying a "validation _query" in your connection pool
       that starts with "/* ping */" _exactly_ will cause the driver to 
       instead send a ping to the server and return a fake result set (much 
       lighter weight), and when using a ReplicationConnection or a LoadBalancedConnection, 
@@ -2260,7 +2260,7 @@ nn-nn-07 - Version 5.0.9
       capitalization of type names is not consistent between DBMD.getColumns(), 
       RSMD.getColumnTypeName() and DBMD.getTypeInfo().
 
-      This fix also ensures that the precision of UNSIGNED MEDIUMINT
+      This fix also ensures that the _precision of UNSIGNED MEDIUMINT
       and UNSIGNED BIGINT is reported correctly via DBMD.getColumns().
 
     - Fixed BUG#31053 - Connections established using URLs of the form
@@ -2300,12 +2300,12 @@ nn-nn-07 - Version 5.0.9
     - Added configuration property "slowQueryThresholdNanos" - if
       "useNanosForElapsedTime" is set to "true", and this property
       is set to a non-zero value the driver will use this threshold
-      (in nanosecond units) to determine if a query was slow, instead
+      (in nanosecond units) to determine if a _query was slow, instead
       of using millisecond units.
 
       Note, that if "useNanosForElapsedTime" is set to "true", and this
       property is set to "0" (or left default), then elapsed times will
-      still be measured in nanoseconds (if possible), but the slow query
+      still be measured in nanoseconds (if possible), but the slow _query
       threshold will be converted from milliseconds to nanoseconds, and thus
       have an upper bound of approximately 2000 millesconds (as that threshold
       is represented as an integer, not a long).
@@ -2406,9 +2406,9 @@ nn-nn-07 - Version 5.0.9
 	  sets materialized from cursors.
 
 	- New configuration property, "enableQueryTimeouts" (default "true").
-	  When enabled, query timeouts set via Statement.setQueryTimeout() use a
+	  When enabled, _query timeouts set via Statement.setQueryTimeout() use a
 	  shared java.util.Timer instance for scheduling. Even if the timeout
-	  doesn't expire before the query is processed, there will be
+	  doesn't expire before the _query is processed, there will be
 	  memory used by the TimerTask for the given timeout which won't be
 	  reclaimed until the time the timeout would have expired if it
 	  hadn't been cancelled by the driver. High-load environments
@@ -2896,7 +2896,7 @@ nn-nn-07 - Version 5.0.9
 
       Note: Failures to cancel the statement for setQueryTimeout() may manifest
       themselves as RuntimeExceptions rather than failing silently, as there
-      is currently no way to unblock the thread that is executing the query being
+      is currently no way to unblock the thread that is executing the _query being
       cancelled due to timeout expiration and have it throw the exception
       instead.
 
@@ -2933,7 +2933,7 @@ nn-nn-07 - Version 5.0.9
     - Use a java.util.Timer to schedule cancellation of queries via
       Statement.setQueryTimeout() rather than one thread per potential cancellation.
 
-      A new thread will be used to actually cancel a running query, as there's potential
+      A new thread will be used to actually cancel a running _query, as there's potential
       for a cancel request to block other cancel requests if all run from the
       same thread.
 
@@ -3067,7 +3067,7 @@ nn-nn-07 - Version 3.1.15
       check).
 
     - Fixed BUG#17099 - Statement.getGeneratedKeys() throws NullPointerException
-      when no query has been processed.
+      when no _query has been processed.
 
     - Fixed BUG#13469 - Driver tries to call methods that don't exist on older and
       newer versions of Log4j. The fix is not trying to auto-detect presense of log4j,
@@ -3349,7 +3349,7 @@ nn-nn-07 - Version 3.1.15
 
     - The "sendBlobChunkSize" property is now clamped to "max_allowed_packet"
       with consideration of stream buffer size and packet headers to avoid
-      PacketTooBigExceptions when "max_allowed_packet" is query in size
+      PacketTooBigExceptions when "max_allowed_packet" is _query in size
       to the default "sendBlobChunkSize" which is 1M.
 
     - CallableStatement.clearParameters() now clears resources associated
@@ -3519,14 +3519,14 @@ nn-nn-07 - Version 3.1.15
 	    * 3-0-Compat -- Compatibility with Connector/J 3.0.x functionality
 
 	- Added "maintainTimeStats" configuration property (defaults to "true"),
-	  which tells the driver whether or not to keep track of the last query time
+	  which tells the driver whether or not to keep track of the last _query time
 	  and the last successful packet sent to the server's time. If set to
-	  false, removes two syscalls per query.
+	  false, removes two syscalls per _query.
 
 	- Fixed BUG#11259, autoReconnect ping causes exception on connection
 	  startup.
 
-	- Fixed BUG#11360 Connector/J dumping query into SQLException twice
+	- Fixed BUG#11360 Connector/J dumping _query into SQLException twice
 
 	- Fixed PreparedStatement.setClob() not accepting null as a parameter.
 
@@ -3541,7 +3541,7 @@ nn-nn-07 - Version 3.1.15
 	- Fixed DatabaseMetaData.getTables() returning views when they were
 	  not asked for as one of the requested table types.
 
-	- Added support for new precision-math DECIMAL type in MySQL >= 5.0.3.
+	- Added support for new _precision-math DECIMAL type in MySQL >= 5.0.3.
 
 	- Fixed ResultSet.getTime() on a NULL value for server-side prepared
 	  statements throws NPE.
@@ -3682,7 +3682,7 @@ nn-nn-07 - Version 3.1.15
       in failover configuration.
 
     - Disable multi-statements (if enabled) for MySQL-4.1 versions prior
-      to version 4.1.10 if the query cache is enabled, as the server
+      to version 4.1.10 if the _query cache is enabled, as the server
       returns wrong results in this configuration.
 
     - Fixed duplicated code in configureClientCharset() that prevented
@@ -3969,7 +3969,7 @@ nn-nn-07 - Version 3.1.15
 	  property.
 
 	- Fixed case when no output parameters specified for a
-	  stored procedure caused a bogus query to be issued
+	  stored procedure caused a bogus _query to be issued
 	  to retrieve out parameters, leading to a syntax error
 	  from the server.
 
@@ -3982,7 +3982,7 @@ nn-nn-07 - Version 3.1.15
 	  ability to send large packets as well.
 
 	- Added .toString() functionality to ServerPreparedStatement,
-	  which should help if you're trying to debug a query that is
+	  which should help if you're trying to debug a _query that is
 	  a prepared statement (it shows SQL as the server would process).
 
 	- Added 'gatherPerformanceMetrics' property, along with properties
@@ -3993,7 +3993,7 @@ nn-nn-07 - Version 3.1.15
 	  server-side resources when .close() was called.
 
 	- Added 'logSlowQueries' property, along with property
-	  'slowQueriesThresholdMillis' to control when a query should
+	  'slowQueriesThresholdMillis' to control when a _query should
 	  be considered 'slow'.
 
 	- Correctly map output parameters to position given in
@@ -4015,7 +4015,7 @@ nn-nn-07 - Version 3.1.15
 	- Fixed BUG#3520 -- DBMD.getSQLStateType() returns incorrect value.
 
 	- Added 'connectionCollation' property to cause driver to issue
-	  'set collation_connection=...' query on connection init if default
+	  'set collation_connection=...' _query on connection init if default
 	  collation for given charset is not appropriate.
 
 	- Fixed DatabaseMetaData.getProcedures() when run on MySQL-5.0.0 (output of
@@ -4064,7 +4064,7 @@ nn-nn-07 - Version 3.1.15
 	- Support for mysql_change_user()...See the changeUser() method
 	  in com.mysql.jdbc.Connection.
 
-	- Reduced number of methods called in average query to be more
+	- Reduced number of methods called in average _query to be more
 	  efficient.
 
 	- Prepared Statements will be re-prepared on auto-reconnect. Any errors
@@ -4403,7 +4403,7 @@ nn-nn-07 - Version 3.1.15
 
     - Allow java.util.Date to be sent in as parameter to
       PreparedStatement.setObject(), converting it to a Timestamp
-      to maintain full precision (BUG#3103).
+      to maintain full _precision (BUG#3103).
 
     - Don't truncate BLOBs/CLOBs when using setBytes() and/or
       setBinary/CharacterStream() (BUG#2670).
@@ -4527,7 +4527,7 @@ nn-nn-07 - Version 3.1.15
 
     - Added 'alwaysClearStream' connection property, which causes the driver
       to always empty any remaining data on the input stream before
-      each query.
+      each _query.
 
     - Added more descriptive error message 'Server Configuration Denies
       Access to DataSource', as well as retrieval of message from server.
@@ -4551,7 +4551,7 @@ nn-nn-07 - Version 3.1.15
       number of parameters + 1.
 
     - Fix for BUG#2006 -- ResultSet.findColumn() should use first matching
-      column name when there are duplicate column names in SELECT query
+      column name when there are duplicate column names in SELECT _query
       (JDBC-compliance).
 
     - Removed static synchronization bottleneck from
@@ -4598,7 +4598,7 @@ nn-nn-07 - Version 3.1.15
 
 	- Fixed Statement and PreparedStatement issuing bogus queries
 	  when setMaxRows() had been used and a LIMIT clause was present
-	  in the query.
+	  in the _query.
 
 	- Fixed BUG#661 - refreshRow didn't work when primary key values
 	  contained values that needed to be escaped (they ended up being
@@ -4679,7 +4679,7 @@ nn-nn-07 - Version 3.1.15
 	  'clobberStreamingResults' property to 'true' (the default is 'false').
 	  This will cause a 'streaming' ResultSet to be automatically
 	  closed, and any oustanding data still streaming from the server to
-	  be discarded if another query is executed before all the data has been
+	  be discarded if another _query is executed before all the data has been
 	  read from the server.
 
 05-23-03 - Version 3.0.8-stable
@@ -4771,7 +4771,7 @@ nn-nn-07 - Version 3.1.15
       Fixes NullPointerExceptions with Sun's CachedRowSet.
 
     - Fixed DBMD.getTypeInfo() and DBMD.getColumns() returning
-      different value for precision in TEXT/BLOB types.
+      different value for _precision in TEXT/BLOB types.
 
     - Allow ignoring of warning for 'non transactional tables' during
       rollback (compliance/usability) by setting 'ignoreNonTxTables'
@@ -4782,7 +4782,7 @@ nn-nn-07 - Version 3.1.15
     - Fixed Statement.setMaxRows() to stop sending 'LIMIT' type queries
       when not needed (performance)
 
-    - Clean up Statement query/method mismatch tests (i.e. INSERT not
+    - Clean up Statement _query/method mismatch tests (i.e. INSERT not
       allowed with .executeQuery()).
 
     - More checks added in ResultSet traversal method to catch
@@ -4845,7 +4845,7 @@ nn-nn-07 - Version 3.1.15
       of checking for 'correctness' of updatable result sets. Set this
       to 'false' if you want faster updatable result sets and you know
       that you create them from SELECTs on tables with primary keys and
-      that you have selected all primary keys in your query.
+      that you have selected all primary keys in your _query.
 
     - Added support for 4.0.8-style large packets.
 
@@ -5271,7 +5271,7 @@ nn-nn-07 - Version 3.1.15
      - Updatable result sets now correctly handle NULL
        values in fields.
 
-     - PreparedStatement.setDouble() now uses full-precision
+     - PreparedStatement.setDouble() now uses full-_precision
        doubles (reverting a fix made earlier to truncate them).
 
      - PreparedStatement.setBoolean() will use 1/0 for values
@@ -5598,7 +5598,7 @@ Fixed PreparedStatement parameter checking
        maxRows set via properties or url parameters.
 
      - Automatic re-connection is available. Because it has
-       to "ping" the database before each query, it is
+       to "ping" the database before each _query, it is
        turned off by default. To use it, pass in "autoReconnect=true"
        in the connection URL. You may also change the number of
        reconnect tries, and the initial timeout value via
@@ -5680,7 +5680,7 @@ Fixed PreparedStatement parameter checking
        automatically generated for AUTO_INCREMENT fields.
        Basically, after an executeUpdate(), look at the
        SQLWarnings for warnings like "LAST_INSERTED_ID =
-       'some number', COMMAND = 'your SQL query'".
+       'some number', COMMAND = 'your SQL _query'".
 
        If you are using AUTO_INCREMENT fields in your
        tables and are executing a lot of executeUpdate()s

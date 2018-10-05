@@ -16,32 +16,6 @@ USE `qa`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `answers`
---
-
-DROP TABLE IF EXISTS `answers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `answers` (
-  `id` int(11) NOT NULL,
-  `title` mediumtext,
-  `body` longtext,
-  `comment_count` int(11) DEFAULT NULL,
-  `creation_date` datetime DEFAULT NULL,
-  `last_activity_date` datetime DEFAULT NULL,
-  `owner_user_id` int(11) DEFAULT NULL,
-  `score` int(11) NOT NULL DEFAULT '0',
-  `view_count` int(11) DEFAULT NULL,
-  `tags` tinytext,
-  `parent_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Id_UNIQUE` (`id`),
-  KEY `parent` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
 --
 -- Table structure for table `links`
 --
@@ -56,7 +30,10 @@ CREATE TABLE `links` (
   `post_id` int(11) NOT NULL,
   `related_post_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `post` (`post_id`)
+  KEY `post` (`post_id`),
+  KEY `fk_links_2_idx` (`related_post_id`),
+  CONSTRAINT `post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `related` FOREIGN KEY (`related_post_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -84,33 +61,13 @@ CREATE TABLE `posts` (
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Id_UNIQUE` (`id`),
-  KEY `idx_Posts_post_type_id` (`post_type_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `questions`
---
-
-DROP TABLE IF EXISTS `questions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `questions` (
-  `id` int(11) NOT NULL,
-  `title` mediumtext,
-  `body` longtext,
-  `accepted_answer_id` int(11) DEFAULT NULL,
-  `answer_count` int(11) NOT NULL DEFAULT '0',
-  `comment_count` int(11) DEFAULT NULL,
-  `creation_date` datetime DEFAULT NULL,
-  `last_activity_date` datetime DEFAULT NULL,
-  `owner_user_id` int(11) DEFAULT NULL,
-  `score` int(11) NOT NULL DEFAULT '0',
-  `view_count` int(11) DEFAULT NULL,
-  `tags` tinytext,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Id_UNIQUE` (`id`),
-  KEY `answer_count` (`answer_count`)
+  KEY `idx_Posts_post_type_id` (`post_type_id`),
+  KEY `fk_posts_1_idx` (`accepted_answer_id`),
+  KEY `fk_posts_2_idx` (`owner_user_id`),
+  KEY `fk_posts_3_idx` (`parent_id`),
+  CONSTRAINT `answer` FOREIGN KEY (`accepted_answer_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `owner` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `question` FOREIGN KEY (`parent_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -143,4 +100,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-11 18:14:35
+-- Dump completed on 2018-10-03  0:04:21

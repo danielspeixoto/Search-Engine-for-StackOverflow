@@ -68,7 +68,7 @@ public class ServerStatusDiffInterceptor implements QueryInterceptor {
 
         populateMapWithSessionStatusValues(this.postExecuteValues);
 
-        this.log.logInfo("Server status change for query:\n" + Util.calculateDifferences(this.preExecuteValues, this.postExecuteValues));
+        this.log.logInfo("Server status change for _query:\n" + Util.calculateDifferences(this.preExecuteValues, this.postExecuteValues));
 
         return null; // we don't actually modify a result set
 

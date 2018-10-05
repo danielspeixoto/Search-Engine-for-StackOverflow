@@ -56,7 +56,7 @@ import com.mysql.cj.util.StringUtils;
  * the connection string, this implementation uses regular expressions which is faster but also less strict in terms of validations. This actually works better
  * because database URLs don't exactly stick to the RFC 3986 rules.
  * <p>
- * <i>scheme://authority/path?query#fragment</i>
+ * <i>scheme://authority/path?_query#fragment</i>
  * <p>
  * This results in splitting the connection string URL and processing its internal parts:
  * <dl>
@@ -69,7 +69,7 @@ import com.mysql.cj.util.StringUtils;
  * "[user[:password]@]address=(key1=value)[(key2=value)]...[,address=(key3=value)[(key4=value)]...]...".</dd>
  * <dt>path</dt>
  * <dd>Corresponds to the database identification.</dd>
- * <dt>query</dt>
+ * <dt>_query</dt>
  * <dd>The connection properties, written as "propertyName1[=[propertyValue1]][&amp;propertyName2[=[propertyValue2]]]..."</dd>
  * <dt>fragment</dt>
  * <dd>The fragment section is ignored in Connector/J connection strings.</dd>
@@ -89,7 +89,7 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
     private static final Pattern CONNECTION_STRING_PTRN = Pattern.compile("(?<scheme>[\\w:%]+)\\s*" // scheme: required; alphanumeric, colon or percent
             + "(?://(?<authority>[^/?#]*))?\\s*" // authority: optional; starts with "//" followed by any char except "/", "?" and "#"
             + "(?:/(?!\\s*/)(?<path>[^?#]*))?" // path: optional; starts with "/" but not followed by "/", and then followed by by any char except "?" and "#"
-            + "(?:\\?(?!\\s*\\?)(?<query>[^#]*))?" // query: optional; starts with "?" but not followed by "?", and then followed by by any char except "#"
+            + "(?:\\?(?!\\s*\\?)(?<_query>[^#]*))?" // _query: optional; starts with "?" but not followed by "?", and then followed by by any char except "#"
             + "(?:\\s*#(?<fragment>.*))?"); // fragment: optional; starts with "#", and then followed by anything
     private static final Pattern SCHEME_PTRN = Pattern.compile("(?<scheme>[\\w:%]+).*");
     private static final Pattern HOST_LIST_PTRN = Pattern.compile("^\\[(?<hosts>.*)\\]$");
@@ -102,7 +102,7 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
     private String scheme;
     private String authority;
     private String path;
-    private String query;
+    private String _query;
 
     private List<HostInfo> parsedHosts = null;
     private Map<String, String> parsedProperties = null;
@@ -164,7 +164,7 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
         this.scheme = decode(matcher.group("scheme"));
         this.authority = matcher.group("authority"); // Don't decode just yet.
         this.path = matcher.group("path") == null ? null : decode(matcher.group("path")).trim();
-        this.query = matcher.group("query"); // Don't decode just yet.
+        this._query = matcher.group("_query"); // Don't decode just yet.
     }
 
     /**
@@ -512,11 +512,11 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
      * Parses the connection properties section and stores the extracted key/value pairs into a local map.
      */
     private void parseQuerySection() {
-        if (isNullOrEmpty(this.query)) {
+        if (isNullOrEmpty(this._query)) {
             this.parsedProperties = new HashMap<>();
             return;
         }
-        this.parsedProperties = processKeyValuePattern(PROPERTIES_PTRN, this.query);
+        this.parsedProperties = processKeyValuePattern(PROPERTIES_PTRN, this._query);
     }
 
     /**
@@ -613,12 +613,12 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns the query section.
+     * Returns the _query section.
      * 
-     * @return the query section
+     * @return the _query section
      */
     public String getQuery() {
-        return this.query;
+        return this._query;
     }
 
     /**
@@ -654,8 +654,8 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
     @Override
     public String toString() {
         StringBuilder asStr = new StringBuilder(super.toString());
-        asStr.append(String.format(" :: {scheme: \"%s\", authority: \"%s\", path: \"%s\", query: \"%s\", parsedHosts: %s, parsedProperties: %s}", this.scheme,
-                this.authority, this.path, this.query, this.parsedHosts, this.parsedProperties));
+        asStr.append(String.format(" :: {scheme: \"%s\", authority: \"%s\", path: \"%s\", _query: \"%s\", parsedHosts: %s, parsedProperties: %s}", this.scheme,
+                this.authority, this.path, this._query, this.parsedHosts, this.parsedProperties));
         return asStr.toString();
     }
 

@@ -186,7 +186,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
 
     /**
      * Reports how long this connection has been idle.
-     * This time (reported in milliseconds) is updated once a query has
+     * This time (reported in milliseconds) is updated once a _query has
      * completed.
      * 
      * @return number of ms that this connection has been idle, 0 if the driver
@@ -204,7 +204,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
     String getStatementComment();
 
     /**
-     * Has this connection tried to execute a query on the "master"
+     * Has this connection tried to execute a _query on the "master"
      * server (first host in a multiple host list).
      * 
      * @return true if it has tried
@@ -473,13 +473,13 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
     boolean isProxySet();
 
     /**
-     * Returns cached metadata (or null if not cached) for the given query, which must match _exactly_.
+     * Returns cached metadata (or null if not cached) for the given _query, which must match _exactly_.
      * 
      * This method is synchronized by the caller on getMutex(), so if calling this method from internal code
      * in the driver, make sure it's synchronized on the mutex that guards communication with the server.
      * 
      * @param sql
-     *            the query that is the key to the cache
+     *            the _query that is the key to the cache
      * @return metadata cached for the given SQL, or none if it doesn't
      *         exist.
      */
@@ -503,7 +503,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
      * in the driver, make sure it's synchronized on the mutex that guards communication with the server.
      * 
      * @param sql
-     *            the query that the metadata pertains too.
+     *            the _query that the metadata pertains too.
      * @param cachedMetaData
      *            metadata (if it exists) to populate the cache.
      * @param resultSet
