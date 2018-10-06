@@ -9,33 +9,34 @@ class Test:
         self.index = index
         self.results = results
 
-    def test(self):
-        amount = 500
-        start = 0
+    def test(self, initial_query_size=100):
+        query_size = initial_query_size
+        amount_retrieved = 0
+
+        map = 0
+        recall = 0
         while True:
-            questions = self.index.sample_data(start, amount)
+            questions = self.index.sample_data(amount_retrieved, query_size)
             analysis = []
             for question in questions:
                 retrieved = self._questions_id(self._query(question))
                 expected = question["relations"]
                 analysis.append(Analysis(question['id'], retrieved, expected))
-            # self.results.save_analysis(analysis)
 
-            map = 0
-            recall = 0
+            query_size = len(analysis)
+            amount_retrieved = amount_retrieved + query_size
+
             for analysi in analysis:
                 analysi.print()
                 map += analysi.map
                 recall += analysi.recall
-            map /= len(analysis)
-            recall /= len(analysis)
-            print("Final Results:")
-            print("map: " + str(map) + " recall: " + str(recall))
-            # if len(questions) == amount:
-            #     break
-            start = start + amount
-            print(str(start) + " questions analysed")
-            break
+
+            print("Current Results:")
+            print("map: " + str(map/amount_retrieved) + " recall: " + str(recall/amount_retrieved))
+            print(str(amount_retrieved) + " questions analysed")
+            # End of pagination
+            if len(analysis) < query_size:
+                break
 
     def _query(self, question):
         return self.index.query(question['title'], question['body'])
