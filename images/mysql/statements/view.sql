@@ -3,5 +3,5 @@ CREATE VIEW answers_to_a_question AS
     SELECT posts.*, users.reputation as user_reputation FROM qa.posts JOIN qa.users
     ON posts.owner_user_id = users.id WHERE posts.post_type_id = 2 ORDER BY score DESC;
 CREATE VIEW questions AS
-    SELECT posts.title, posts.body, posts.accepted_answer_id, posts.last_activity_date, posts.score, posts.id,
-users.reputation as user_reputation FROM qa.posts JOIN qa.users ON posts.owner_user_id = users.id;
+    SELECT posts.*, users.reputation as user_reputation
+     FROM qa.posts JOIN qa.users ON posts.owner_user_id = users.id WHERE posts.post_type_id = 1;

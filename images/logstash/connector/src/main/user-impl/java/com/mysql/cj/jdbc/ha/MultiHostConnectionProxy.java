@@ -270,7 +270,7 @@ public abstract class MultiHostConnectionProxy implements InvocationHandler {
      * 
      * @return true if the given throwable should trigger a connection switch
      * @param t
-     *            The Throwable instance to analyze.
+     *            The Throwable instance to print.
      */
     abstract boolean shouldExceptionTriggerConnectionSwitch(Throwable t);
 

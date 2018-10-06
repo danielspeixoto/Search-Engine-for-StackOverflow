@@ -11,6 +11,7 @@
 
 <div style="margin-left: 50px">
 <h2>Answers</h2>
+<strong>Answer Count:</strong> {{ question["answer_count"] }} <br>
 <strong>Accepted Answer was:</strong> {{ question["accepted_answer_id"] }}
 {% for answer in question["answers"] %}
     <hr>

@@ -22,7 +22,8 @@ class QuestionIndex(Index):
             }
         })
 
-    def query(self, query) -> Iterable[Question]:
+    def query(self, title, body="") -> Iterable[Question]:
+        body = title
         return self.search(QuestionIndex.DOC_TYPE, {
             "from": 0, "size": 10,
             "query": {
@@ -33,24 +34,38 @@ class QuestionIndex(Index):
                                 {
                                     "multi_match": {
                                         "fields": [
-                                            "title^3",
-                                            "body"
+                                            "title",
                                         ],
                                         "type": "most_fields",
-                                        "query": query
+                                        "query": title
+                                    }
+                                },
+                                {
+                                    "multi_match": {
+                                        "fields": [
+                                            "body",
+                                        ],
+                                        "type": "most_fields",
+                                        "query": body
+                                    }
+                                },
+                                {
+                                    # Questions are only useful when we have a answer to them
+                                    "range": {
+                                        "answer_count": {
+                                            "gte": 0
+                                        }
                                     }
                                 }
                             ],
-                            # "filter": {
-                            #     "exists": {
-                            #         "field": "accepted_answer_id"
-                            #     }
-                            # }
+
                         }
                     },
-                    # "script_score": {
-                    #     "script": "_score * Math.log(2 + Math.max(0, doc['score'].value))"
-                    # }
+                    "script_score": {
+                        "script": "Math.pow(_score, 1) * "
+                                  "Math.log(2 + Math.max(0, doc['score'].value)) * "
+                                  "Math.log(1 + doc['answer_count'].value)"
+                    }
                 }
             }
         })
@@ -63,6 +78,10 @@ class QuestionIndex(Index):
                 "id",
                 "body",
                 "relations"
+            ],
+            "sort": [
+                {"id": {"order": "asc"}},
+                "_score"
             ],
             "query": {
                 "function_score": {

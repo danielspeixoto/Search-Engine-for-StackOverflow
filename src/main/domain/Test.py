@@ -10,7 +10,7 @@ class Test:
         self.results = results
 
     def test(self):
-        amount = 5
+        amount = 500
         start = 0
         while True:
             questions = self.index.sample_data(start, amount)
@@ -19,10 +19,18 @@ class Test:
                 retrieved = self._questions_id(self._query(question))
                 expected = question["relations"]
                 analysis.append(Analysis(question['id'], retrieved, expected))
-            # self.results.save_analysis(analysis
+            # self.results.save_analysis(analysis)
 
+            map = 0
+            recall = 0
             for analysi in analysis:
                 analysi.print()
+                map += analysi.map
+                recall += analysi.recall
+            map /= len(analysis)
+            recall /= len(analysis)
+            print("Final Results:")
+            print("map: " + str(map) + " recall: " + str(recall))
             # if len(questions) == amount:
             #     break
             start = start + amount
@@ -30,7 +38,7 @@ class Test:
             break
 
     def _query(self, question):
-        return self.index.query(question['title'])
+        return self.index.query(question['title'], question['body'])
 
     @staticmethod
     def _questions_id(questions) -> [int]:

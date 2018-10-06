@@ -53,6 +53,15 @@
         },
         "relations": {
           "type": "integer"
+        },
+        "answer_count": {
+          "type": "integer"
+        },
+        "view_count": {
+          "type": "integer"
+        },
+        "comment_count": {
+          "type": "integer"
         }
       }
     }
