@@ -220,7 +220,7 @@ public class TlsAsynchronousSocketChannel extends AsynchronousSocketChannel impl
         CompletionHandler<Integer, ?> h = this.handler;
         this.handler = null;
         if (this.channel.isOpen()) {
-            // If channel is still open then force the call through sun.nio.ch.Invoker to avoid deep levels of recursion.
+            // If channel is still create then force the call through sun.nio.ch.Invoker to avoid deep levels of recursion.
             // If we directly call the handler, we may grow a huge stack when the caller only reads small portions of the buffer and issues a new read request.
             // The Invoker will dispatch the call on the thread pool for the AsynchronousSocketChannel
             this.channel.read(TlsAsynchronousSocketChannel.emptyBuffer, null, new CompletionHandler<Integer, Void>() {

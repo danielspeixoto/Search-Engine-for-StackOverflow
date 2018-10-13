@@ -1386,7 +1386,7 @@ Version 6.0.6
       for each ping executed against the servers.  This ping is executed when the
       physical connections are rebalanced (commit/rollback or communication exception),
       or when a _query starting with (exactly) "/* ping */" is executed.  The latter
-      causes each open underlying physical connection to be pinged.
+      causes each create underlying physical connection to be pinged.
 
     - Fixed BUG#51776 - Connection.rollback() could swallow exceptions incorrectly.
 
@@ -1875,7 +1875,7 @@ Version 6.0.6
       IDs to the server when the driver was setup to do auto-reconnect as the
       connection could get set up enough to start sending queries on one thread,
       while the thread that "noticed" the connection was down hasn't completed
-      re-preparing all of the server-side prepared statements that were open when
+      re-preparing all of the server-side prepared statements that were create when
       the connection died.
       
       Potentially fixes cause for bug 28934. Potentially fixes other possible race
@@ -1905,8 +1905,8 @@ Version 6.0.6
       DDL through CallableStatements.
     
     - Fixed BUG#34518 - Statements using cursor fetch leaked internal prepared statements
-      until connection was closed. The internal prepared statement is now held open while
-      the result set is open, and closed by the result set itself being closed.
+      until connection was closed. The internal prepared statement is now held create while
+      the result set is create, and closed by the result set itself being closed.
 
     - Fixed BUG#34677 - Blob.truncate() wouldn't take "0" as an argument.
 
@@ -2110,7 +2110,7 @@ Version 6.0.6
     - Made it possible to retrieve prepared statement parameter bindings
       (to be used in StatementInterceptors, primarily).
 
-    - Row navigation now causes any streams/readers open on the result set
+    - Row navigation now causes any streams/readers create on the result set
       to be closed, as in some cases we're reading directly from a shared network
       packet and it will be overwritten by the "next" row.
 
@@ -3675,7 +3675,7 @@ nn-nn-07 - Version 3.1.15
       integer) and adjust quoting method for strings appropriately.
 
     - Added 'holdResultsOpenOverStatementClose' property (default is
-      false), that keeps result sets open over statement.close() or new
+      false), that keeps result sets create over statement.close() or new
       execution on same statement (suggested by Kevin Burton).
 
     - Fixed BUG#7952 -- Infinite recursion when 'falling back' to master
@@ -4194,7 +4194,7 @@ nn-nn-07 - Version 3.1.15
       implemented. Currently only DML prepared statements are
       implemented for 4.1 server-side prepared statements.
 
-    - Track open Statements, close all when Connection.close()
+    - Track create Statements, close all when Connection.close()
       is called (JDBC compliance).
 
 06-22-05 - Version 3.0.17-ga
@@ -4643,7 +4643,7 @@ nn-nn-07 - Version 3.1.15
 	- Don't hide messages from exceptions thrown in I/O layers.
 
 	- Don't fire connection closed events when closing pooled connections, or
-	  on PooledConnection.getConnection() with already open connections (BUG#884).
+	  on PooledConnection.getConnection() with already create connections (BUG#884).
 
 	- Clip +/- INF (to smallest and largest representative values for the type in
 	  MySQL) and NaN (to 0) for setDouble/setFloat(), and issue a warning on the

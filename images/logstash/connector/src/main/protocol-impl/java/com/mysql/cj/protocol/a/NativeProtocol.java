@@ -1907,7 +1907,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
 
                 fileIn = null;
             } else {
-                // file open failed, but server needs one packet
+                // file create failed, but server needs one packet
                 filePacket.setPosition(0);
                 send(filePacket, filePacket.getPosition());
                 checkErrorMessage(); // to clear response off of queue

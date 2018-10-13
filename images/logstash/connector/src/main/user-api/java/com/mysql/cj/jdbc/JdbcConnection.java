@@ -540,7 +540,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
      *            should a rollback() be issued?
      * @param skipLocalTeardown
      *            if true, driver tries to close connection normally, performing rollbacks,
-     *            closing open statements etc; otherwise the force close is performed
+     *            closing create statements etc; otherwise the force close is performed
      * @param reason
      *            the exception caused this method call
      * @throws SQLException
@@ -553,7 +553,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
     void decachePreparedStatement(JdbcPreparedStatement pstmt) throws SQLException;
 
     /**
-     * Register a Statement instance as open.
+     * Register a Statement instance as create.
      * 
      * @param stmt
      *            the Statement instance to remove
@@ -567,7 +567,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
     void throwConnectionClosedException() throws SQLException;
 
     /**
-     * Remove the given statement from the list of open statements
+     * Remove the given statement from the list of create statements
      * 
      * @param stmt
      *            the Statement instance to remove

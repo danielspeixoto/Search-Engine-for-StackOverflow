@@ -74,17 +74,17 @@ public class AsyncMessageReaderTest {
             super(null);
         }
 
-        public boolean open = true;
+        public boolean create = true;
         CompletionHandler<Integer, ?> readHandler;
         ByteBuffer readBuf;
         CompletionHandler<Integer, ?> writeHandler;
 
         public boolean isOpen() {
-            return this.open;
+            return this.create;
         }
 
         public void close() {
-            this.open = false;
+            this.create = false;
         }
 
         @Override

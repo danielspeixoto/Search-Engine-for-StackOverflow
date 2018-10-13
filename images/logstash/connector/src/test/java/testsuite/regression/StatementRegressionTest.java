@@ -6416,7 +6416,7 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep create until end of the case
         testStmt = testBug71396StatementInit(testConn, 1);
 
         // check results count using the same Statement[maxRows = 1] for all queries
@@ -6439,10 +6439,10 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep create until end of the case
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep create until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
         // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
@@ -6467,10 +6467,10 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 4, 3, 3, 3 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case.
+        // initialize Statement with a given maxRow value, keep create until end of the case.
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep create until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
         // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
@@ -6494,7 +6494,7 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396StatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep create until end of the case
         testStmt = testBug71396StatementInit(testConn, 1);
 
         // check results count using the same Statement[maxRows = 1] for all queries
@@ -6517,10 +6517,10 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep create until end of the case
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep create until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
         // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
@@ -6545,10 +6545,10 @@ public class StatementRegressionTest extends BaseTestCase {
         // safety check
         testBug71396PrepStatementMultiCheck(testConn, queries, new int[] { 2, 2, 2, 2, 2 });
 
-        // initialize Statement with a given maxRow value, keep open until end of the case
+        // initialize Statement with a given maxRow value, keep create until end of the case
         testStmt = testBug71396StatementInit(testConn, 1);
 
-        // initialize a set of PreparedStatements with a given maxRow value, keep open until end of the case
+        // initialize a set of PreparedStatements with a given maxRow value, keep create until end of the case
         testPStmtSet = testBug71396PrepStatementInit(testConn, queries, 1);
 
         // check results count using same Connection and one PreparedStatement[maxRows = 1] per _query
@@ -7021,12 +7021,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset close, keeping statement open, when following with an executeBatch()
+        // test implicit resultset close, keeping statement create, when following with an executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7038,12 +7038,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset close keeping statement create, when following with an executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7054,7 +7054,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
@@ -7075,7 +7075,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.", testPrepStatement.isClosed());
@@ -7107,7 +7107,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet3.close(); // last open ResultSet, must close Statement
+        testResultSet3.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -7199,7 +7199,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
@@ -7219,7 +7219,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet2.close(); // last open ResultSet, must close Statement
+        testResultSet2.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -7248,7 +7248,7 @@ public class StatementRegressionTest extends BaseTestCase {
          * SUB-STEP 0: The basics (holdResultsOpenOverStatementClose=true)
          */
         // **testing Statement**
-        // ResultSets should stay open when owning Statement is closed
+        // ResultSets should stay create when owning Statement is closed
         testStatement = (StatementImpl) testConnection.createStatement();
 
         assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false dy default.", testStatement.isCloseOnCompletion());
@@ -7275,7 +7275,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:0. Statement.isClosed(): true after Statement.Close().", testStatement.isClosed());
 
         // **testing PreparedStatement**
-        // ResultSets should stay open when owning PreparedStatement is closed
+        // ResultSets should stay create when owning PreparedStatement is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
 
         assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.", testPrepStatement.isCloseOnCompletion());
@@ -7323,12 +7323,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeBatch()
+        // test implicit resultset close keeping statement create, when following with an executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7340,12 +7340,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset close keeping statement create, when following with an executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7356,7 +7356,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
@@ -7377,7 +7377,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.", testPrepStatement.isClosed());
@@ -7417,7 +7417,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1.close();
-        testResultSet3.close(); // last open ResultSet, must close Statement
+        testResultSet3.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -7509,7 +7509,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
@@ -7533,9 +7533,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one open).", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one create).", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -7566,7 +7566,7 @@ public class StatementRegressionTest extends BaseTestCase {
          * SUB-STEP 0: The basics (dontTrackOpenResources=true)
          */
         // **testing Statement**
-        // ResultSets should stay open when owning Statement is closed
+        // ResultSets should stay create when owning Statement is closed
         testStatement = (StatementImpl) testConnection.createStatement();
 
         assertFalse(testStep + ".ST:0. Statement.isCloseOnCompletion(): false by default.", testStatement.isCloseOnCompletion());
@@ -7593,7 +7593,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertTrue(testStep + ".ST:0. Statement.isClosed(): true after Statement.Close().", testStatement.isClosed());
 
         // **testing PreparedStatement**
-        // ResultSets should stay open when owning PreparedStatement is closed
+        // ResultSets should stay create when owning PreparedStatement is closed
         testPrepStatement = testConnection.prepareStatement("SELECT 1");
 
         assertFalse(testStep + ".PS:0. PreparedStatement.isCloseOnCompletion(): false by default.", testPrepStatement.isCloseOnCompletion());
@@ -7641,12 +7641,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet1.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset (not) close, keeping statement open, when following with an executeBatch()
+        // test implicit resultset (not) close, keeping statement create, when following with an executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7658,12 +7658,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet1.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset (not) close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset (not) close keeping statement create, when following with an executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7674,7 +7674,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet1.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
@@ -7695,7 +7695,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
-        testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet1.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false when last ResultSet is closed.", testPrepStatement.isClosed());
@@ -7735,7 +7735,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1.close();
-        testResultSet3.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet3.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -7778,7 +7778,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:3. ResultSet.isClosed(): false after last Satement.getMoreResults().", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:3. Statement.isClosed(): false after last Satement.getMoreResults().", testStatement.isClosed());
 
-        // since open ResultSets aren't tracked, we need to close all manually
+        // since create ResultSets aren't tracked, we need to close all manually
         testResultSet1.close();
         testResultSet2.close();
         testResultSet3.close();
@@ -7822,7 +7822,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".CS:3. ResultSet.isClosed(): false after last Satement.getMoreResults().", testResultSet3.isClosed());
         assertFalse(testStep + ".CS:3. CallableStatement.isClosed(): false after last Satement.getMoreResults().", testCallStatement.isClosed());
 
-        // since open ResultSets aren't tracked, we need to close all manually
+        // since create ResultSets aren't tracked, we need to close all manually
         testResultSet1.close();
         testResultSet2.close();
         testResultSet3.close();
@@ -7847,7 +7847,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet1.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed.", testStatement.isClosed());
@@ -7871,9 +7871,9 @@ public class StatementRegressionTest extends BaseTestCase {
 
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
-        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one open).", testStatement.isClosed());
+        assertFalse(testStep + ".ST:4. Statement.isClosed(): false when last ResultSet is closed (still one create).", testStatement.isClosed());
 
-        testResultSet1.close(); // although it's last open ResultSet, Statement mustn't be closed
+        testResultSet1.close(); // although it's last create ResultSet, Statement mustn't be closed
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -7979,12 +7979,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset close, keeping statement open, when following with an executeBatch()
+        // test implicit resultset close, keeping statement create, when following with an executeBatch()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -7996,12 +7996,12 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
 
-        // test implicit resultset close keeping statement open, when following with an executeUpdate()
+        // test implicit resultset close keeping statement create, when following with an executeUpdate()
         testStatement = (StatementImpl) testConnection.createStatement();
         testStatement.closeOnCompletion();
 
@@ -8012,7 +8012,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:1. Statement.isClosed(): false.", testStatement.isClosed());
 
         testResultSet1 = testStatement.getGeneratedKeys();
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:1. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
@@ -8033,7 +8033,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".PS:1. ResultSet.isClosed(): false after ResultSet have reached the end.", testResultSet1.isClosed());
         assertFalse(testStep + ".PS:1. PreparedStatement.isClosed(): false.", testPrepStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".PS:1. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".PS:1. PreparedStatement.isClosed(): true when last ResultSet is closed.", testPrepStatement.isClosed());
@@ -8067,7 +8067,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:2. ResultSet.isClosed(): false.", testResultSet3.isClosed());
         assertFalse(testStep + ".ST:2. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet3.close(); // last open ResultSet, must close Statement
+        testResultSet3.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:2. ResultSet.isClosed(): true.", testResultSet2.isClosed());
@@ -8159,7 +8159,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet1.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
-        testResultSet1.close(); // last open ResultSet, must close Statement
+        testResultSet1.close(); // last create ResultSet, must close Statement
 
         assertTrue(testStep + ".ST:4. ResultSet.isClosed(): true.", testResultSet1.isClosed());
         assertTrue(testStep + ".ST:4. Statement.isClosed(): true when last ResultSet is closed.", testStatement.isClosed());
@@ -8179,7 +8179,7 @@ public class StatementRegressionTest extends BaseTestCase {
         assertFalse(testStep + ".ST:4. ResultSet.isClosed(): false.", testResultSet2.isClosed());
         assertFalse(testStep + ".ST:4. Statement.isClosed(): false.", testStatement.isClosed());
 
-        // last open ResultSet won't close the Statement
+        // last create ResultSet won't close the Statement
         // because we didn't fetch the next one (SELECT 3)
         testResultSet2.close();
 
@@ -9414,9 +9414,9 @@ public class StatementRegressionTest extends BaseTestCase {
      * 1. A server prepared statement leakage by not actually closing the statement on server when .close() is called in the client side. This occurs when
      * setting 'cachePrepStmts=true&useServerPrepStmts=true' and a prepared statement is set as non-poolable ('setPoolable(false)'). By itself this doesn't
      * cause any visible issue because the connector has a fail-safe mechanism that uses client-side prepared statements when server-side prepared statements
-     * fail to be prepared. So, the connector ends up using client-side prepared statements after the number of open prepared statements on server hits the
+     * fail to be prepared. So, the connector ends up using client-side prepared statements after the number of create prepared statements on server hits the
      * value of 'max_prepared_stmt_count'.
-     * 2. A prepared statement fails to be prepared when there are too many open prepared statements on server. By setting the options
+     * 2. A prepared statement fails to be prepared when there are too many create prepared statements on server. By setting the options
      * 'rewriteBatchedStatements=true&useServerPrepStmts=true' when a _query happens to be rewritten a new (server-side) prepared statement is required but the
      * fail-safe mechanism isn't implemented in this spot, so, since the leakage described above already consumed all available prepared statements on server,
      * this ends up throwing the exception.

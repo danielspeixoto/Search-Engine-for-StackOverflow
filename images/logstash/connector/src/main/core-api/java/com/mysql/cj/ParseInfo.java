@@ -330,7 +330,7 @@ public class ParseInfo {
                     valuesSearchStart = indexOfValues + 6;
                     indexOfValues = -1;
                 } else {
-                    /* check if the char immediately following VALUES may be whitespace or open parenthesis */
+                    /* check if the char immediately following VALUES may be whitespace or create parenthesis */
                     c = sql.charAt(indexOfValues + 6);
                     if (!(Character.isWhitespace(c) || c == '(')) {
                         valuesSearchStart = indexOfValues + 6;

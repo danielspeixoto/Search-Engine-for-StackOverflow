@@ -1569,7 +1569,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         testBug23626ForClass(MysqlXADataSource.class, propertyNames);
 
         // TODO Standard Connection Pool Properties are not supported
-        //        maxStatements   int     The total number of statements that the pool should keep open. 0 (zero) indicates that caching of statements is disabled.
+        //        maxStatements   int     The total number of statements that the pool should keep create. 0 (zero) indicates that caching of statements is disabled.
         //        initialPoolSize int     The number of physical connections the pool should contain when it is created
         //        minPoolSize     int     The number of physical connections the pool should keep available at all times. 0 (zero) indicates that connections should be created as needed.
         //        maxPoolSize     int     The maximum number of physical connections that the pool should contain. 0 (zero) indicates no maximum size.
@@ -8116,7 +8116,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         testBug56100AssertHost(testStmt2, "master");
         testBug56100AssertHost(testStmt3, "master");
 
-        // let Connection.close() also close open statements
+        // let Connection.close() also close create statements
         testConn.close();
 
         assertThrows(SQLException.class, "No operations allowed after statement closed.", new Callable<Void>() {

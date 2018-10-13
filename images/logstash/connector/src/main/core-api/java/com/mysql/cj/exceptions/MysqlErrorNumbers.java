@@ -57,7 +57,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_CANT_GET_STAT = 1013; //SQLSTATE: HY000 Message: Can't get status of '%s' (errno: %d - %s)
     public final static int ER_CANT_GET_WD = 1014; //SQLSTATE: HY000 Message: Can't get working directory (errno: %d - %s)
     public final static int ER_CANT_LOCK = 1015; //SQLSTATE: HY000 Message: Can't lock file (errno: %d - %s)
-    public final static int ER_CANT_OPEN_FILE = 1016; //SQLSTATE: HY000 Message: Can't open file: '%s' (errno: %d - %s)
+    public final static int ER_CANT_OPEN_FILE = 1016; //SQLSTATE: HY000 Message: Can't create file: '%s' (errno: %d - %s)
     public final static int ER_FILE_NOT_FOUND = 1017; //SQLSTATE: HY000 Message: Can't find file: '%s' (errno: %d - %s)
     public final static int ER_CANT_READ_DIR = 1018; //SQLSTATE: HY000 Message: Can't read dir of '%s' (errno: %d - %s)
     public final static int ER_CANT_SET_WD = 1019; //SQLSTATE: HY000 Message: Can't change dir to '%s' (errno: %d - %s)
@@ -167,7 +167,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_CANT_INITIALIZE_UDF = 1123; //SQLSTATE: HY000 Message: Can't initialize function '%s'; %s
     public final static int ER_UDF_NO_PATHS = 1124; //SQLSTATE: HY000 Message: No paths allowed for shared library
     public final static int ER_UDF_EXISTS = 1125; //SQLSTATE: HY000 Message: Function '%s' already exists
-    public final static int ER_CANT_OPEN_LIBRARY = 1126; //SQLSTATE: HY000 Message: Can't open shared library '%s' (errno: %d %s)
+    public final static int ER_CANT_OPEN_LIBRARY = 1126; //SQLSTATE: HY000 Message: Can't create shared library '%s' (errno: %d %s)
     public final static int ER_CANT_FIND_DL_ENTRY = 1127; //SQLSTATE: HY000 Message: Can't find symbol '%s' in library
     public final static int ER_FUNCTION_NOT_DEFINED = 1128; //SQLSTATE: HY000 Message: Function '%s' is not defined
     public final static int ER_HOST_IS_BLOCKED = 1129; //SQLSTATE: HY000 Message: Host '%s' is blocked because of many connection errors; unblock with 'mysqladmin flush-hosts'
@@ -209,7 +209,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_DELAYED_INSERT_TABLE_LOCKED = 1165; //SQLSTATE: HY000 Message: INSERT DELAYED can't be used with table '%s' because it is locked with LOCK TABLES
     public final static int ER_WRONG_COLUMN_NAME = 1166; //SQLSTATE: 42000 Message: Incorrect column name '%s'
     public final static int ER_WRONG_KEY_COLUMN = 1167; //SQLSTATE: 42000 Message: The used storage engine can't index column '%s'
-    public final static int ER_WRONG_MRG_TABLE = 1168; //SQLSTATE: HY000 Message: Unable to open underlying table which is differently defined or of non-MyISAM type or doesn't exist
+    public final static int ER_WRONG_MRG_TABLE = 1168; //SQLSTATE: HY000 Message: Unable to create underlying table which is differently defined or of non-MyISAM type or doesn't exist
     public final static int ER_DUP_UNIQUE = 1169; //SQLSTATE: 23000 Message: Can't write, because of unique constraint, to table '%s'
     public final static int ER_BLOB_KEY_WITHOUT_LENGTH = 1170; //SQLSTATE: 42000 Message: BLOB/TEXT column '%s' used in key specification without a key length
     public final static int ER_PRIMARY_CANT_HAVE_NULL = 1171; //SQLSTATE: 42000 Message: All parts of a PRIMARY KEY must be NOT NULL; if you need NULL in a key, use UNIQUE instead
@@ -218,7 +218,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_NO_RAID_COMPILED = 1174; //SQLSTATE: HY000 Message: This version of MySQL is not compiled with RAID support
     public final static int ER_UPDATE_WITHOUT_KEY_IN_SAFE_MODE = 1175; //SQLSTATE: HY000 Message: You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column
     public final static int ER_KEY_DOES_NOT_EXITS = 1176; //SQLSTATE: 42000 Message: Key '%s' doesn't exist in table '%s'
-    public final static int ER_CHECK_NO_SUCH_TABLE = 1177; //SQLSTATE: 42000 Message: Can't open table
+    public final static int ER_CHECK_NO_SUCH_TABLE = 1177; //SQLSTATE: 42000 Message: Can't create table
     public final static int ER_CHECK_NOT_IMPLEMENTED = 1178; //SQLSTATE: 42000 Message: The storage engine for the table doesn't support %s
     public final static int ER_CANT_DO_THIS_DURING_AN_TRANSACTION = 1179; //SQLSTATE: 25000 Message: You are not allowed to execute this command in a transaction
     public final static int ER_ERROR_DURING_COMMIT = 1180; //SQLSTATE: HY000 Message: Got error %d during COMMIT
@@ -366,8 +366,8 @@ public final class MysqlErrorNumbers {
     public final static int ER_SP_BAD_CURSOR_QUERY = 1322; //SQLSTATE: 42000 Message: Cursor statement must be a SELECT
     public final static int ER_SP_BAD_CURSOR_SELECT = 1323; //SQLSTATE: 42000 Message: Cursor SELECT must not have INTO
     public final static int ER_SP_CURSOR_MISMATCH = 1324; //SQLSTATE: 42000 Message: Undefined CURSOR: %s
-    public final static int ER_SP_CURSOR_ALREADY_OPEN = 1325; //SQLSTATE: 24000 Message: Cursor is already open
-    public final static int ER_SP_CURSOR_NOT_OPEN = 1326; //SQLSTATE: 24000 Message: Cursor is not open
+    public final static int ER_SP_CURSOR_ALREADY_OPEN = 1325; //SQLSTATE: 24000 Message: Cursor is already create
+    public final static int ER_SP_CURSOR_NOT_OPEN = 1326; //SQLSTATE: 24000 Message: Cursor is not create
     public final static int ER_SP_UNDECLARED_VAR = 1327; //SQLSTATE: 42000 Message: Undeclared variable: %s
     public final static int ER_SP_WRONG_NO_OF_FETCH_ARGS = 1328; //SQLSTATE: HY000 Message: Incorrect number of FETCH variables
     public final static int ER_SP_FETCH_NO_DATA = 1329; //SQLSTATE: 02000 Message: No data - zero rows fetched, selected, or processed
@@ -461,8 +461,8 @@ public final class MysqlErrorNumbers {
     public final static int ER_FAILED_ROUTINE_BREAK_BINLOG = 1417; //SQLSTATE: HY000 Message: A routine failed and has neither NO SQL nor READS SQL DATA in its declaration and binary logging is enabled; if non-transactional tables were updated, the binary log will miss their changes
     public final static int ER_BINLOG_UNSAFE_ROUTINE = 1418; //SQLSTATE: HY000 Message: This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA in its declaration and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
     public final static int ER_BINLOG_CREATE_ROUTINE_NEED_SUPER = 1419; //SQLSTATE: HY000 Message: You do not have the SUPER privilege and binary logging is enabled (you *might* want to use the less safe log_bin_trust_function_creators variable)
-    public final static int ER_EXEC_STMT_WITH_OPEN_CURSOR = 1420; //SQLSTATE: HY000 Message: You can't execute a prepared statement which has an open cursor associated with it. Reset the statement to re-execute it.
-    public final static int ER_STMT_HAS_NO_OPEN_CURSOR = 1421; //SQLSTATE: HY000 Message: The statement (%lu) has no open cursor.
+    public final static int ER_EXEC_STMT_WITH_OPEN_CURSOR = 1420; //SQLSTATE: HY000 Message: You can't execute a prepared statement which has an create cursor associated with it. Reset the statement to re-execute it.
+    public final static int ER_STMT_HAS_NO_OPEN_CURSOR = 1421; //SQLSTATE: HY000 Message: The statement (%lu) has no create cursor.
     public final static int ER_COMMIT_NOT_ALLOWED_IN_SF_OR_TRG = 1422; //SQLSTATE: HY000 Message: Explicit or implicit commit is not allowed in stored function or trigger.
     public final static int ER_NO_DEFAULT_FOR_VIEW_FIELD = 1423; //SQLSTATE: HY000 Message: Field of view '%s.%s' underlying table doesn't have a default value
     public final static int ER_SP_NO_RECURSION = 1424; //SQLSTATE: HY000 Message: Recursive stored functions and triggers are not allowed.
@@ -586,7 +586,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_EVENT_INTERVAL_NOT_POSITIVE_OR_TOO_BIG = 1542; //SQLSTATE: HY000 Message: INTERVAL is either not positive or too big
     public final static int ER_EVENT_ENDS_BEFORE_STARTS = 1543; //SQLSTATE: HY000 Message: ENDS is either invalid or before STARTS
     public final static int ER_EVENT_EXEC_TIME_IN_THE_PAST = 1544; //SQLSTATE: HY000 Message: Event execution time is in the past. Event has been disabled
-    public final static int ER_EVENT_OPEN_TABLE_FAILED = 1545; //SQLSTATE: HY000 Message: Failed to open mysql.event
+    public final static int ER_EVENT_OPEN_TABLE_FAILED = 1545; //SQLSTATE: HY000 Message: Failed to create mysql.event
     public final static int ER_EVENT_NEITHER_M_EXPR_NOR_M_AT = 1546; //SQLSTATE: HY000 Message: No datetime expression provided
     public final static int ER_COL_COUNT_DOESNT_MATCH_CORRUPTED = 1547; //SQLSTATE: HY000 Message: Column count of mysql.%s is wrong. Expected %d, found %d. The table is probably corrupted
     public final static int ER_CANNOT_LOAD_FROM_TABLE = 1548; //SQLSTATE: HY000 Message: Cannot load from mysql.%s. The table is probably corrupted
@@ -600,7 +600,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_CANT_LOCK_LOG_TABLE = 1556; //SQLSTATE: HY000 Message: You can't use locks with log tables.
     public final static int ER_FOREIGN_DUPLICATE_KEY = 1557; //SQLSTATE: 23000 Message: Upholding foreign key constraints for table '%s', entry '%s', key %d would lead to a duplicate entry
     public final static int ER_COL_COUNT_DOESNT_MATCH_PLEASE_UPDATE = 1558; //SQLSTATE: HY000 Message: Column count of mysql.%s is wrong. Expected %d, found %d. Created with MySQL %d, now running %d. Please use mysql_upgrade to fix this error.
-    public final static int ER_TEMP_TABLE_PREVENTS_SWITCH_OUT_OF_RBR = 1559; //SQLSTATE: HY000 Message: Cannot switch out of the row-based binary log format when the session has open temporary tables
+    public final static int ER_TEMP_TABLE_PREVENTS_SWITCH_OUT_OF_RBR = 1559; //SQLSTATE: HY000 Message: Cannot switch out of the row-based binary log format when the session has create temporary tables
     public final static int ER_STORED_FUNCTION_PREVENTS_SWITCH_BINLOG_FORMAT = 1560; //SQLSTATE: HY000 Message: Cannot change the binary logging format inside a stored function or trigger
     public final static int ER_NDB_CANT_SWITCH_BINLOG_FORMAT = 1561; //SQLSTATE: HY000 Message: The NDB cluster engine does not support changing the binlog format on the fly yet
     public final static int ER_PARTITION_NO_TEMPORARY = 1562; //SQLSTATE: HY000 Message: Cannot create temporary table with partitions
@@ -647,7 +647,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_TRG_NO_CREATION_CTX = 1603; //SQLSTATE: HY000 Message: Triggers for table `%s`.`%s` have no creation context
     public final static int ER_TRG_INVALID_CREATION_CTX = 1604; //SQLSTATE: HY000 Message: Trigger creation context of table `%s`.`%s` is invalid
     public final static int ER_EVENT_INVALID_CREATION_CTX = 1605; //SQLSTATE: HY000 Message: Creation context of event `%s`.`%s` is invalid
-    public final static int ER_TRG_CANT_OPEN_TABLE = 1606; //SQLSTATE: HY000 Message: Cannot open table for trigger `%s`.`%s`
+    public final static int ER_TRG_CANT_OPEN_TABLE = 1606; //SQLSTATE: HY000 Message: Cannot create table for trigger `%s`.`%s`
     public final static int ER_CANT_CREATE_SROUTINE = 1607; //SQLSTATE: HY000 Message: Cannot create stored routine `%s`. Check warnings
     public final static int ER_NEVER_USED = 1608; //SQLSTATE: HY000 Message: Ambiguous slave modes combination. %s
     public final static int ER_NO_FORMAT_DESCRIPTION_EVENT_BEFORE_BINLOG_STATEMENT = 1609; //SQLSTATE: HY000 Message: The BINLOG statement of type `%s` was not preceded by a format description BINLOG statement.
@@ -866,7 +866,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_FK_NO_INDEX_CHILD = 1821; //SQLSTATE: HY000 Message: Failed to add the foreign key constaint. Missing index for constraint '%s' in the foreign table '%s'
     public final static int ER_FK_NO_INDEX_PARENT = 1822; //SQLSTATE: HY000 Message: Failed to add the foreign key constaint. Missing index for constraint '%s' in the referenced table '%s'
     public final static int ER_FK_FAIL_ADD_SYSTEM = 1823; //SQLSTATE: HY000 Message: Failed to add the foreign key constraint '%s' to system tables
-    public final static int ER_FK_CANNOT_OPEN_PARENT = 1824; //SQLSTATE: HY000 Message: Failed to open the referenced table '%s'
+    public final static int ER_FK_CANNOT_OPEN_PARENT = 1824; //SQLSTATE: HY000 Message: Failed to create the referenced table '%s'
     public final static int ER_FK_INCORRECT_OPTION = 1825; //SQLSTATE: HY000 Message: Failed to add the foreign key constraint on table '%s'. Incorrect options in FOREIGN KEY constraint '%s'
     public final static int ER_FK_DUP_NAME = 1826; //SQLSTATE: HY000 Message: Duplicate foreign key constraint name '%s'
     public final static int ER_PASSWORD_FORMAT = 1827; //SQLSTATE: HY000 Message: The password hash doesn't have the expected format. Check if the correct password algorithm is being used with the PASSWORD() function.
@@ -948,7 +948,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_INNODB_UNDO_LOG_FULL = 1902; //SQLSTATE: HY000 Message: Undo Log error: %s; was introduced in 5.7.4.
     public final static int ER_INVALID_ARGUMENT_FOR_LOGARITHM = 1903; //SQLSTATE: 2201E Message: Invalid argument for logarithm; was introduced in 5.7.4.
     public final static int ER_SLAVE_IO_THREAD_MUST_STOP = 1904; //SQLSTATE: HY000 Message: This operation cannot be performed with a running slave io thread; run STOP SLAVE IO_THREAD first.; was introduced in 5.7.4.
-    public final static int ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO = 1905; //SQLSTATE: HY000 Message: This operation may not be safe when the slave has temporary tables. The tables will be kept open until the server restarts or until the tables are deleted by any replicated DROP statement. Suggest to wait until slave_open_temp_tables = 0.; was introduced in 5.7.4.
+    public final static int ER_WARN_OPEN_TEMP_TABLES_MUST_BE_ZERO = 1905; //SQLSTATE: HY000 Message: This operation may not be safe when the slave has temporary tables. The tables will be kept create until the server restarts or until the tables are deleted by any replicated DROP statement. Suggest to wait until slave_open_temp_tables = 0.; was introduced in 5.7.4.
     public final static int ER_WARN_ONLY_MASTER_LOG_FILE_NO_POS = 1906; //SQLSTATE: HY000 Message: CHANGE MASTER TO with a MASTER_LOG_FILE clause but no MASTER_LOG_POS clause may not be safe. The old position value may not be valid for the new binary log file.; was introduced in 5.7.4.
     public final static int ER_QUERY_TIMEOUT = 1907; //SQLSTATE: HY000 Message: Query execution was interrupted, max_statement_time exceeded; was introduced in 5.7.4.
     public final static int ER_NON_RO_SELECT_DISABLE_TIMER = 1908; //SQLSTATE: HY000 Message: Select is not a read only statement, disabling timer; was introduced in 5.7.4.

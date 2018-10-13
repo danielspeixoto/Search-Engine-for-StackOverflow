@@ -1372,7 +1372,7 @@ public class StringUtils {
      * @param src
      *            the source string
      * @param stringOpens
-     *            characters which delimit the "open" of a string
+     *            characters which delimit the "create" of a string
      * @param stringCloses
      *            characters which delimit the "close" of a string, in
      *            counterpart order to <code>stringOpens</code>

@@ -78,7 +78,7 @@ public final class MysqlxExpect {
    * Protobuf type {@code Mysqlx.Expect.Open}
    *
    * <pre>
-   * open an Expect block and set/unset the conditions that have to be fulfilled
+   * create an Expect block and set/unset the conditions that have to be fulfilled
    * if any of the conditions fail, all enclosed messages will fail with
    * a Mysqlx.Error message.
    * :returns: :protobuf:msg:`Mysqlx::Ok` on success, :protobuf:msg:`Mysqlx::Error` on error
@@ -1261,7 +1261,7 @@ public final class MysqlxExpect {
      * Protobuf type {@code Mysqlx.Expect.Open}
      *
      * <pre>
-     * open an Expect block and set/unset the conditions that have to be fulfilled
+     * create an Expect block and set/unset the conditions that have to be fulfilled
      * if any of the conditions fail, all enclosed messages will fail with
      * a Mysqlx.Error message.
      * :returns: :protobuf:msg:`Mysqlx::Ok` on success, :protobuf:msg:`Mysqlx::Error` on error

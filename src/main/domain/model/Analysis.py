@@ -9,6 +9,7 @@ class Analysis:
         self.expected = expected
         self.map = 0
         self.recall = 0
+        self.precision = 0
         self._calculate()
 
     def print(self):
@@ -26,4 +27,5 @@ class Analysis:
                     self.map = self.map + found / i
         if found != 0:
             self.map /= found
+        self.precision = found / len(self.retrieved)
         self.recall = found / len(self.expected)

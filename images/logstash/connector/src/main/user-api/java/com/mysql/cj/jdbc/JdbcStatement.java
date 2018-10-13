@@ -114,9 +114,9 @@ public interface JdbcStatement extends java.sql.Statement, Query {
     void removeOpenResultSet(ResultSetInternalMethods rs);
 
     /**
-     * Returns the number of open result sets for this statement.
+     * Returns the number of create result sets for this statement.
      * 
-     * @return the number of open result sets for this statement
+     * @return the number of create result sets for this statement
      */
     int getOpenResultSetCount();
 

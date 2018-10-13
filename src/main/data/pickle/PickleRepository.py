@@ -1,3 +1,4 @@
+import datetime
 import errno
 import os
 import pickle
@@ -10,9 +11,20 @@ class PickleRepository:
     def __init__(self, data_path: str):
         self._data_path = data_path
         self._analysis_path = self._data_path + "/analysis"
+        self._is_open = False
+        self.file = None
 
     def save_analysis(self, analysis: [Analysis]):
-        PickleRepository.save_obj(self._analysis_path, analysis)
+        if self.file is None:
+            print("Creating file")
+            self.file = PickleRepository.create(self._analysis_path)
+        self.write(self.file, analysis)
+
+    def close(self):
+        self.file.close()
+
+    def write(self, file,  analysis: [Analysis]):
+        pickle.dump(analysis, file, pickle.HIGHEST_PROTOCOL)
 
     def analysis_reader(self) -> [Analysis]:
         analysis = PickleRepository.load_obj(self._analysis_path)
@@ -21,10 +33,15 @@ class PickleRepository:
     @staticmethod
     def load_obj(path):
         with open(path + '.pkl', 'rb') as f:
-            return pickle.load(f)
+            while True:
+                try:
+                    for obj in pickle.load(f):
+                       yield obj
+                except EOFError:
+                    break
 
     @staticmethod
-    def save_obj(path, obj_arr: [object]):
+    def create(path):
         path = path + ".pkl"
         if not os.path.exists(os.path.dirname(path)):
             try:
@@ -32,5 +49,7 @@ class PickleRepository:
             except OSError as exc:  # Guard against race condition
                 if exc.errno != errno.EEXIST:
                     raise
-        with open(path, 'wb') as f:
-            pickle.dump(obj_arr, f, pickle.HIGHEST_PROTOCOL)
+        if os.path.isfile(path):
+            return PickleRepository.create(path + str(datetime.datetime.now()))
+        else:
+            return open(path, "wb+")

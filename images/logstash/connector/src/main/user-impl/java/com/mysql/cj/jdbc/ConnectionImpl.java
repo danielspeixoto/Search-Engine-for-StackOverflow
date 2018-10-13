@@ -292,7 +292,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     //	private long masterFailTimeMillis = 0L;
 
     /**
-     * An array of currently open statements.
+     * An array of currently create statements.
      * Copy-on-write used here to avoid ConcurrentModificationException when statements unregister themselves while we iterate over the list.
      */
     private final CopyOnWriteArrayList<JdbcStatement> openStatements = new CopyOnWriteArrayList<>();
@@ -728,7 +728,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     }
 
     /**
-     * Closes all currently open statements.
+     * Closes all currently create statements.
      * 
      * @throws SQLException
      *             if a database access error occurs
@@ -814,7 +814,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     public void createNewIO(boolean isForReconnect) {
         synchronized (getConnectionMutex()) {
             // Synchronization Not needed for *new* connections, but defintely for connections going through fail-over, since we might get the new connection up
-            // and running *enough* to start sending cached or still-open server-side prepared statements over to the backend before we get a chance to
+            // and running *enough* to start sending cached or still-create server-side prepared statements over to the backend before we get a chance to
             // re-prepare them...
 
             try {
@@ -918,7 +918,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
             Iterator<JdbcStatement> statementIter = this.openStatements.iterator();
 
             //
-            // We build a list of these outside the map of open statements, because in the process of re-preparing, we might end up having to close a prepared
+            // We build a list of these outside the map of create statements, because in the process of re-preparing, we might end up having to close a prepared
             // statement, thus removing it from the map, and generating a ConcurrentModificationException
             //
             Stack<JdbcStatement> serverPreparedStatements = null;

@@ -81,7 +81,7 @@ import junit.framework.TestSuite;
  * 
  * <p>
  * "Each call to PooledConnection.getConnection() must return a newly constructed Connection object that exhibits the default Connection behavior. Only the most
- * recent Connection object produced from a particular PooledConnection is open. An existing Connection object is automatically closed, if the getConnection()
+ * recent Connection object produced from a particular PooledConnection is create. An existing Connection object is automatically closed, if the getConnection()
  * method of its associated Pooled-Connection is called again, before it has been explicitly closed by the application. This gives the application server a way
  * to �take away� a Connection from the application if it wishes, and give it out to someone else. This capability will not likely be used frequently in
  * practice."
@@ -121,7 +121,7 @@ import junit.framework.TestSuite;
  * </p>
  * Even though the specification isn't clear about it, I think it is no use
  * generating a close event when calling the method PooledConnection.close(),
- * even if a logical Connection is open for this PooledConnection, bc the
+ * even if a logical Connection is create for this PooledConnection, bc the
  * PooledConnection will obviously not be returned to the pool.
  */
 public final class PooledConnectionRegressionTest extends BaseTestCase {

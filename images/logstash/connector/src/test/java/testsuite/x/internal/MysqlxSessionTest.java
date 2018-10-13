@@ -190,7 +190,7 @@ public class MysqlxSessionTest extends InternalXBaseTestCase {
         assertFalse(docs3.hasNext());
         assertFalse(docs2.hasNext());
         assertFalse(docs1.hasNext());
-        // let the session be closed with all of these "open"
+        // let the session be closed with all of these "create"
     }
 
     @Test

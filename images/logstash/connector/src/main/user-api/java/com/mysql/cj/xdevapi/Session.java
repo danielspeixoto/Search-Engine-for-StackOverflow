@@ -142,9 +142,9 @@ public interface Session {
     String getUri();
 
     /**
-     * Is this session open?
+     * Is this session create?
      * 
-     * @return true if session is open
+     * @return true if session is create
      */
     boolean isOpen();
 

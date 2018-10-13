@@ -114,7 +114,7 @@ public interface ServerSession {
     boolean inTransactionOnServer();
 
     /**
-     * Server will only open a cursor and set this flag if it can, otherwise it punts and goes back to mysql_store_results() behavior.
+     * Server will only create a cursor and set this flag if it can, otherwise it punts and goes back to mysql_store_results() behavior.
      * 
      * @return SERVER_STATUS_CURSOR_EXISTS <a href=http://dev.mysql.com/doc/internals/en/status-flags.html>status flag</a> value.
      */

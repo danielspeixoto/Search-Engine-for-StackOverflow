@@ -1839,7 +1839,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
      * result set.
      * 
      * <p>
-     * If an input stream from the previous row is open, it is implicitly closed. The ResultSet's warning chain is cleared when a new row is read
+     * If an input stream from the previous row is create, it is implicitly closed. The ResultSet's warning chain is cleared when a new row is read
      * </p>
      * 
      * @return true if the new current is valid; false if there are no more rows

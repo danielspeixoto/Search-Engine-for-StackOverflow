@@ -47,7 +47,7 @@ public class AsyncSocketFactory implements SocketFactory {
     @Override
     public <T extends Closeable> T connect(String host, int port, Properties props, int loginTimeout) throws IOException {
         try {
-            this.channel = AsynchronousSocketChannel.open();
+            this.channel = AsynchronousSocketChannel.create();
             //channel.setOption(java.net.StandardSocketOptions.TCP_NODELAY, true);
             this.channel.setOption(java.net.StandardSocketOptions.SO_SNDBUF, 128 * 1024);
             this.channel.setOption(java.net.StandardSocketOptions.SO_RCVBUF, 128 * 1024);

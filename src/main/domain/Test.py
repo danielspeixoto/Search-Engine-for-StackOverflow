@@ -15,6 +15,8 @@ class Test:
 
         map = 0
         recall = 0
+        precision = 0
+        all = []
         while True:
             questions = self.index.sample_data(amount_retrieved, query_size)
             analysis = []
@@ -23,20 +25,25 @@ class Test:
                 expected = question["relations"]
                 analysis.append(Analysis(question['id'], retrieved, expected))
 
+            # all.append(analysis)
+            self.results.save_analysis(analysis)
             query_size = len(analysis)
             amount_retrieved = amount_retrieved + query_size
 
             for analysi in analysis:
-                analysi.print()
+                # analysi.print()
                 map += analysi.map
                 recall += analysi.recall
+                precision += analysi.precision
 
             print("Current Results:")
-            print("map: " + str(map/amount_retrieved) + " recall: " + str(recall/amount_retrieved))
+            print("map: " + str(map/amount_retrieved) + " recall: " + str(recall/amount_retrieved) +
+                  " precision: " + str(precision/amount_retrieved))
             print(str(amount_retrieved) + " questions analysed")
             # End of pagination
             if len(analysis) < query_size:
                 break
+        self.results.close()
 
     def _query(self, question):
         return self.index.query(question['title'], question['body'])

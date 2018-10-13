@@ -490,7 +490,7 @@ public class ExportControlled {
                 throw ExceptionFactory.createException(SSLParamsException.class, clientCertificateKeyStoreUrl + " does not appear to be a valid URL.", mue,
                         exceptionInterceptor);
             } catch (IOException ioe) {
-                throw ExceptionFactory.createException(SSLParamsException.class, "Cannot open " + clientCertificateKeyStoreUrl + " [" + ioe.getMessage() + "]",
+                throw ExceptionFactory.createException(SSLParamsException.class, "Cannot create " + clientCertificateKeyStoreUrl + " [" + ioe.getMessage() + "]",
                         ioe, exceptionInterceptor);
             } finally {
                 if (ksIS != null) {
@@ -543,7 +543,7 @@ public class ExportControlled {
             throw ExceptionFactory.createException(SSLParamsException.class,
                     "Could not load trust" + trustCertificateKeyStoreType + " keystore from " + trustCertificateKeyStoreUrl, e, exceptionInterceptor);
         } catch (IOException e) {
-            throw ExceptionFactory.createException(SSLParamsException.class, "Cannot open " + trustCertificateKeyStoreUrl + " [" + e.getMessage() + "]", e,
+            throw ExceptionFactory.createException(SSLParamsException.class, "Cannot create " + trustCertificateKeyStoreUrl + " [" + e.getMessage() + "]", e,
                     exceptionInterceptor);
         } finally {
             if (trustStoreIS != null) {

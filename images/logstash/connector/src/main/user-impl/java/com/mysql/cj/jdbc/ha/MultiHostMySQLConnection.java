@@ -70,7 +70,7 @@ import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
  * current active connection managed by this multi-host structure. The remaining methods either implement some local behavior or refer to the proxy itself
  * instead of the sub-connection.
  * 
- * Referring to the higher level proxy connection is needed when some operation needs to be extended to all open sub-connections existing in this multi-host
+ * Referring to the higher level proxy connection is needed when some operation needs to be extended to all create sub-connections existing in this multi-host
  * structure as opposed to just refer to the active current connection, such as with close() which is most likely required to close all sub-connections as
  * well.
  */
