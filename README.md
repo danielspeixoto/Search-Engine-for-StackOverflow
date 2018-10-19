@@ -3,4 +3,4 @@
 Download: docker, docker-compose
 
 Links Type = 3 -> Duplicate
-Links Type = 1 -> Linked
+Links Type = 1 -> Linked# elasticsearch-workshop
