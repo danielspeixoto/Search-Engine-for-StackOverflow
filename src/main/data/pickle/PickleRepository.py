@@ -2,11 +2,13 @@ import datetime
 import errno
 import os
 import pickle
+from typing import Dict
 
+from src.main.data.interfaces.BulkRepository import BulkRepository
 from src.main.domain.model.Analysis import Analysis
 
 
-class PickleRepository:
+class PickleRepository(BulkRepository):
 
     def __init__(self, data_path: str):
         self._data_path = data_path
@@ -14,7 +16,7 @@ class PickleRepository:
         self._is_open = False
         self.file = None
 
-    def save_analysis(self, analysis: [Analysis]):
+    def save(self, analysis: [Dict]):
         if self.file is None:
             print("Creating file")
             self.file = PickleRepository.create(self._analysis_path)

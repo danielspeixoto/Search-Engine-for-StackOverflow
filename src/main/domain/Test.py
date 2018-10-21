@@ -1,49 +1,35 @@
 from src.main.data.elasticsearch.QuestionIndex import QuestionIndex
-from src.main.data.pickle.PickleRepository import PickleRepository
+from src.main.data.interfaces.BulkRepository import BulkRepository
 from src.main.domain.model.Analysis import Analysis
 
 
 class Test:
 
-    def __init__(self, index: QuestionIndex, results: PickleRepository):
+    def __init__(self, index: QuestionIndex, results: BulkRepository):
         self.index = index
         self.results = results
 
-    def test(self, initial_query_size=100):
+    def test(self, initial_query_size=10):
         query_size = initial_query_size
         amount_retrieved = 0
 
-        map = 0
-        recall = 0
-        precision = 0
-        all = []
         while True:
             questions = self.index.sample_data(amount_retrieved, query_size)
             analysis = []
             for question in questions:
                 retrieved = self._questions_id(self._query(question))
                 expected = question["relations"]
-                analysis.append(Analysis(question['id'], retrieved, expected))
+                analysis.append(
+                    Analysis(question['id'], retrieved, expected).__dict__
+                )
 
-            # all.append(analysis)
-            self.results.save_analysis(analysis)
+            self.results.save(analysis)
             query_size = len(analysis)
             amount_retrieved = amount_retrieved + query_size
 
-            for analysi in analysis:
-                # analysi.print()
-                map += analysi.map
-                recall += analysi.recall
-                precision += analysi.precision
-
-            print("Current Results:")
-            print("map: " + str(map/amount_retrieved) + " recall: " + str(recall/amount_retrieved) +
-                  " precision: " + str(precision/amount_retrieved))
-            print(str(amount_retrieved) + " questions analysed")
             # End of pagination
             if len(analysis) < query_size:
                 break
-        self.results.close()
 
     def _query(self, question):
         return self.index.query(question['title'], question['body'])

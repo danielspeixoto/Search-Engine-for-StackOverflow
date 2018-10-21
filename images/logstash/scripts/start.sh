@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 while true; do
-    if curl mysql:3306; then
+    if nc -z mysql 3306; then
         echo 'mySQL ready'
         logstash -f /logstash.conf
         break;

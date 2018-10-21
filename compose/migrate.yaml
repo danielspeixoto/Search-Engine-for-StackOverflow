@@ -7,7 +7,7 @@ services:
     ports:
     - 9200:9200
     volumes:
-      - 'es_data:/usr/share/elasticsearch/data'
+      - 'es-data:/usr/share/elasticsearch/data'
 
   elasticsearch-config:
     build: ../images/elasticsearch-config
@@ -26,7 +26,6 @@ services:
     - 4000:3306
     volumes:
       - 'mysql:/var/lib/mysql'
-      - '/home/daniel/ufba/rec/datasets/stackoverflow/ubuntu/:/custom'
 
   logstash:
     build: ../images/logstash
@@ -38,12 +37,17 @@ services:
       - 5000:5000
     depends_on:
       - elasticsearch
-      - mysql
 
 networks:
   elk:
   data:
+    external:
+      name: data
 
 volumes:
-  es_data:
   mysql:
+    external:
+      name: mysql
+  es-data:
+    external:
+      name: es-data

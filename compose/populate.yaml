@@ -1,20 +1,5 @@
 version: '3.3'
 services:
-  elasticsearch:
-    build: ../images/elasticsearch
-    container_name: elasticsearch
-    networks: ['elk']
-    ports:
-    - 9200:9200
-    volumes:
-      - 'es_data:/usr/share/elasticsearch/data'
-
-  elasticsearch-config:
-    build: ../images/elasticsearch-config
-    container_name: elasticsearch-config
-    networks: ['elk']
-    depends_on:
-      - elasticsearch
 
   mysql:
     build: ../images/mysql
@@ -26,24 +11,14 @@ services:
     - 4000:3306
     volumes:
       - 'mysql:/var/lib/mysql'
-      - '/home/daniel/ufba/rec/datasets/stackoverflow/ubuntu/:/custom'
-
-  logstash:
-    build: ../images/logstash
-    container_name: logstash
-    environment:
-      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
-    networks: ['elk', 'data']
-    ports:
-      - 5000:5000
-    depends_on:
-      - elasticsearch
-      - mysql
-
-networks:
-  elk:
-  data:
+      - '/home/daniel/ufba/rec/datasets/stackoverflow/freelancing/:/custom'
 
 volumes:
-  es_data:
   mysql:
+    external:
+      name: mysql
+
+networks:
+  data:
+    external:
+      name: data

@@ -10,7 +10,7 @@ services:
       - 'es_data:/usr/share/elasticsearch/data'
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.4.0
+    build: ../images/kibana
     container_name: kibana
     environment:
       - "ELASTICSEARCH_URL=http://elasticsearch:9200"
