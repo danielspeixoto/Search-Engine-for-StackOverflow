@@ -9,7 +9,7 @@ class Test:
         self.index = index
         self.results = results
 
-    def test(self, initial_query_size=10):
+    def test(self, initial_query_size=100):
         query_size = initial_query_size
         amount_retrieved = 0
 
@@ -24,12 +24,16 @@ class Test:
                 )
 
             self.results.save(analysis)
-            query_size = len(analysis)
-            amount_retrieved = amount_retrieved + query_size
+
+            amount_retrieved = amount_retrieved + len(analysis)
+
+            print("%s done" % amount_retrieved)
 
             # End of pagination
             if len(analysis) < query_size:
                 break
+
+            query_size = len(analysis)
 
     def _query(self, question):
         return self.index.query(question['title'], question['body'])

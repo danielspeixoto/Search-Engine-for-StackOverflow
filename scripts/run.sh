@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 scripts/lowlevel/config.sh && \
-sudo docker-compose -f compose/start.yaml up
+sudo docker-compose -f compose/start.yaml up $1
+

@@ -13,4 +13,4 @@ sudo docker-compose -f compose/populate.yaml up & \
     done
     )
 sudo docker-compose -f compose/populate.yaml down && \
-sudo docker-compose -f compose/migrate.yaml up
+scripts/migrate.sh

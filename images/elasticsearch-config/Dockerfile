@@ -4,7 +4,4 @@ FROM  ubuntu
 RUN apt-get update && \
 apt-get install -y curl
 
-COPY questions.json /
-COPY docker-entrypoint.sh /
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD "/home/docker-entrypoint.sh"

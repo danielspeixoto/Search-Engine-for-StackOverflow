@@ -8,6 +8,8 @@ services:
     - 9200:9200
     volumes:
       - 'es-data:/usr/share/elasticsearch/data'
+      - '../images/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml'
+      - '../images/elasticsearch/backups/:/usr/share/elasticsearch/data/backups'
 
   elasticsearch-config:
     build: ../images/elasticsearch-config
@@ -15,28 +17,30 @@ services:
     networks: ['elk']
     depends_on:
       - elasticsearch
-
-  mysql:
-    build: ../images/mysql
-    container_name: mysql
-    networks: ['data']
-    environment:
-      - "MYSQL_ROOT_PASSWORD=admin"
-    ports:
-    - 4000:3306
     volumes:
-      - 'mysql:/var/lib/mysql'
+      - '../images/elasticsearch-config/:/home'
 
-  logstash:
-    build: ../images/logstash
-    container_name: logstash
-    environment:
-      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
-    networks: ['elk', 'data']
-    ports:
-      - 5000:5000
-    depends_on:
-      - elasticsearch
+#  mysql:
+#    build: ../images/mysql
+#    container_name: mysql
+#    networks: ['data']
+#    environment:
+#      - "MYSQL_ROOT_PASSWORD=admin"
+#    ports:
+#    - 4000:3306
+#    volumes:
+#      - 'mysql:/var/lib/mysql'
+
+#  logstash:
+#    build: ../images/logstash
+#    container_name: logstash
+#    environment:
+#      - "ELASTICSEARCH_URL=http://elasticsearch:9200"
+#    networks: ['elk', 'data']
+#    ports:
+#      - 5000:5000
+#    depends_on:
+#      - elasticsearch
 
 networks:
   elk:
