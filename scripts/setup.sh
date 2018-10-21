@@ -3,8 +3,6 @@
 scripts/lowlevel/config.sh && \
 sudo docker-compose -f compose/populate.yaml up & \
 (
-#    Time for configuration
-    sleep 120
     while true; do
         if mysqladmin --host=127.0.0.1 --port=4000 ping; then
             echo 'mySQL ready'
