@@ -11,13 +11,6 @@ services:
       - '../images/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml'
       - '../images/elasticsearch/backups/:/usr/share/elasticsearch/data/backups'
 
-  elasticsearch-backup:
-    build: ../images/elasticsearch-backup
-    container_name: elasticsearch-backup
-    networks: ['elk']
-    volumes:
-      - '../images/elasticsearch-backup/:/home'
-
   kibana:
     build: ../images/kibana
     container_name: kibana
