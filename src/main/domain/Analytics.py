@@ -7,7 +7,7 @@ from src.main.data.interfaces.BulkRepository import BulkRepository
 class Analytics:
 
     def __init__(self, repo: BulkRepository):
-        self._repo = repo
+        self._data = repo.all()
 
     def metrics_at_k(self, func, k_list: [int]):
         arr = []
@@ -18,8 +18,10 @@ class Analytics:
         return arr
 
     def metrics_of(self, func, k):
-        for analysi in self._repo.all():
-            yield func(analysi, k)
+        arr = []
+        for analysi in self._data:
+            arr.append(func(analysi, k))
+        return arr
 
     @staticmethod
     def mean(arr):

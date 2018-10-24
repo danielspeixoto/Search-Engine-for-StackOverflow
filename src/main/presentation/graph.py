@@ -14,4 +14,16 @@ analytics = Analytics(repo)
 
 # print(analytics.mean(analytics.metrics_of(Analytics.recall, 10)))
 
-print(analytics.metrics_at_k(Analytics.precision, range(1, 11)))
+# print(analytics.metrics_at_k(Analytics.precision, range(1, 11)))
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = analytics.metrics_of(Analytics.precision, 10)
+print(data)
+
+fig1, ax1 = plt.subplots()
+ax1.set_title('Basic Plot')
+ax1.boxplot(data)
+
+plt.show()

@@ -2,6 +2,7 @@ from typing import Iterable
 
 from src.main.data.elasticsearch.Config import Config
 from src.main.data.elasticsearch.Index import Index
+from src.main.data.elasticsearch.model.SearchModel import SearchModel
 from src.main.domain.model.Question import Question
 
 
@@ -10,8 +11,9 @@ class QuestionIndex(Index):
     DOC_TYPE = 'questions'
     INDEX_NAME = 'questions'
 
-    def __init__(self, config: Config):
+    def __init__(self, config: Config, model: SearchModel):
         super().__init__(config, QuestionIndex.INDEX_NAME, QuestionIndex.DOC_TYPE)
+        self._query_model = model.query_model()
 
     def id(self, id: str):
         return super().search(QuestionIndex.DOC_TYPE, {
@@ -22,56 +24,11 @@ class QuestionIndex(Index):
             }
         })
 
-    def query(self, title, body="") -> Iterable[Question]:
-        body = title
-        return self.search({
-            "from": 0, "size": 10,
-            "query": {
-                "function_score": {
-                    "query": {
-                        "bool": {
-                            "must": [
-                                {
-                                    "multi_match": {
-                                        "fields": [
-                                            "title",
-                                        ],
-                                        "type": "most_fields",
-                                        "query": title
-                                    }
-                                },
-                                # {
-                                #     "multi_match": {
-                                #         "fields": [
-                                #             "body",
-                                #         ],
-                                #         "type": "most_fields",
-                                #         "query": body
-                                #     }
-                                # },
-                                {
-                                    # Questions are only useful when we have a answer to them
-                                    "range": {
-                                        "answer_count": {
-                                            "gte": 0
-                                        }
-                                    }
-                                }
-                            ],
-
-                        }
-                    },
-                    # "script_score": {
-                    #     "script": "Math.pow(_score, 1) * "
-                    #               "Math.log(2 + Math.max(0, doc['score'].value)) * "
-                    #               "Math.log(1 + doc['answer_count'].value)"
-                    # }
-                }
-            }
-        })
+    def query(self, question, start: int, amount: int) -> Iterable[Question]:
+        return self._query_model(question, start, amount)
 
     def sample_data(self, start: int, amount: int):
-        return self.search(QuestionIndex.DOC_TYPE, {
+        return self.search({
             "from": start, "size": amount,
             "_source": [
                 "title",
