@@ -1223,16 +1223,16 @@ public abstract class BaseTestCase extends TestCase {
 
         StringBuilder hostString = new StringBuilder();
         String glue = "";
-        for (MockConnectionConfiguration config : configs) {
-            UnreliableSocketFactory.mapHost(config.hostName, host);
+        for (MockConnectionConfiguration _config : configs) {
+            UnreliableSocketFactory.mapHost(_config.hostName, host);
             hostString.append(glue);
             glue = ",";
-            if (config.port == null) {
-                config.port = (port == null ? "3306" : port);
+            if (_config.port == null) {
+                _config.port = (port == null ? "3306" : port);
             }
-            hostString.append(config.getAddress());
-            if (config.isDowned) {
-                UnreliableSocketFactory.downHost(config.hostName);
+            hostString.append(_config.getAddress());
+            if (_config.isDowned) {
+                UnreliableSocketFactory.downHost(_config.hostName);
             }
         }
 

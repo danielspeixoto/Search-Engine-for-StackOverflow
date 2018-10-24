@@ -838,7 +838,7 @@ public class ConnectionUrlTest {
     }
 
     /**
-     * Tests loading properties from config files.
+     * Tests loading properties from _config files.
      */
     @Test
     public void testLoadingPropertiesFromConfigFiles() {

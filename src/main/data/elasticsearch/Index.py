@@ -30,8 +30,8 @@ class Index(BulkRepository):
         outcome = self._connection.index(index=self._index_name, doc_type=self._doc_type, body=record.__dict__)
         return outcome
 
-    def search(self, doc_type: str, search):
-        res = self._connection.search(index=self._index_name, doc_type=doc_type, body=search)["hits"]["hits"]
+    def search(self, search):
+        res = self._connection.search(index=self._index_name, doc_type=self._doc_type, body=search)["hits"]["hits"]
         for i in res:
             yield i["_source"]
 
@@ -41,12 +41,19 @@ class Index(BulkRepository):
                      doc_type=self._doc_type,
                      index=self._index_name)
 
-    def search_by_id(self, doc_type: str, id: str):
+    def search_by_id(self, id: str):
         # TODO Limit to 1, match exact id
-        return self.search(doc_type, {
+        return self.search({
             "query": {
                 "match": {
                     "id": id
                 }
+            }
+        })
+
+    def all(self) -> [object]:
+        return self.search({
+            "query": {
+                "match_all": {}
             }
         })

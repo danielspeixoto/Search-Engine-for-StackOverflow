@@ -1637,7 +1637,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
     public void testBug25545() throws Exception {
         createProcedure("testBug25545", "() BEGIN SELECT 1; END");
 
-        String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+        String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
 
         System.setProperty("javax.net.ssl.keyStore", trustStorePath);
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
@@ -1686,7 +1686,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             props.remove(PropertyDefinitions.PNAME_trustCertificateKeyStorePassword);
 
             final String url = "jdbc:mysql://" + hostSpec + "/" + db + "?useSSL=true&requireSSL=true&verifyServerCertificate=true"
-                    + "&trustCertificateKeyStoreUrl=file:src/test/config/ssl-test-certs/ca-truststore&trustCertificateKeyStoreType=JKS"
+                    + "&trustCertificateKeyStoreUrl=file:src/test/_config/ssl-test-certs/ca-truststore&trustCertificateKeyStoreType=JKS"
                     + "&trustCertificateKeyStorePassword=password";
 
             _conn = DriverManager.getConnection(url, props);
@@ -3891,7 +3891,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             }
 
             try {
-                String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+                String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
                 System.setProperty("javax.net.ssl.keyStore", trustStorePath);
                 System.setProperty("javax.net.ssl.keyStorePassword", "password");
                 System.setProperty("javax.net.ssl.trustStore", trustStorePath);
@@ -3933,7 +3933,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      * 1) main test server pointed by com.mysql.cj.testsuite.url variable
      * configured without RSA encryption support (sha256_password_private_key_path,
      * sha256_password_public_key_path, caching_sha2_password_private_key_path and
-     * caching_sha2_password_public_key_path config options are unset).
+     * caching_sha2_password_public_key_path _config options are unset).
      * 2) additional server instance pointed by com.mysql.cj.testsuite.url.openssl
      * variable configured with default-authentication-plugin=sha256_password
      * and RSA encryption enabled.
@@ -3944,7 +3944,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      * @throws Exception
      */
     public void testSha256PasswordPlugin() throws Exception {
-        String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+        String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
         System.setProperty("javax.net.ssl.keyStore", trustStorePath);
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
         System.setProperty("javax.net.ssl.trustStore", trustStorePath);
@@ -4023,10 +4023,10 @@ public class ConnectionRegressionTest extends BaseTestCase {
 
                 // 2. with serverRSAPublicKeyFile specified
                 // SQLException expected due to server doesn't recognize RSA encrypted payload
-                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
+                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
 
                 assertThrows(SQLException.class, "Access denied for user 'wl5602user'.*", new Callable<Void>() {
                     public Void call() throws Exception {
@@ -4188,10 +4188,10 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 assertCurrentUser(sha256Url, propsAllowRetrievalNoPassword, "wl5602nopassword", false);
 
                 // 3. with serverRSAPublicKeyFile specified
-                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
+                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
 
                 // 3.1. RSA
                 propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_useSSL, "false");
@@ -4209,7 +4209,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 assertThrows(PropertyNotModifiableException.class, "Dynamic change of ''serverRSAPublicKeyFile'' is not allowed.", new Callable<Void>() {
                     public Void call() throws Exception {
                         ((JdbcConnection) c2).getPropertySet().getProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile)
-                                .setValue("src/test/config/ssl-test-certs/mykey.pub");
+                                .setValue("src/test/_config/ssl-test-certs/mykey.pub");
                         return null;
                     }
                 });
@@ -5824,7 +5824,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 }
 
                 try {
-                    String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+                    String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
                     System.setProperty("javax.net.ssl.keyStore", trustStorePath);
                     System.setProperty("javax.net.ssl.keyStorePassword", "password");
                     System.setProperty("javax.net.ssl.trustStore", trustStorePath);
@@ -6406,13 +6406,13 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 props.setProperty(PropertyDefinitions.PNAME_useCompression, "true");
                 testBug18869381WithProperties(props);
 
-                props.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
+                props.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
                 props.setProperty(PropertyDefinitions.PNAME_useCompression, "false");
                 testBug18869381WithProperties(props);
                 props.setProperty(PropertyDefinitions.PNAME_useCompression, "true");
                 testBug18869381WithProperties(props);
 
-                String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+                String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
                 System.setProperty("javax.net.ssl.keyStore", trustStorePath);
                 System.setProperty("javax.net.ssl.keyStorePassword", "password");
                 System.setProperty("javax.net.ssl.trustStore", trustStorePath);
@@ -7152,7 +7152,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         props.setProperty(PropertyDefinitions.PNAME_useSSL, "true");
         props.setProperty(PropertyDefinitions.PNAME_requireSSL, "true");
         props.setProperty(PropertyDefinitions.PNAME_verifyServerCertificate, "true");
-        props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/config/ssl-test-certs/ca-truststore");
+        props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/_config/ssl-test-certs/ca-truststore");
         props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreType, "JKS");
         props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStorePassword, "password");
 
@@ -7166,7 +7166,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         props.setProperty(PropertyDefinitions.PNAME_requireSSL, "true");
         props.setProperty(PropertyDefinitions.PNAME_verifyServerCertificate, "true");
 
-        String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+        String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
         System.setProperty("javax.net.ssl.keyStore", trustStorePath);
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
         System.setProperty("javax.net.ssl.trustStore", trustStorePath);
@@ -7567,7 +7567,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                             continue;
                         }
                         props.setProperty(PropertyDefinitions.PNAME_allowPublicKeyRetrieval, "false");
-                        props.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
+                        props.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
                         testCaseMsg = "RSA [pubkey-file]";
                         break;
                 }
@@ -8034,7 +8034,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
 
             // 3. Explicit useSSL=true
             props.setProperty(PropertyDefinitions.PNAME_useSSL, "true");
-            props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/config/ssl-test-certs/ca-truststore");
+            props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/_config/ssl-test-certs/ca-truststore");
             props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreType, "JKS");
             props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStorePassword, "password");
             sslConn = getConnectionWithProps(props);
@@ -8186,7 +8186,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      * This test requires community server (preferably compiled with yaSSL) in -Dcom.mysql.cj.testsuite.url and commercial server (with OpenSSL) in
      * -Dcom.mysql.cj.testsuite.url.openssl
      * 
-     * Test certificates from test/config/ssl-test-certs must be installed on both servers.
+     * Test certificates from test/_config/ssl-test-certs must be installed on both servers.
      */
     public void testTLSVersion() throws Exception {
         // Find out which TLS protocol versions are supported by this JVM.
@@ -8199,7 +8199,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         props.setProperty(PropertyDefinitions.PNAME_allowPublicKeyRetrieval, "true");
         props.setProperty(PropertyDefinitions.PNAME_useSSL, "true");
         props.setProperty(PropertyDefinitions.PNAME_requireSSL, "true");
-        props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/config/ssl-test-certs/ca-truststore");
+        props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/_config/ssl-test-certs/ca-truststore");
         props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreType, "JKS");
         props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStorePassword, "password");
 
@@ -8266,7 +8266,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         props.setProperty(PropertyDefinitions.PNAME_allowPublicKeyRetrieval, "true");
         props.setProperty(PropertyDefinitions.PNAME_useSSL, "true");
         props.setProperty(PropertyDefinitions.PNAME_requireSSL, "true");
-        props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/config/ssl-test-certs/ca-truststore");
+        props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreUrl, "file:src/test/_config/ssl-test-certs/ca-truststore");
         props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStoreType, "JKS");
         props.setProperty(PropertyDefinitions.PNAME_trustCertificateKeyStorePassword, "password");
 
@@ -9889,7 +9889,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      * This test requires two server instances:
      * 1) main test server pointed to by the com.mysql.cj.testsuite.url variable configured without RSA encryption support
      * (sha256_password_private_key_path, sha256_password_public_key_path, caching_sha2_password_private_key_path and
-     * caching_sha2_password_public_key_path config options are unset).
+     * caching_sha2_password_public_key_path _config options are unset).
      * 2) additional server instance pointed to by the com.mysql.cj.testsuite.url.openssl variable configured with
      * default-authentication-plugin=sha256_password, RSA encryption enabled, and server configuration options
      * "caching_sha2_password_private_key_path" and "caching_sha2_password_public_key_path" set to the same values
@@ -9901,7 +9901,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
      * @throws Exception
      */
     public void testCachingSha2PasswordPlugin() throws Exception {
-        String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+        String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
         System.setProperty("javax.net.ssl.keyStore", trustStorePath);
         System.setProperty("javax.net.ssl.keyStorePassword", "password");
         System.setProperty("javax.net.ssl.trustStore", trustStorePath);
@@ -9980,10 +9980,10 @@ public class ConnectionRegressionTest extends BaseTestCase {
 
                 // 2. with serverRSAPublicKeyFile specified
                 // SQLException expected due to server not recognizing RSA encrypted payload
-                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
+                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
 
                 this.stmt.executeUpdate("flush privileges"); // to ensure that we'll go through the full authentication 
 
@@ -10178,10 +10178,10 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 assertCurrentUser(sha256Url, propsAllowRetrievalNoPassword, "wl11060nopassword", false);
 
                 // 3. with serverRSAPublicKeyFile specified
-                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
-                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/config/ssl-test-certs/mykey.pub");
+                propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsNoRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrieval.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
+                propsAllowRetrievalNoPassword.setProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile, "src/test/_config/ssl-test-certs/mykey.pub");
 
                 // 3.1. RSA
                 propsNoRetrieval.setProperty(PropertyDefinitions.PNAME_useSSL, "false");
@@ -10202,7 +10202,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 assertThrows(PropertyNotModifiableException.class, "Dynamic change of ''serverRSAPublicKeyFile'' is not allowed.", new Callable<Void>() {
                     public Void call() throws Exception {
                         ((JdbcConnection) c2).getPropertySet().getProperty(PropertyDefinitions.PNAME_serverRSAPublicKeyFile)
-                                .setValue("src/test/config/ssl-test-certs/mykey.pub");
+                                .setValue("src/test/_config/ssl-test-certs/mykey.pub");
                         return null;
                     }
                 });

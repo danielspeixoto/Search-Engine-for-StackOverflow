@@ -24,7 +24,7 @@ class QuestionIndex(Index):
 
     def query(self, title, body="") -> Iterable[Question]:
         body = title
-        return self.search(QuestionIndex.DOC_TYPE, {
+        return self.search({
             "from": 0, "size": 10,
             "query": {
                 "function_score": {

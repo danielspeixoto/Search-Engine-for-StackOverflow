@@ -356,7 +356,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
      *            a connection arguments map from where to read the "useConfig" property and where to save the loaded properties.
      */
     protected void expandPropertiesFromConfigFiles(Map<String, String> props) {
-        // Properties from config files should not override the existing ones.
+        // Properties from _config files should not override the existing ones.
         String configFiles = props.get(PropertyDefinitions.PNAME_useConfigs);
         if (!isNullOrEmpty(configFiles)) {
             Properties configProps = getPropertiesFromConfigFiles(configFiles);

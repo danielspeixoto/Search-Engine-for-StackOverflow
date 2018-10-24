@@ -16,3 +16,13 @@ sudo docker-compose -f compose/start.yaml up $1 & \
     echo 'Backups Kibana'
 )
 
+for (def retrieved  : doc['retrieved'].value) {
+            total = total +  1;
+    for (def expected :  doc['expected']) {
+            total = total +  1;
+        if(retrieved == expected) {
+            total = total +  1;
+        }
+    }
+}
+return total / doc['retrieved'].length;

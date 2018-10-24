@@ -241,7 +241,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_TRANS_CACHE_FULL = 1197; //SQLSTATE: HY000 Message: Multi-statement transaction required more than 'max_binlog_cache_size' bytes of storage; increase this mysqld variable and try again
     public final static int ER_SLAVE_MUST_STOP = 1198; //SQLSTATE: HY000 Message: This operation cannot be performed with a running slave; run STOP SLAVE first
     public final static int ER_SLAVE_NOT_RUNNING = 1199; //SQLSTATE: HY000 Message: This operation requires a running slave; configure slave and do START SLAVE
-    public final static int ER_BAD_SLAVE = 1200; //SQLSTATE: HY000 Message: The server is not configured as slave; fix in config file or with CHANGE MASTER TO
+    public final static int ER_BAD_SLAVE = 1200; //SQLSTATE: HY000 Message: The server is not configured as slave; fix in _config file or with CHANGE MASTER TO
     public final static int ER_MASTER_INFO = 1201; //SQLSTATE: HY000 Message: Could not initialize master info structure; more error messages can be found in the MySQL error log
     public final static int ER_SLAVE_THREAD = 1202; //SQLSTATE: HY000 Message: Could not create slave thread; check system resources
     public final static int ER_TOO_MANY_USER_CONNECTIONS = 1203; //SQLSTATE: 42000 Message: User %s already has more than 'max_user_connections' active connections

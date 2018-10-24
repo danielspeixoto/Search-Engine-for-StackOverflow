@@ -53,7 +53,7 @@ public class ServerController {
     public static final String DATADIR_KEY = "datadir";
 
     /**
-     * Where is the config file located?
+     * Where is the _config file located?
      */
 
     public static final String DEFAULTS_FILE_KEY = "defaults-file";

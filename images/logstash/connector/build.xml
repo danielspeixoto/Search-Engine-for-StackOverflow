@@ -1150,9 +1150,9 @@ See also com.mysql.cj.conf.PropertyDefinitions.SYSP_* variables for other test o
     <!-- ******************* -->
 
 
-    <!-- Run the full test suite, single test set or named tests against one JVM and one server config. -->
+    <!-- Run the full test suite, single test set or named tests against one JVM and one server _config. -->
     <target name="test"
-            description="Runs the full test suite, single test set (variable 'com.mysql.cj.testsuite.test.class') or named tests (variables 'com.mysql.cj.testsuite.test.class' and 'com.mysql.cj.testsuite.test.methods') against one JVM and one server config."
+            description="Runs the full test suite, single test set (variable 'com.mysql.cj.testsuite.test.class') or named tests (variables 'com.mysql.cj.testsuite.test.class' and 'com.mysql.cj.testsuite.test.methods') against one JVM and one server _config."
             depends="-testsuite-jvm-check, compile-testsuite">
 
         <mkdir dir="${com.mysql.cj.testsuite.junit.results}/report" />

@@ -5,6 +5,6 @@ ENV CONNECTOR_PATH /connector/connector.jar
 ENV MYSQL_PASS admin
 
 ADD . /
-ADD logstash.yml /usr/share/logstash/config/logstash.yml
+ADD logstash.yml /usr/share/logstash/_config/logstash.yml
 
 CMD /scripts/start.sh

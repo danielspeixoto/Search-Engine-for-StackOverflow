@@ -1,23 +1,17 @@
+from src.main.data.elasticsearch.AnalysisIndex import AnalysisIndex
+from src.main.data.elasticsearch.Config import Config
 from src.main.data.pickle.PickleRepository import PickleRepository
+from src.main.domain.Analytics import Analytics
 
+# config = Config("localhost", "9200")
+# repo = AnalysisIndex(config, "recsys")
 repo = PickleRepository("/home/daniel/ufba/rec/")
 
-reader = repo.analysis_reader()
+analytics = Analytics(repo)
 
-amount_retrieved = 0
-map = 0
-recall = 0
-precision = 0
+# for i in analytics.recalls(10):
+#     print(i)
 
-for analysi in reader:
-    map += analysi.map
-    recall += analysi.recall
-    precision += analysi.precision
+# print(analytics.mean(analytics.metrics_of(Analytics.recall, 10)))
 
-    amount_retrieved += 1
-
-    if amount_retrieved % 100 == 0:
-        print("Current Results:")
-        print("map: " + str(map / amount_retrieved) + " recall: " + str(recall / amount_retrieved) +
-              " precision: " + str(precision / amount_retrieved))
-        print(str(amount_retrieved) + " questions analysed")
+print(analytics.metrics_at_k(Analytics.precision, range(1, 11)))

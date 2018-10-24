@@ -742,7 +742,7 @@ public class NativeSession extends CoreSession implements Serializable {
 
                 ExceptionInterceptor evictOnCommsError = new ExceptionInterceptor() {
 
-                    public ExceptionInterceptor init(Properties config, Log log1) {
+                    public ExceptionInterceptor init(Properties _config, Log log1) {
                         return this;
                     }
 

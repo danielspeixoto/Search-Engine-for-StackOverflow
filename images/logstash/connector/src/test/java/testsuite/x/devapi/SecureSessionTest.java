@@ -55,12 +55,12 @@ import com.mysql.cj.xdevapi.SessionImpl;
 import com.mysql.cj.xdevapi.SqlResult;
 
 public class SecureSessionTest extends DevApiBaseTestCase {
-    final String trustStoreUrl = "file:src/test/config/ssl-test-certs/ca-truststore";
-    final String trustStorePath = "src/test/config/ssl-test-certs/ca-truststore";
+    final String trustStoreUrl = "file:src/test/_config/ssl-test-certs/ca-truststore";
+    final String trustStorePath = "src/test/_config/ssl-test-certs/ca-truststore";
     final String trustStorePassword = "password";
 
-    final String clientKeyStoreUrl = "file:src/test/config/ssl-test-certs/client-keystore";
-    final String clientKeyStorePath = "src/test/config/ssl-test-certs/client-keystore";
+    final String clientKeyStoreUrl = "file:src/test/_config/ssl-test-certs/client-keystore";
+    final String clientKeyStorePath = "src/test/_config/ssl-test-certs/client-keystore";
     final String clientKeyStorePassword = "password";
 
     final Properties sslFreeTestProperties = (Properties) this.testProperties.clone();
