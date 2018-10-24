@@ -16,7 +16,7 @@ class PickleRepository(BulkRepository):
         self._is_open = False
         self.file = None
 
-    def save(self, analysis: [Dict]):
+    def save(self, analysis: [Analysis]):
         if self.file is None:
             print("Creating file")
             self.file = PickleRepository.create(self._analysis_path)

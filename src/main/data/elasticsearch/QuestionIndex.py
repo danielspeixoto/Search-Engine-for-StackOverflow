@@ -25,7 +25,7 @@ class QuestionIndex(Index):
         })
 
     def query(self, question, start: int, amount: int) -> Iterable[Question]:
-        return self._query_model(question, start, amount)
+        return self.search(self._query_model(question, start, amount))
 
     def sample_data(self, start: int, amount: int):
         return self.search({

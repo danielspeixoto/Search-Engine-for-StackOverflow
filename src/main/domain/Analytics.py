@@ -1,13 +1,10 @@
-from collections import Iterable
-from functools import reduce
-
 from src.main.data.interfaces.BulkRepository import BulkRepository
 
 
 class Analytics:
 
     def __init__(self, repo: BulkRepository):
-        self._data = repo.all()
+        self._data = list(repo.all())
 
     def metrics_at_k(self, func, k_list: [int]):
         arr = []
@@ -36,30 +33,32 @@ class Analytics:
     def recall(analysi, k):
         total = 0
         for i in range(k):
-            retrieved = analysi.retrieved[i]
-            for expected in analysi.expected:
+            retrieved = analysi['retrieved'][i]
+            for expected in analysi['expected']:
                 if retrieved == expected:
                     total += 1
-        return total/len(analysi.expected)
+        return total/len(analysi['expected'])
 
     @staticmethod
     def map(analysi, k):
         total = 0
         occurrences = 0
         for i in range(k):
-            retrieved = analysi.retrieved[i]
-            for expected in analysi.expected:
+            retrieved = analysi['retrieved'][i]
+            for expected in analysi['expected']:
                 if retrieved == expected:
                     total += 1/k
                     occurrences += 1
+        if occurrences == 0:
+            return 0
         return total/occurrences
 
     @staticmethod
     def precision(analysi, k):
         total = 0
         for i in range(k):
-            retrieved = analysi.retrieved[i]
-            for expected in analysi.expected:
+            retrieved = analysi['retrieved'][i]
+            for expected in analysi['expected']:
                 if retrieved == expected:
                     total += 1
         return total/k
@@ -68,4 +67,6 @@ class Analytics:
     def f_measure(analysi, k) -> float:
         recall = Analytics.recall(analysi, k)
         precision = Analytics.precision(analysi, k)
+        if recall + precision == 0:
+            return 0
         return 2 * recall * precision / (recall + precision)

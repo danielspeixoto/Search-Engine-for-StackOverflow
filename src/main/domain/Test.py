@@ -36,7 +36,7 @@ class Test:
             query_size = len(analysis)
 
     def _query(self, question):
-        return self.index.query(question['title'], question['body'])
+        return self.index.query(question, 0, 10)
 
     @staticmethod
     def _questions_id(questions) -> [int]:
