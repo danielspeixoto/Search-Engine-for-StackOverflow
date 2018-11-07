@@ -16,7 +16,7 @@ class QuestionIndex(Index):
         self._query_model = model.query_model()
 
     def id(self, id: str):
-        return super().search(QuestionIndex.DOC_TYPE, {
+        return super().search({
             "query": {
                 "match": {
                     "id": id

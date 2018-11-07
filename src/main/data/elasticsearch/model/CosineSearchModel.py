@@ -19,7 +19,7 @@ class CosineSearchModel(SearchModel):
                                                 "body"
                                             ],
                                             "type": "most_fields",
-                                            "query": question['title']
+                                            "query": question
                                         }
                                     },
                                     {
