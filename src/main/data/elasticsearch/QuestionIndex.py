@@ -13,7 +13,7 @@ class QuestionIndex(Index):
 
     def __init__(self, config: Config, model: SearchModel):
         super().__init__(config, QuestionIndex.INDEX_NAME, QuestionIndex.DOC_TYPE)
-        self._query_model = model.query_model()
+        self._query_model = model
 
     def id(self, id: str):
         return super().search({
@@ -25,7 +25,10 @@ class QuestionIndex(Index):
         })
 
     def query(self, question, start: int, amount: int) -> Iterable[Question]:
-        return self.search(self._query_model(question, start, amount))
+        return self.search(self._query_model.query_model()(question, start, amount))
+
+    def test(self, question, start: int, amount: int) -> Iterable[Question]:
+        return self.search(self._query_model.test_model()(question, start, amount))
 
     def sample_data(self, start: int, amount: int):
         return self.search({
@@ -34,7 +37,8 @@ class QuestionIndex(Index):
                 "title",
                 "id",
                 "body",
-                "relations"
+                "relations",
+                "creation_date"
             ],
             "sort": [
                 {"id": {"order": "asc"}},

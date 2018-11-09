@@ -1,0 +1,26 @@
+a:visited {
+    color: blue
+}
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+.q-attrs {
+    font-size: 14px;
+}
+
+.q-attr-box {
+    padding: 5px;
+}
+
+.query {
+    width: 50%;
+    display:block;
+    padding: 8px;
+    margin:auto;
+    background-color: lightgray;
+    border-color:transparent;
+    border-radius:10px;
+}

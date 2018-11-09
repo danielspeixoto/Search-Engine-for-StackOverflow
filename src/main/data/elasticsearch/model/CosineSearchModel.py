@@ -4,7 +4,7 @@ from src.main.data.elasticsearch.model.SearchModel import SearchModel
 class CosineSearchModel(SearchModel):
 
     def query_model(self):
-        def query(question, start: int, size: int):
+        def query(question: str, start: int, size: int):
             return {
                 "from": start, "size": size,
                 "query": {

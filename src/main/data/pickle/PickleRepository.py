@@ -26,7 +26,7 @@ class PickleRepository(BulkRepository):
         self.file.close()
 
     def write(self, file,  analysis: [Analysis]):
-        pickle.dump(analysis, file, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(analysis, file, protocol=2)
 
     def all(self) -> [Analysis]:
         analysis = PickleRepository.load_obj(self._analysis_path)

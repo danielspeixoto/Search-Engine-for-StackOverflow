@@ -9,25 +9,30 @@ class Test:
         self.index = index
         self.results = results
 
-    def test(self, initial_query_size=100):
+    def test(self, initial_query_size=10):
         query_size = initial_query_size
         amount_retrieved = 0
+
+        map = 0
 
         while True:
             questions = self.index.sample_data(amount_retrieved, query_size)
             analysis = []
             for question in questions:
-                retrieved = self._questions_id(self._query(question))
+                retrieved = self.index.test(question, 0, 100)
+                retrieved = self._questions_id(retrieved)
                 expected = question["relations"]
+                analysi = Analysis(question['id'], retrieved, expected)
                 analysis.append(
-                    Analysis(question['id'], retrieved, expected).__dict__
+                    analysi.__dict__
                 )
+                map += analysi.map()
 
-            self.results.save(analysis)
-
+            # self.results.save(analysis)
             amount_retrieved = amount_retrieved + len(analysis)
-
             print("%s done" % amount_retrieved)
+
+            print("Current MAP: " + str(float(map)/amount_retrieved))
 
             # End of pagination
             if len(analysis) < query_size:

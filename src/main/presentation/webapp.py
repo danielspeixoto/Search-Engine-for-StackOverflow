@@ -1,25 +1,30 @@
 from flask import Flask, render_template, url_for
 from flask import request
-
+import datetime
 from src.main.data.elasticsearch.Config import Config
 from src.main.data.elasticsearch.QuestionIndex import QuestionIndex
 from src.main.data.elasticsearch.model.CosineSearchModel import CosineSearchModel
+from src.main.data.elasticsearch.model.RecSysSearchModel import RecSysSearchModel
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 config = Config("localhost", "9200")
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
+index = QuestionIndex(config, RecSysSearchModel())
 
 @app.route("/search")
 def search():
     query: str = request.args.get('query', None)
     if query:
-        index = QuestionIndex(config, CosineSearchModel())
         results = index.query(query, 0, 10)
         print(query)
     return render_template('search.html', query=results, search=query)
 
 
 @app.route("/")
+@cross_origin()
 def home():
     url_for('static', filename='static/icon.png')
     return render_template('home.html')
@@ -27,7 +32,6 @@ def home():
 
 @app.route("/question/<id>")
 def question(id : str):
-    index = QuestionIndex(config, CosineSearchModel())
     question = None
     print(question)
     for i in index.id(id):
@@ -48,8 +52,28 @@ def processor():
         if size > 500:
             word += '...'
         return word
-    return dict(filter2=filter2)
+
+    def date(d):
+        return "{:%d %b %Y}".format(datetime.datetime.strptime(d, "%Y-%m-%dT%H:%M:%S.%fZ"))
+
+    def tags(t):
+        t = re.sub('<', '', t).split('>')[:-1]
+        res = ""
+        if len(t) > 0:
+            res = t[0]
+            t = t[1:]
+            for i in t:
+                res += ", " + i
+        return res
+
+    def solved(question_a):
+        status = "Solved"
+        if question_a['accepted_answer_id'] is None:
+            status = ""
+        return status
+
+    return dict(filter2=filter2, date=date, tags=tags, solved=solved)
 
 
 
-app.run(port=3000)
+app.run(port=3000, host= '0.0.0.0')

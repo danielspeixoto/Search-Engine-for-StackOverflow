@@ -1,21 +1,45 @@
 <!doctype html>
 <title>Search!</title>
 <head>
+    <link rel="stylesheet" type="text/css" href="static/stylesheet.css">
     <link rel="icon" href="static/icon.png">
 </head>
 <form action="/">
-    <input style="width: 50%; display:block; padding: 8px; margin:auto; background-color: lightgray; border-color:transparent; border-radius:10px" placeholder="Your search here" class="query" type="text" name="query" value="{{ search }}" required>
+    <input placeholder="Your search here" class="query"
+           type="text" name="query" value="{{ search }}" required>
     <div style="margin-top:10px; "></div>
-    <input style="margin:auto; display:none; padding:10px;" class="submit" type="submit" value="Submit">
+    <input style="margin:auto; display:none; padding:10px;"
+           class="submit" type="submit" value="Submit">
 </form>
 {% if query %}
     {% for question in query %}
-<hr>
 <div style="padding:10px;" class="item">
-    <a style="font-weight: bold" class="title" href="https://askubuntu.com/questions/{{ question['id'] }}">{{ question["title"] }}</a> <br>
-    <!--filter text from body and limit amount of characters-->
-    <span style="font-size: 13px; line-height: 0px" class="body">{{ filter2(question["body"]) }}</span>
-    <span style="display:block; font-size: 14px; font-weight: bold">{{ question["answer_count"]}} answer(s) tags: <i>{{ question["tags"][0] }}</i></span>
+
+    <a style="font-weight: bold" class="title"
+       href="https://askubuntu.com/questions/{{ question['id'] }}">
+        {{ question["title"] }}
+    </a> <br>
+
+    <span style="display: block; font-size:smaller">
+        {{ date(question['creation_date']) }}
+    </span>
+    <span class=".q-status" style="display: block; font-size:smaller">
+        {{ solved(question) }}
+    </span>
+
+    <span style="font-size: 13px; line-height: 0px" class="body">
+        {{ filter2(question["body"]) }}
+    </span>
+
+    <div class="q-attr-box">
+        <span class="q-attrs">
+            {{ question["answer_count"]}} <strong>answer(s)</strong>
+        </span> |
+         <span class="q-attrs">
+             <strong>tags:</strong>
+             <i>{{ tags(question["tags"][0]) }}</i>
+         </span>
+    </div>
 </div>
     {% endfor %}
 {% endif %}
