@@ -35,6 +35,50 @@ class QuestionIndex(Index):
             questions.append(i['_source'])
         return retrieved, questions
 
+    def suggest(self, query):
+        sg = self.search_info({
+            "suggest": {
+                "text": query,
+                "suggest": {
+                    "term": {
+                        # "offset": 5,
+                        "suggest_mode": "always",
+                        # "lowercase_terms": True,
+                        "sort": "frequency",
+                        "min_doc_freq": 300,
+                        "string_distance": "jaro_winkler",
+                        "analyzer": "question_analysis",
+                        "field": "title",
+                    }
+                }
+            }
+        })["suggest"]["suggest"]
+
+        word_count = len(sg)
+        q_word = query.split(" ")
+        suggestions = []
+        phrase = ""
+        phrase2 = ""
+        for i in range(word_count):
+            last_word = sg[i]["options"]
+            suggestion_found = False
+            phrase = phrase2
+            for options in last_word:
+                if len(suggestions) >= 5:
+                    break
+                if options['score'] < 0.8:
+                    continue
+                if not suggestion_found:
+                    suggestion_found = True
+                    phrase2 = phrase + " " + options['text']
+
+                suggest = (phrase + " " + options['text'] + " " + ' '.join(q_word[i + 1:])).strip()
+                if suggest not in suggestions:
+                    suggestions.append(suggest)
+            if not suggestion_found:
+                phrase2 += " " + q_word[i]
+        return suggestions
+
     def test(self, question, start: int, amount: int) -> Iterable[Question]:
         return self.search(self._query_model.test_model()(question, start, amount))
 

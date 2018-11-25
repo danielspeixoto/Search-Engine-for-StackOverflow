@@ -16,7 +16,7 @@ index = QuestionIndex(config, RecSysSearchModel())
 
 @app.route("/search/<page>")
 def search(page: str):
-    page = int(page)
+    page = int(page) * 10
     query: str = request.args.get('query', None)
     if query:
         hits, results = index.query_info(query, page, page + 10)
