@@ -35,6 +35,9 @@ class Index(BulkRepository):
         for i in res:
             yield i["_source"]
 
+    def search_info(self, search):
+        return self._connection.search(index=self._index_name, doc_type=self._doc_type, body=search)
+
     def save(self, records: [Dict]):
         helpers.bulk(self._connection,
                      records,

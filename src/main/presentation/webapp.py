@@ -14,13 +14,14 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 index = QuestionIndex(config, RecSysSearchModel())
 
-@app.route("/search")
-def search():
+@app.route("/search/<page>")
+def search(page: str):
+    page = int(page)
     query: str = request.args.get('query', None)
     if query:
-        results = index.query(query, 0, 10)
+        hits, results = index.query_info(query, page, page + 10)
         print(query)
-    return render_template('search.html', query=results, search=query)
+        return render_template('search.html', query=results, search=query, hit_count=hits, page=page)
 
 
 @app.route("/")

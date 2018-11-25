@@ -1,17 +1,23 @@
 <!doctype html>
 <title>Search!</title>
 <head>
-    <link rel="stylesheet" type="text/css" href="static/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="/static/stylesheet.css">
     <link rel="icon" href="static/icon.png">
 </head>
 <form action="/">
     <input placeholder="Your search here" class="query"
            type="text" name="query" value="{{ search }}" required>
     <div style="margin-top:10px; "></div>
-    <input style="margin:auto; display:none; padding:10px;"
+    <input style="outine: 0; margin:auto; display:none; padding:10px;"
            class="submit" type="submit" value="Submit">
 </form>
 {% if query %}
+    <div class="questions_found">
+        <span>
+            {{ hit_count }} questions found
+        </span>
+    </div>
+<div class="questions">
     {% for question in query %}
 <div style="padding:10px;" class="item">
 
@@ -42,4 +48,12 @@
     </div>
 </div>
     {% endfor %}
+</div>
+<div class="navigate">
+    {% if page > 0 %}
+        <a style="float:left" class='nav-but' href="/search/{{page - 1}}?query={{search}}">Previous page</a>
+    {% endif %}
+        <a style="float:right" class='nav-but' href="/search/{{page + 1}}?query={{search}}">Next page</a>
+
+</div>
 {% endif %}

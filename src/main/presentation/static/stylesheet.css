@@ -16,11 +16,36 @@ a {
 }
 
 .query {
-    width: 50%;
+    font-size:2.5vh;
+    width: 90%;
     display:block;
-    padding: 8px;
+    padding: 1.5vh;
     margin:auto;
+    margin-top: 3vh;
     background-color: lightgray;
     border-color:transparent;
     border-radius:10px;
+    outine: 0;
+}
+
+.questions_found {
+    margin-bottom:5px;
+    color: gray;
+    text-align: center;
+    font-size: initial;
+}
+
+.questions {
+    font-size: initial;
+}
+
+body {
+    font-size: 2.5vh;
+}
+
+.navigate {
+    margin-top: 2vh;
+    padding-bottom: 5vh;
+    margin-left: 3vw;
+    margin-right: 3vw;
 }

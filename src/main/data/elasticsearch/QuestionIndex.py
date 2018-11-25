@@ -27,6 +27,14 @@ class QuestionIndex(Index):
     def query(self, question, start: int, amount: int) -> Iterable[Question]:
         return self.search(self._query_model.query_model()(question, start, amount))
 
+    def query_info(self, question, start: int, amount: int):
+        hits = self.search_info(self._query_model.query_model()(question, start, amount))['hits']
+        retrieved = hits['total']
+        questions = []
+        for i in hits['hits']:
+            questions.append(i['_source'])
+        return retrieved, questions
+
     def test(self, question, start: int, amount: int) -> Iterable[Question]:
         return self.search(self._query_model.test_model()(question, start, amount))
 
