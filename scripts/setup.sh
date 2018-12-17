@@ -17,4 +17,4 @@ sudo docker-compose -f compose/populate.yaml up & \
     done
 )
 sudo docker-compose -f compose/populate.yaml down && \
-scripts/migrate.sh
+scripts/migrate.sh $1

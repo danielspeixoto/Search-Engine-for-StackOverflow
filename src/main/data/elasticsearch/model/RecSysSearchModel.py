@@ -23,13 +23,7 @@ class RecSysSearchModel(SearchModel):
                                             "query": question['body']
                                         }
                                     },
-                                    # {
-                                    #     "range": {
-                                    #         "score": {
-                                    #             "gte": 0
-                                    #         }
-                                    #     },
-                                    # },
+
                                 ],
                                 "must_not": [
                                     {

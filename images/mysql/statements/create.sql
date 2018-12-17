@@ -31,9 +31,7 @@ CREATE TABLE `links` (
   `related_post_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `post` (`post_id`),
-  KEY `fk_links_2_idx` (`related_post_id`),
-  CONSTRAINT `post` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `related` FOREIGN KEY (`related_post_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_links_2_idx` (`related_post_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -64,10 +62,7 @@ CREATE TABLE `posts` (
   KEY `idx_Posts_post_type_id` (`post_type_id`),
   KEY `fk_posts_1_idx` (`accepted_answer_id`),
   KEY `fk_posts_2_idx` (`owner_user_id`),
-  KEY `fk_posts_3_idx` (`parent_id`),
-  CONSTRAINT `answer` FOREIGN KEY (`accepted_answer_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `owner` FOREIGN KEY (`owner_user_id`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `question` FOREIGN KEY (`parent_id`) REFERENCES `posts` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_posts_3_idx` (`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -16,12 +16,13 @@ index = QuestionIndex(config, RecSysSearchModel())
 
 @app.route("/search/<page>")
 def search(page: str):
-    page = int(page) * 10
+    query_range = int(page) * 10
     query: str = request.args.get('query', None)
     if query:
-        hits, results = index.query_info(query, page, page + 10)
+        hits, results = index.query_info(query, query_range, query_range + 10)
         print(query)
-        return render_template('search.html', query=results, search=query, hit_count=hits, page=page)
+        return render_template('search.html', query=results, search=query,
+                               hit_count=hits, page=int(page))
 
 
 @app.route("/")
