@@ -9,12 +9,13 @@ class Test:
         self.index = index
         self.results = results
 
-    def test(self, initial_query_size=10):
+    def test(self, initial_query_size=100):
         query_size = initial_query_size
         amount_retrieved = 0
 
         map = 0
 
+        all = []
         while True:
             questions = self.index.sample_data(amount_retrieved, query_size)
             analysis = []
@@ -26,9 +27,11 @@ class Test:
                 analysis.append(
                     analysi.__dict__
                 )
+                all.append(
+                    analysi.__dict__
+                )
                 map += analysi.map()
 
-            # self.results.save(analysis)
             amount_retrieved = amount_retrieved + len(analysis)
             print("%s done" % amount_retrieved)
 
@@ -36,6 +39,7 @@ class Test:
 
             # End of pagination
             if len(analysis) < query_size:
+                self.results.save(all)
                 break
 
             query_size = len(analysis)

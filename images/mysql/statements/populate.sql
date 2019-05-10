@@ -29,7 +29,7 @@ parent_id = @ParentId;
 
 
 LOAD XML CONCURRENT LOCAL INFILE
-'/custom/Links.xml'
+'/custom/PostLinks.xml'
 into table qa.links ( Id,
   @PostId,
   @RelatedPostId,

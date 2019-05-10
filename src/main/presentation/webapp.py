@@ -3,12 +3,11 @@ from flask import request
 import datetime
 from src.main.data.elasticsearch.Config import Config
 from src.main.data.elasticsearch.QuestionIndex import QuestionIndex
-from src.main.data.elasticsearch.model.CosineSearchModel import CosineSearchModel
 from src.main.data.elasticsearch.model.RecSysSearchModel import RecSysSearchModel
 from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-config = Config("localhost", "9200")
+config = Config("35.199.118.198", "9200")
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 

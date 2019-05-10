@@ -12,7 +12,7 @@ class Analysis:
         for ret in self.retrieved:
             i += 1
             if ret in self.expected:
-               map += 1
+               map += 1/i
                amount += 1
 
         if amount == 0:

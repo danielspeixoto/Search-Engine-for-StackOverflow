@@ -29,7 +29,6 @@ class Extract:
                             "expected": expected
                         }
                     )
-            print(searches)
             self.results.save(searches)
 
             amount_retrieved = amount_retrieved + len(searches)

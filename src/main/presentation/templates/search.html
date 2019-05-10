@@ -29,9 +29,9 @@
     <span style="display: block; font-size:smaller">
         {{ date(question['creation_date']) }}
     </span>
-    <span class=".q-status" style="display: block; font-size:smaller">
-        {{ solved(question) }}
-    </span>
+{#    <span class=".q-status" style="display: block; font-size:smaller">#}
+{#        {{ solved(question) }}#}
+{#    </span>#}
 
     <span style="font-size: 13px; line-height: 0px" class="body">
         {{ filter2(question["body"]) }}
@@ -40,11 +40,7 @@
     <div class="q-attr-box">
         <span class="q-attrs">
             {{ question["answer_count"]}} <strong>answer(s)</strong>
-        </span> |
-         <span class="q-attrs">
-             <strong>tags:</strong>
-             <i>{{ tags(question["tags"][0]) }}</i>
-         </span>
+        </span>
     </div>
 </div>
     {% endfor %}

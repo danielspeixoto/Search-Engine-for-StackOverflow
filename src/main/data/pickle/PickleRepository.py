@@ -51,7 +51,4 @@ class PickleRepository(BulkRepository):
             except OSError as exc:  # Guard against race condition
                 if exc.errno != errno.EEXIST:
                     raise
-        if os.path.isfile(path):
-            return PickleRepository.create(path + str(datetime.datetime.now()))
-        else:
-            return open(path, "wb+")
+        return open(path, "wb")

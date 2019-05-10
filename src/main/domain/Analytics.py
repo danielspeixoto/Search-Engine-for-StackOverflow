@@ -29,21 +29,12 @@ class Analytics:
             n += 1
         return Sum / n
 
-    @staticmethod
-    def recall(analysi, k):
-        total = 0
-        for i in range(k):
-            retrieved = analysi['retrieved'][i]
-            for expected in analysi['expected']:
-                if retrieved == expected:
-                    total += 1
-        return total/len(analysi['expected'])
 
     @staticmethod
     def map(analysi, k):
         total = 0
         occurrences = 0
-        for i in range(k):
+        for i in range(min(k, len(analysi['retrieved']))):
             retrieved = analysi['retrieved'][i]
             for expected in analysi['expected']:
                 if retrieved == expected:
@@ -54,9 +45,28 @@ class Analytics:
         return total/occurrences
 
     @staticmethod
+    def mrr(analysi, k):
+        for i in range(min(k, len(analysi['retrieved']))):
+            retrieved = analysi['retrieved'][i]
+            for expected in analysi['expected']:
+                if retrieved == expected:
+                    return 1/k
+        return 0
+
+    @staticmethod
+    def recall(analysi, k):
+        total = 0
+        for i in range(min(k, len(analysi['retrieved']))):
+            retrieved = analysi['retrieved'][i]
+            for expected in analysi['expected']:
+                if retrieved == expected:
+                    total += 1
+        return total/len(analysi['expected'])
+
+    @staticmethod
     def precision(analysi, k):
         total = 0
-        for i in range(k):
+        for i in range(min(k, len(analysi['retrieved']))):
             retrieved = analysi['retrieved'][i]
             for expected in analysi['expected']:
                 if retrieved == expected:
